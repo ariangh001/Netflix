@@ -5,8 +5,8 @@ class Comment
 {
     public:
 
-        // int getId();
-        // std::string getContent();
+        // int getId() const;
+        // std::string getContent() const;
     private:
         int id;
         std::string content;

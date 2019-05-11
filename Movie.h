@@ -5,14 +5,14 @@ class Movie
 {
     public:
 
-        // std::string getName();
-        // int getYear();
-        // int getLength();
-        // int getPrice();
-        // std::string getSummary();
-        // std::string getDirector();
-        // int getId();
-        // int getRate();
+        // std::string getName() const;
+        // int getYear() const;
+        // int getLength() const;
+        // int getPrice() const;
+        // std::string getSummary() const;
+        // std::string getDirector() const;
+        // int getId() const;
+        // int getRate() const;
     private:
         std::string name;
         int year;

@@ -18,12 +18,12 @@ class User
         void viewUnreadNotifs();
         void viewNotifs();
 
-        // std::string getUsername();
-        // std::string getPassword();
-        // std::string getEmail();
-        // int getAge();
-        // int getId();
-        // bool isPublisher();
+        // std::string getUsername() const;
+        // std::string getPassword() const;
+        // std::string getEmail() const;
+        // int getAge() const;
+        // int getId() const;
+        // bool isPublisher() const;
     protected:
         std::string username;
         std::string password;

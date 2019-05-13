@@ -26,6 +26,7 @@ void InputHandler::getInput()
     getline(std::cin,line);
     std::vector<std::string> words = seperateString(line);
     checkSyntaxErrors(words);
+    
 }
 
 void InputHandler::checkSyntaxErrors(std::vector<std::string> words)
@@ -37,7 +38,20 @@ void InputHandler::checkSyntaxErrors(std::vector<std::string> words)
 
 void InputHandler::checkParameters(std::vector<std::string> words)
 {
-
+    if(questionMarkExists(words) == true)
+    {
+        int question_index = -1;
+        for(Counter i=0; i<words.size(); i++)
+            if(words[i] == "?")
+                question_index = i;
+        if(isEven(words.size() - question_index - 1) == false)
+            throw BadRequest();
+    }
+    else
+    {
+        if(isEven(words.size()) == false)
+            throw BadRequest();
+    }
 }
 
 void InputHandler::commandExists(std::vector<std::string> words)
@@ -57,56 +71,56 @@ void InputHandler::commandExists(std::vector<std::string> words)
                 && words[1] != "buy"
                 && words[1] != "rate"
                 && words[1] != "comments")
-                    throw BadRequest();
+                    throw NotFound();
             }
             else if(words[COMMAND_INDEX] == PUT_COMMAND)
             {
                 if(words[1] != "films"
                 && words[1] != "signup")
-                    throw BadRequest();
+                    throw NotFound();
             }
             else if(words[COMMAND_INDEX] == GET_COMMAND)
             {
                 if(words[1] != "published"
                 && words[1] != "films"
                 && words[1] != "purchased")
-                    throw BadRequest();
+                    throw NotFound();
             }
             else if(words[COMMAND_INDEX] == DELETE_COMMAND)
             {
                 if(words[1] != "comments"
                 && words[1] != "films")
-                    throw BadRequest();
+                    throw NotFound();
             }
         }
         else if(words[3] == "?")
         {
             if(!(words[1] == "notifications" && words[2] == "read"))
-                throw BadRequest();
+                throw NotFound();
         }
         else
-            throw BadRequest();
+            throw NotFound();
     }
     else
     {
         if(words[COMMAND_INDEX] == POST_COMMAND)
         {
             if(words[1] != "money")
-                throw BadRequest();
+                throw NotFound();
         }
         else if(words[COMMAND_INDEX] == PUT_COMMAND)
         {
-            throw BadRequest();
+            throw NotFound();
         }
         else if(words[COMMAND_INDEX] == GET_COMMAND)
         {
             if(words[1] != "followers"
             && words[1] != "notitfications")
-                throw BadRequest();
+                throw NotFound();
         }
         else if(words[COMMAND_INDEX] == DELETE_COMMAND)
         {
-            throw BadRequest();
+            throw NotFound();
         }
     }
 }
@@ -130,5 +144,12 @@ bool InputHandler::questionMarkExists(std::vector<std::string> words)
     for(Counter i=0; i<words.size(); i++)
         if(words[i] == "?")
             return true;
+    return false;
+}
+
+bool InputHandler::isEven(int number)
+{
+    if(number % 2 == 0)
+        return true;
     return false;
 }

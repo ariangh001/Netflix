@@ -2,16 +2,18 @@
 #define INPUT_HANDLER_H
 #include <string>
 #include <iostream>
+#include <sstream>
+#include <iterator>
 #include <vector>
 #include "ExceptionHandler.h"
 #define POST_COMMAND "POST"
 #define PUT_COMMAND "PUT"
 #define DELETE_COMMAND "DELETE"
 #define GET_COMMAND "GET"
-#define COMMAND_INDEX 0
+#define COMMAND_TYPE_INDEX 0
 typedef std::string input;
 typedef unsigned int Counter;
-
+typedef std::vector<std::string> CommandList;
 class InputHandler
 {
     public:
@@ -19,12 +21,12 @@ class InputHandler
         void start();
     private:
         void getInput();
-        std::vector<std::string> seperateString(input line);
-        void checkSyntaxErrors(std::vector<std::string> words);
-        void commandExists(std::vector<std::string> words);
-        void checkParameters(std::vector<std::string> words);
-        void checkFirstParameter(std::string command);
-        bool questionMarkExists(std::vector<std::string> words);
+        CommandList seperateString(input line);
+        void checkSyntaxErrors(CommandList words);
+        void commandExists(CommandList words);
+        void checkParameters(CommandList words);
+        void checkFirstParameter(std::string first_command);
+        bool questionMarkExists(CommandList words);
         bool isEven(int number);
 };
 

@@ -6,7 +6,12 @@
 class Publisher : public User
 {
     public:
-        Publisher();
+        Publisher(std::string _username,
+             std::string _password,
+             std::string _email,
+             int _age,
+             int _id,
+             bool _is_publisher);
         void submitMovie();
         void editMovieDetails();
         void deleteMovie();

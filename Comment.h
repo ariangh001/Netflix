@@ -4,7 +4,7 @@
 class Comment
 {
     public:
-
+        Comment(int _id, std::string _content);
         // int getId() const;
         // std::string getContent() const;
     private:

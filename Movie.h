@@ -4,7 +4,10 @@
 class Movie
 {
     public:
-
+        Movie(std::string _name, int _year,
+            int _length, int _price,
+            std::string _summary, std::string _director,
+            int _id, int _rate);
         // std::string getName() const;
         // int getYear() const;
         // int getLength() const;

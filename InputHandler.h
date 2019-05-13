@@ -4,6 +4,10 @@
 #include <iostream>
 #include <vector>
 #include "ExceptionHandler.h"
+#define POST_COMMAND "POST"
+#define PUT_COMMAND "PUT"
+#define DELETE_COMMAND "DELETE"
+#define GET_COMMAND "GET"
 typedef std::string input;
 
 class InputHandler

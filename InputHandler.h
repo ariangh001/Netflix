@@ -8,7 +8,9 @@
 #define PUT_COMMAND "PUT"
 #define DELETE_COMMAND "DELETE"
 #define GET_COMMAND "GET"
+#define COMMAND_INDEX 0
 typedef std::string input;
+typedef unsigned int Counter;
 
 class InputHandler
 {
@@ -22,6 +24,7 @@ class InputHandler
         void commandExists(std::vector<std::string> words);
         void checkParameters(std::vector<std::string> words);
         void checkFirstParameter(std::string command);
+        bool questionMarkExists(std::vector<std::string> words);
 };
 
 

@@ -25,6 +25,7 @@ class InputHandler
         void checkParameters(std::vector<std::string> words);
         void checkFirstParameter(std::string command);
         bool questionMarkExists(std::vector<std::string> words);
+        bool isEven(int number);
 };
 
 

@@ -12,7 +12,7 @@ void InputHandler::start()
     {
         try
         {
-            getInput();
+            handleInput();
         }
         catch(exception e)
         {
@@ -21,13 +21,16 @@ void InputHandler::start()
     }
 }
 
-void InputHandler::getInput()
+void InputHandler::handleInput()
 {
     input line;
     getline(cin,line);
-    CommandList words = seperateString(line);
-    checkSyntaxErrors(words);
-
+    if(line.length() != 0)
+    {
+        CommandList words = seperateString(line);
+        checkSyntaxErrors(words);
+        checkFunctions(words);
+    }
 }
 
 void InputHandler::checkSyntaxErrors(CommandList words)
@@ -45,7 +48,8 @@ void InputHandler::checkParameters(CommandList words)
         for(Counter i=0; i<words.size(); i++)
             if(words[i] == "?")
                 question_index = i;
-        if(isEven(words.size() - question_index - 1) == false)
+        if(isEven(words.size() - question_index - 1) == false
+         || words.size() < 5)
             throw BadRequest();
     }
     else
@@ -155,4 +159,67 @@ bool InputHandler::isEven(int number)
     if(number % 2 == 0)
         return true;
     return false;
+}
+
+void InputHandler::checkFunctions(CommandList words)
+{
+    if(words[COMMAND_TYPE_INDEX] == POST_COMMAND)
+    {
+        if(words[FUNCTION_INDEX] == "signup")
+            checkSignUp(words);
+        else if(words[FUNCTION_INDEX] == "login")
+            checkLogin(words);
+        else if(words[FUNCTION_INDEX] == "films")
+            checkSubmitFilm(words);
+        else if(words[FUNCTION_INDEX] == "money")
+        {
+            if(words.size() == 2)
+                checkGetMoney(words);
+            else
+                checkChargeAccount(words);
+        }
+        else if(words[FUNCTION_INDEX] == "replies")
+            checkReply(words);
+        else if(words[FUNCTION_INDEX] == "buy")
+            checkBuyFilm(words);
+        else if(words[FUNCTION_INDEX] == "rate")
+            checkRateMovie(words);
+        else if(words[FUNCTION_INDEX] == "comments")
+            checkComment(words);
+    }
+    else if(words[COMMAND_TYPE_INDEX] == PUT_COMMAND)
+    {
+        if(words[FUNCTION_INDEX] == "films")
+            checkEditFilm(words);
+    }
+    else if(words[COMMAND_TYPE_INDEX] == DELETE_COMMAND)
+    {
+        if(words[FUNCTION_INDEX] == "films")
+            checkDeleteFilm(words);
+        else if(words[FUNCTION_INDEX] == "comments")
+            checkDeleteComment(words);
+    }
+    else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
+    {
+        if(words[FUNCTION_INDEX] == "followers")
+            checkShowFollowers(words);
+        else if(words[FUNCTION_INDEX] == "published")
+            checkPublishedFilms(words);
+        else if(words[FUNCTION_INDEX] == "films")
+        {
+            if(words[3] == "film_id")
+                checkMovieDetails(words);
+            else
+                checkSearchMovie(words);
+        }
+        else if(words[FUNCTION_INDEX] == "purchased")
+            checkPurchases(words);
+        else if(words[FUNCTION_INDEX] == "notifications")
+        {
+            if(words[3] == "read")
+                checkNotifications(words);
+            else
+                checkUnreadNotifications(words);
+        }
+    }
 }

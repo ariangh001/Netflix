@@ -20,7 +20,7 @@ class InputHandler
         InputHandler();
         void start();
     private:
-        void getInput();
+        void handleInput();
         CommandList seperateString(input line);
         void checkSyntaxErrors(CommandList words);
         void commandExists(CommandList words);

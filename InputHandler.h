@@ -1,6 +1,7 @@
 #ifndef INPUT_HANDLER_H
 #define INPUT_HANDLER_H
 #include <string>
+#include <map>
 #include <iostream>
 #include <sstream>
 #include <iterator>
@@ -13,6 +14,7 @@
 #define GET_COMMAND "GET"
 #define COMMAND_TYPE_INDEX 0
 #define FUNCTION_INDEX 1
+typedef std::map<std::string,std::string> Map;
 typedef std::string input;
 typedef unsigned int Counter;
 typedef std::vector<std::string> CommandList;
@@ -53,177 +55,47 @@ class InputHandler
         void checkPurchases(CommandList words);
         void checkUnreadNotifications(CommandList words);
         void checkNotifications(CommandList words);
+        bool isEmpty(Map words);
+        Map signUpInput = 
+            {{"username",NULL},{"password",NULL}};
+        Map loginInput = 
+            {{"name",NULL},{"year",NULL},{"length",NULL},
+                {"price",NULL},{"summary",NULL},{"director",NULL}};
+        Map submissionInput = 
+            {{"film_id",NULL}};
+        Map EditDetailsInput = 
+            {{"film_id",NULL},{"name",NULL},{"year",NULL},{"length",NULL},
+                            {"price",NULL},{"summary",NULL},{"director",NULL}};
+        Map DeleteFilmInput = 
+            {{"film_id",NULL}};
+        Map PublishedInput = 
+            {{"name",NULL},{"min_rate",NULL},{"min_year",NULL},
+                {"price",NULL},{"max_year",NULL},{"director",NULL}};
+        Map ReplyInput = 
+            {{"film_id",NULL},{"comment_id",NULL},{"content",NULL}};
+        Map DeleteCommentInput = 
+            {{"film_id",NULL},{"comment_id",NULL}};
+        Map FollowInput = 
+            {{"user_id",NULL}};
+        Map ChargeInput = 
+            {{"amount",NULL}};
+        Map SearchInput = 
+            {{"name",NULL},{"min_rate",NULL},{"min_year",NULL},
+                {"price",NULL},{"max_year",NULL},{"director",NULL}};
+        Map ViewDetailsInput = 
+            {{"film_id",NULL}};
+        Map BuyInput= 
+            {{"film_id",NULL}};
+        Map RateInput = 
+            {{"film_id",NULL},{"score",NULL}};
+        Map commentInput = 
+            {{"name",NULL},{"min_year",NULL},{"price",NULL},
+                            {"max_year",NULL},{"director",NULL}};
+        Map PurchasedInput = 
+            {{"name",NULL},{"min_year",NULL},{"price",NULL},
+                            {"max_year",NULL},{"director",NULL}};
+        Map ViewNotificationsInput = 
+            {{"limit",NULL}};
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-// typedef struct signUpInput SignUpInput;
-// struct signUpInput
-// {
-//     input email;
-//     input username;
-//     input password;
-//     input age;
-//     input is_publisher;
-// };
-
-// typedef struct loginInput LoginInput;
-// struct loginInput
-// {
-//     input username;
-//     input password;
-// };
-
-// typedef struct submissionInput SubmissionInput;
-// struct submissionInput
-// {
-//     input name;
-//     input year;
-//     input length;
-//     input price;
-//     input summary;
-//     input director;
-// };
-
-// typedef struct editDetailsInput EditDetailsInput;
-// struct editDetailsInput
-// {
-//     input film_id;
-//     input name;
-//     input year;
-//     input length;
-//     input summary;
-//     input director;
-// };
-
-// typedef struct deleteFilmInput DeleteFilmInput;
-// struct deleteFilmInput
-// {
-//     input film_id;
-// };
-
-// typedef struct publishedInput PublishedInput;
-// struct publishedInput
-// {
-//     input name;
-//     input min_rate;
-//     input min_year;
-//     input price;
-//     input max_year;
-//     input director;
-// };
-
-// typedef struct replyInput ReplyInput;
-// struct replyInput
-// {
-//     input film_id;
-//     input comment_id;
-//     input content;
-// };
-
-// typedef struct deleteCommentInput DeleteCommentInput; 
-// struct deleteCommentInput
-// {
-//     input film_id;
-//     input comment_id;
-// };
-
-// typedef struct followInput FollowInput;
-// struct followInput
-// {
-//     input user_id;
-// };
-
-// typedef struct chargeInput chargeInput;
-// struct chargeInput
-// {
-//     input amount;
-// };
-
-// typedef struct searchInput SearchInput;
-// struct searchInput
-// {
-//     input name;
-//     input min_rate;
-//     input min_year;
-//     input price;
-//     input max_year;
-//     input director;
-// };
-
-// typedef struct viewDetailsInput ViewDetailsInput;
-// struct viewDetailsInput
-// {
-//     input film_id;
-// };
-
-// typedef struct buyInput BuyInput;
-// struct buyInput
-// {
-//     input film_id;
-// };
-
-// typedef struct rateInput RateInput;
-// struct rateInput
-// {
-//     input film_id;
-//     input score;
-// };
-
-// typedef struct commentInput commentInput;
-// struct commentInput
-// {
-//     input film_id;
-//     input content;
-// };
-
-// typedef struct purchasedInput PurchasedInput;
-// struct purchasedInput
-// {
-//     input name;
-//     input price;
-//     input min_year;
-//     input max_year;
-//     input director;
-// };
-
-// typedef struct viewNotificationsInput ViewNotificationsInput;
-// struct viewNotificationsInput
-// {
-//     input limit;
-// };
-*/
 #endif

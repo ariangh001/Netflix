@@ -14,7 +14,7 @@ void InputHandler::start()
         {
             handleInput();
         }
-        catch(exception e)
+        catch(exception &e)
         {
             cout << e.what() << '\n';
         }
@@ -29,7 +29,7 @@ void InputHandler::handleInput()
     {
         CommandList words = seperateString(line);
         checkSyntaxErrors(words);
-        checkFunctions(words);
+        //checkFunctions(words);
     }
 }
 
@@ -222,4 +222,26 @@ void InputHandler::checkFunctions(CommandList words)
                 checkUnreadNotifications(words);
         }
     }
+}
+
+void InputHandler::checkSignUp(CommandList words)
+{
+    Map signUpInput = 
+    {{"email",NULL},{"username",NULL},{"password",NULL},
+                        {"age",NULL},{"is_publisher",NULL}};
+    string username;
+    if(words.size() < 11)
+        throw BadRequest();
+    
+
+
+    if(isEmpty(signUpInput) == true)
+        throw BadRequest();
+}
+
+bool InputHandler::isEmpty(Map words)
+{
+    for(auto itr = words.begin(); itr != words.end(); itr++)
+        if(itr->second == NULL)
+            throw BadRequest();
 }

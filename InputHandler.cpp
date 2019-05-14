@@ -272,6 +272,34 @@ void InputHandler::checkLogin(CommandList words)
     handler.login(loginInput);
 }
 
+void InputHandler::checkSubmitFilm(CommandList words)
+{
+    Map submissionInput = {{"name","-1"},{"year","-1"},{"length","-1"},
+        {"price","-1"},{"summary","-1"},{"director","-1"}};
+    if(words.size() < 15)
+        throw BadRequest();
+    for(Counter i=3; i<words.size(); i+=2)
+    {
+        auto itr = submissionInput.find("");
+        if(words[i] == "name")
+            itr = submissionInput.find("name");
+        else if(words[i] == "year")
+            itr = submissionInput.find("year");
+        else if(words[i] == "length")
+            itr = submissionInput.find("length");
+        else if(words[i] == "price")
+            itr = submissionInput.find("price");
+        else if(words[i] == "summary")
+            itr = submissionInput.find("summary");
+        else if(words[i] == "director")
+            itr = submissionInput.find("director");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(submissionInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("submitFilm",submissionInput);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

@@ -253,6 +253,24 @@ void InputHandler::checkSignUp(CommandList words)
     handler.signup(signUpInput);
 }
 
+void InputHandler::checkLogin(CommandList words)
+{
+    Map loginInput = {{"username","-1"},{"password","-1"}}; 
+    if(words.size() < 7)
+        throw BadRequest();
+    for(Counter i=3; i<words.size(); i+=2)
+    {
+        auto itr = loginInput.find("");
+        if(words[i] == "username")
+            itr = loginInput.find("username");
+        else if(words[i] == "password")
+            itr = loginInput.find("password");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(loginInput) == true)
+        throw BadRequest();
+    handler.login(loginInput);
+}
 
 bool InputHandler::isEmpty(Map words)
 {

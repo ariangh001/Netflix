@@ -224,6 +224,35 @@ void InputHandler::checkFunctions(CommandList words)
     }
 }
 
+void InputHandler::checkSignUp(CommandList words)
+{
+    Map signUpInput = {{"email","-1"},{"username","-1"},
+        {"password","-1"},{"age","-1"},{"is_publisher","-1"}};
+    if(words.size() < 11)
+        throw BadRequest();
+    for(Counter i=3; i<words.size(); i+=2)
+    {
+        auto itr = signUpInput.find("");
+        if(words[i] == "username")
+            itr = signUpInput.find("username");
+        else if(words[i] == "password")
+            itr = signUpInput.find("password");
+        else if(words[i] == "age")
+            itr = signUpInput.find("age");
+        else if(words[i] == "is_publisher")
+            itr = signUpInput.find("is_publisher");
+        else if(words[i] == "email")
+        {
+            checkEmailSyntax(words[i+1]);
+            itr = signUpInput.find("email");
+        }
+        itr->second = words[i+1];
+    }
+    if(isEmpty(signUpInput) == true)
+        throw BadRequest();
+    handler.signup(signUpInput);
+}
+
 
 bool InputHandler::isEmpty(Map words)
 {

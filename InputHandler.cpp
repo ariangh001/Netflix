@@ -224,24 +224,31 @@ void InputHandler::checkFunctions(CommandList words)
     }
 }
 
-void InputHandler::checkSignUp(CommandList words)
-{
-    Map signUpInput = 
-    {{"email",NULL},{"username",NULL},{"password",NULL},
-                        {"age",NULL},{"is_publisher",NULL}};
-    string username;
-    if(words.size() < 11)
-        throw BadRequest();
-    
-
-
-    if(isEmpty(signUpInput) == true)
-        throw BadRequest();
-}
 
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)
-        if(itr->second == NULL)
-            throw BadRequest();
+        if(itr->first != "is_publisher")
+            if(itr->second == "-1")
+                throw BadRequest();
+}
+
+void InputHandler::checkEmailSyntax(std::string email)
+{
+    int has_error = HAS_ERROR;
+    for(Counter i=1; i<email.length(); i++)
+    {
+        if(email[i] == '@')
+        {
+            for(Counter j=i+1; j<email.length(); j++)
+            {
+                if(email[j] == '.' && j != email.length() - 1)
+                {
+                    has_error = NO_ERROR;
+                }
+            }
+        }
+    }
+    if(has_error == HAS_ERROR)
+        throw BadRequest();
 }

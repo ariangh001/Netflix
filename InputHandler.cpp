@@ -330,6 +330,18 @@ void InputHandler::checkEditFilm(CommandList words)
     handler.checkFunctions("editFilmDetails",editDetailsInput);
 }
 
+void InputHandler::checkDeleteFilm(CommandList words)
+{
+    Map deleteFilmInput = {{"film_id","-1"}};
+    if(words.size() < 17)
+        throw BadRequest();
+    auto itr = deleteFilmInput.find("film_id");
+    itr->second = words[words.size() - 1];
+    if(isEmpty(deleteFilmInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("deleteFilmDetails",deleteFilmInput);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

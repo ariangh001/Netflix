@@ -300,6 +300,36 @@ void InputHandler::checkSubmitFilm(CommandList words)
     handler.checkFunctions("submitFilm",submissionInput);
 }
 
+void InputHandler::checkEditFilm(CommandList words)
+{
+    Map editDetailsInput = {{"film_id","-1"},{"name","-1"},{"year","-1"},
+        {"length","-1"},{"price","-1"},{"summary","-1"},{"director","-1"}};
+    if(words.size() < 17)
+        throw BadRequest();
+    for(Counter i=3; i<words.size(); i+=2)
+    {
+        auto itr = editDetailsInput.find("");
+        if(words[i] == "name")
+            itr = editDetailsInput.find("name");
+        else if(words[i] == "year")
+            itr = editDetailsInput.find("year");
+        else if(words[i] == "length")
+            itr = editDetailsInput.find("length");
+        else if(words[i] == "price")
+            itr = editDetailsInput.find("price");
+        else if(words[i] == "summary")
+            itr = editDetailsInput.find("summary");
+        else if(words[i] == "director")
+            itr = editDetailsInput.find("director");
+        else if(words[i] == "film_id")
+            itr = editDetailsInput.find("film_id");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(editDetailsInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("editFilmDetails",editDetailsInput);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

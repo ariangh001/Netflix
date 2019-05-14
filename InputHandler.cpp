@@ -333,13 +333,42 @@ void InputHandler::checkEditFilm(CommandList words)
 void InputHandler::checkDeleteFilm(CommandList words)
 {
     Map deleteFilmInput = {{"film_id","-1"}};
-    if(words.size() < 17)
+    if(words.size() < 5)
         throw BadRequest();
     auto itr = deleteFilmInput.find("film_id");
     itr->second = words[words.size() - 1];
     if(isEmpty(deleteFilmInput) == true)
         throw BadRequest();
     handler.checkFunctions("deleteFilmDetails",deleteFilmInput);
+}
+
+void InputHandler::checkPublishedFilms(CommandList words)
+{
+    Map publishedInput = {{"name","-1"},{"min_rate","-1"},
+        {"min_year","-1"},{"price","-1"},{"max_year","-1"},{"director","-1"}};
+    if(words.size() < 15)
+        throw BadRequest();
+    for(Counter i=3; i<words.size(); i+=2)
+    {
+        auto itr = publishedInput.find("");
+        if(words[i] == "name")
+            itr = publishedInput.find("name");
+        else if(words[i] == "min_rate")
+            itr = publishedInput.find("min_rate");
+        else if(words[i] == "min_year")
+            itr = publishedInput.find("min_year");
+        else if(words[i] == "price")
+            itr = publishedInput.find("price");
+        else if(words[i] == "max_year")
+            itr = publishedInput.find("max_year");
+        else if(words[i] == "director")
+            itr = publishedInput.find("director");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(publishedInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("publishedFilms",publishedInput);
+
 }
 
 bool InputHandler::isEmpty(Map words)

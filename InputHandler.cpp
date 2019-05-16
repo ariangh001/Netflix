@@ -255,7 +255,7 @@ void InputHandler::checkSignUp(CommandList words)
 
 void InputHandler::checkLogin(CommandList words)
 {
-    Map loginInput = {{"username","-1"},{"password","-1"}}; 
+    Map loginInput = {{"username","-1"},{"password","-1"}};
     if(words.size() < 7)
         throw BadRequest();
     for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
@@ -423,11 +423,42 @@ void InputHandler::checkDeleteComment(CommandList words)
     }
     if(isEmpty(deleteCommentInput) == true)
         throw BadRequest();
-    handler.checkFunctions("deleteComment",deleteCommentInput);    
+    handler.checkFunctions("deleteComment",deleteCommentInput);
 }
 
+void InputHandler::checkFollow(CommandList words)
+{
+    Map followInput = {{"user_id","-1"}};
+    if(words.size() < 5)
+        throw BadRequest();
+    for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
+    {
+        auto itr = followInput.find("");
+        if(words[i] == "film_id")
+            itr = followInput.find("film_id");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(followInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("follow",followInput);
+}
 
-
+void InputHandler::checkChargeAccount(CommandList words)
+{
+    Map chargeInput = {{"amount","-1"}};
+    if(words.size() < 5)
+        throw BadRequest();
+    for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
+    {
+        auto itr = chargeInput.find("");
+        if(words[i] == "amount")
+            itr = chargeInput.find("amount");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(chargeInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("chargeAccount",chargeInput);
+}
 
 bool InputHandler::isEmpty(Map words)
 {

@@ -510,21 +510,21 @@ void InputHandler::checkBuyFilm(CommandList words)
 
 void InputHandler::checkRateMovie(CommandList words)
 {
-    Map RateInput = {{"film_id","-1"},{"score","-1"}};
+    Map rateInput = {{"film_id","-1"},{"score","-1"}};
     if(words.size() < 7)
         throw BadRequest();
     for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
     {
-        auto itr = RateInput.find("");
+        auto itr = rateInput.find("");
         if(words[i] == "film_id")
-            itr = RateInput.find("film_id");
+            itr = rateInput.find("film_id");
         else if(words[i] == "score")
-            itr = RateInput.find("score");
+            itr = rateInput.find("score");
         itr->second = words[i+1];
     }
-    if(isEmpty(RateInput) == true)
+    if(isEmpty(rateInput) == true)
         throw BadRequest();
-    handler.checkFunctions("rateMovie",RateInput);
+    handler.checkFunctions("rateMovie",rateInput);
 }
 
 void InputHandler::checkComment(CommandList words)
@@ -544,6 +544,32 @@ void InputHandler::checkComment(CommandList words)
     if(isEmpty(commentInput) == true)
         throw BadRequest();
     handler.checkFunctions("comment",commentInput);
+}
+
+void InputHandler::checkPurchases(CommandList words)
+{
+    Map purchasedInput ={{"name","-1"},{"min_year","-1"},
+        {"price","-1"},{"max_year","-1"},{"director","-1"}};
+    if(words.size() < 13)
+        throw BadRequest();
+    for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
+    {
+        auto itr = purchasedInput.find("");
+        if(words[i] == "name")
+            itr = purchasedInput.find("name");
+        else if(words[i] == "min_year")
+            itr = purchasedInput.find("min_year");
+        else if(words[i] == "price")
+            itr = purchasedInput.find("price");
+        else if(words[i] == "max_year")
+            itr = purchasedInput.find("max_year");
+        else if(words[i] == "director")
+            itr = purchasedInput.find("director");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(purchasedInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("purchasedMovies",purchasedInput);
 }
 
 bool InputHandler::isEmpty(Map words)

@@ -464,8 +464,6 @@ void InputHandler::checkSearchMovie(CommandList words)
 {
     Map searchInput = {{"name","-1"},{"min_rate","-1"},
         {"min_year","-1"},{"price","-1"},{"max_year","-1"},{"director","-1"}};
-    if(words.size() < 15)
-        throw BadRequest();
     for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
     {
         auto itr = searchInput.find("");
@@ -484,6 +482,18 @@ void InputHandler::checkSearchMovie(CommandList words)
         itr->second = words[i+1];
     }
     handler.checkFunctions("searchMovies",searchInput);
+}
+
+void InputHandler::checkMovieDetails(CommandList words)
+{
+    Map viewDetailsInput = {{"film_id","-1"}};
+    if(words.size() != 5)
+        throw BadRequest();
+    auto itr = viewDetailsInput.find("film_id");
+    itr->second = words[words.size() - 1];
+    if(isEmpty(viewDetailsInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("viewDetails",viewDetailsInput);
 }
 
 bool InputHandler::isEmpty(Map words)

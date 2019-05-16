@@ -572,6 +572,14 @@ void InputHandler::checkPurchases(CommandList words)
     handler.checkFunctions("purchasedMovies",purchasedInput);
 }
 
+void InputHandler::checkUnreadNotifications(CommandList words)
+{
+    Map viewUnreadNotifs;
+    if(words.size() != 2)
+        throw BadRequest();
+    handler.checkFunctions("viewUnreadNotifs",viewUnreadNotifs);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

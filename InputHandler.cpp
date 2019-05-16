@@ -460,6 +460,32 @@ void InputHandler::checkChargeAccount(CommandList words)
     handler.checkFunctions("chargeAccount",chargeInput);
 }
 
+void InputHandler::checkSearchMovie(CommandList words)
+{
+    Map searchInput = {{"name","-1"},{"min_rate","-1"},
+        {"min_year","-1"},{"price","-1"},{"max_year","-1"},{"director","-1"}};
+    if(words.size() < 15)
+        throw BadRequest();
+    for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
+    {
+        auto itr = searchInput.find("");
+        if(words[i] == "name")
+            itr = searchInput.find("name");
+        else if(words[i] == "min_rate")
+            itr = searchInput.find("min_rate");
+        else if(words[i] == "min_year")
+            itr = searchInput.find("min_year");
+        else if(words[i] == "price")
+            itr = searchInput.find("price");
+        else if(words[i] == "max_year")
+            itr = searchInput.find("max_year");
+        else if(words[i] == "director")
+            itr = searchInput.find("director");
+        itr->second = words[i+1];
+    }
+    handler.checkFunctions("searchMovies",searchInput);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

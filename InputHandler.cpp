@@ -580,6 +580,18 @@ void InputHandler::checkUnreadNotifications(CommandList words)
     handler.checkFunctions("viewUnreadNotifs",viewUnreadNotifs);
 }
 
+void InputHandler::checkNotifications(CommandList words)
+{
+    Map viewNotificationsInput = {{"limit","-1"}};
+    if(words.size() != 5)
+        throw BadRequest();
+    auto itr = viewNotificationsInput.find("limit");
+    itr->second = words[words.size() - 1];
+    if(isEmpty(viewNotificationsInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("viewNotifs",viewNotificationsInput);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

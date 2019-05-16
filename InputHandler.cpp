@@ -386,6 +386,27 @@ void InputHandler::checkGetMoney(CommandList words)
     handler.checkFunctions("showFollowers",getMoney);
 }
 
+void InputHandler::checkReply(CommandList words)
+{
+    Map ReplyInput = {{"film_id","-1"},{"comment_id","-1"},{"content","-1"}};
+    if(words.size() < 9)
+        throw BadRequest();
+    for(Counter i=3; i<words.size(); i+=2)
+    {
+        auto itr = ReplyInput.find("");
+        if(words[i] == "film_id")
+            itr = ReplyInput.find("film_id");
+        else if(words[i] == "comment_id")
+            itr = ReplyInput.find("comment_id");
+        else if(words[i] == "content")
+            itr = ReplyInput.find("content");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(ReplyInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("reply",ReplyInput);    
+}
+
 
 
 

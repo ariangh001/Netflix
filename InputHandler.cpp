@@ -527,6 +527,25 @@ void InputHandler::checkRateMovie(CommandList words)
     handler.checkFunctions("rateMovie",RateInput);
 }
 
+void InputHandler::checkComment(CommandList words)
+{
+    Map commentInput = {{"film_id","-1"},{"content","-1"}};
+    if(words.size() < 7)
+        throw BadRequest();
+    for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
+    {
+        auto itr = commentInput.find("");
+        if(words[i] == "film_id")
+            itr = commentInput.find("film_id");
+        else if(words[i] == "content")
+            itr = commentInput.find("content");
+        itr->second = words[i+1];
+    }
+    if(isEmpty(commentInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("comment",commentInput);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

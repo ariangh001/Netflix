@@ -496,6 +496,18 @@ void InputHandler::checkMovieDetails(CommandList words)
     handler.checkFunctions("viewDetails",viewDetailsInput);
 }
 
+void InputHandler::checkBuyFilm(CommandList words)
+{
+    Map buyInput = {{"film_id","-1"}};
+    if(words.size() != 5)
+        throw BadRequest();
+    auto itr = buyInput.find("film_id");
+    itr->second = words[words.size() - 1];
+    if(isEmpty(buyInput) == true)
+        throw BadRequest();
+    handler.checkFunctions("buyInput",buyInput);
+}
+
 bool InputHandler::isEmpty(Map words)
 {
     for(auto itr = words.begin(); itr != words.end(); itr++)

@@ -368,8 +368,20 @@ void InputHandler::checkPublishedFilms(CommandList words)
     if(isEmpty(publishedInput) == true)
         throw BadRequest();
     handler.checkFunctions("publishedFilms",publishedInput);
-
 }
+
+void InputHandler::checkShowFollowers(CommandList words)
+{
+    Map viewFollowers;
+    if(words.size() != 2)
+        throw BadRequest();
+    handler.checkFunctions("showFollowers",viewFollowers);
+}
+
+
+
+
+
 
 bool InputHandler::isEmpty(Map words)
 {

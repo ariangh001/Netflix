@@ -378,6 +378,15 @@ void InputHandler::checkShowFollowers(CommandList words)
     handler.checkFunctions("showFollowers",viewFollowers);
 }
 
+void InputHandler::checkGetMoney(CommandList words)
+{
+    Map getMoney;
+    if(words.size() != 2)
+        throw BadRequest();
+    handler.checkFunctions("showFollowers",getMoney);
+}
+
+
 
 
 

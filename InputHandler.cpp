@@ -47,7 +47,10 @@ void InputHandler::checkParameters(CommandList words)
         int question_index = -1;
         for(Counter i=0; i<words.size(); i++)
             if(words[i] == "?")
+            {
                 question_index = i;
+                break;
+            }
         if(isEven(words.size() - question_index - 1) == false
          || words.size() < 5)
             throw BadRequest();

@@ -8,12 +8,16 @@
 #include <vector>
 #include "ExceptionHandler.h"
 #include "User.h"
+#include "ProcessHandler.h"
 #define POST_COMMAND "POST"
 #define PUT_COMMAND "PUT"
 #define DELETE_COMMAND "DELETE"
 #define GET_COMMAND "GET"
 #define COMMAND_TYPE_INDEX 0
+#define FIRST_PARAM_INDEX 3
 #define FUNCTION_INDEX 1
+#define HAS_ERROR 1
+#define NO_ERROR 0
 typedef std::map<std::string,std::string> Map;
 typedef std::string input;
 typedef unsigned int Counter;
@@ -24,8 +28,7 @@ class InputHandler
         InputHandler();
         void start();
     private:
-        User* active_user;
-
+        ProcessHandler handler;
         void handleInput();
         CommandList seperateString(input line);
         void checkSyntaxErrors(CommandList words);
@@ -56,46 +59,7 @@ class InputHandler
         void checkUnreadNotifications(CommandList words);
         void checkNotifications(CommandList words);
         bool isEmpty(Map words);
-        Map signUpInput = 
-            {{"username",NULL},{"password",NULL}};
-        Map loginInput = 
-            {{"name",NULL},{"year",NULL},{"length",NULL},
-                {"price",NULL},{"summary",NULL},{"director",NULL}};
-        Map submissionInput = 
-            {{"film_id",NULL}};
-        Map EditDetailsInput = 
-            {{"film_id",NULL},{"name",NULL},{"year",NULL},{"length",NULL},
-                            {"price",NULL},{"summary",NULL},{"director",NULL}};
-        Map DeleteFilmInput = 
-            {{"film_id",NULL}};
-        Map PublishedInput = 
-            {{"name",NULL},{"min_rate",NULL},{"min_year",NULL},
-                {"price",NULL},{"max_year",NULL},{"director",NULL}};
-        Map ReplyInput = 
-            {{"film_id",NULL},{"comment_id",NULL},{"content",NULL}};
-        Map DeleteCommentInput = 
-            {{"film_id",NULL},{"comment_id",NULL}};
-        Map FollowInput = 
-            {{"user_id",NULL}};
-        Map ChargeInput = 
-            {{"amount",NULL}};
-        Map SearchInput = 
-            {{"name",NULL},{"min_rate",NULL},{"min_year",NULL},
-                {"price",NULL},{"max_year",NULL},{"director",NULL}};
-        Map ViewDetailsInput = 
-            {{"film_id",NULL}};
-        Map BuyInput= 
-            {{"film_id",NULL}};
-        Map RateInput = 
-            {{"film_id",NULL},{"score",NULL}};
-        Map commentInput = 
-            {{"name",NULL},{"min_year",NULL},{"price",NULL},
-                            {"max_year",NULL},{"director",NULL}};
-        Map PurchasedInput = 
-            {{"name",NULL},{"min_year",NULL},{"price",NULL},
-                            {"max_year",NULL},{"director",NULL}};
-        Map ViewNotificationsInput = 
-            {{"limit",NULL}};
+        void checkEmailSyntax(std::string email);
 };
 
 #endif

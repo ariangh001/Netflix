@@ -59,7 +59,6 @@ class InputHandler
         void checkUnreadNotifications(CommandList words);
         void checkNotifications(CommandList words);
         bool isEmpty(Map words);
-        void checkEmailSyntax(std::string email);
 };
 
 #endif

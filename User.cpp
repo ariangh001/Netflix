@@ -1,0 +1,65 @@
+#include "User.h"
+
+User::User(std::string _username, std::string _password,
+            std::string _email, int _age)
+{
+    username = _username;
+    password = _password;
+    email = _email;
+    age = _age;
+}
+
+std::string User::getUsername() const
+{
+    return username;
+}
+
+std::string User::getPassword() const
+{
+    return password;
+}
+
+std::string User::getType()
+{
+    return "user";
+}
+
+void User::submitMovie(Map input)
+{
+    throw PermissionDenied();
+}
+
+void User::editMovieDetails(Map input)
+{
+    throw PermissionDenied();
+}
+
+void User::deleteMovie(Map input)
+{
+    throw PermissionDenied();
+}
+
+void User::viewFollowers(Map input)
+{
+    throw PermissionDenied();
+}
+
+void User::recieveMoney(Map input)
+{
+    throw PermissionDenied();
+}
+
+void User::viewMovies(Map input)
+{
+    throw PermissionDenied();
+}
+
+void User::replyComment(Map input)
+{
+    throw PermissionDenied();
+}
+
+void User::deleteComments(Map input)
+{
+    throw PermissionDenied();
+}

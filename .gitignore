@@ -63,3 +63,4 @@
 
 # End of https://www.gitignore.io/api/c++,linux
 .vscode/settings.json
+.vscode/ipch/7b9d7f6a3cabea9d/ExceptionHandler.ipch

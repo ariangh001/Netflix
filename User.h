@@ -34,7 +34,7 @@ class User
         // std::string getEmail() const;
         // int getAge() const;
         // int getId() const;
-        // bool isPublisher() const;
+        void setId(int _id);
         virtual std::string getType();
     protected:
         std::string username;
@@ -42,6 +42,7 @@ class User
         std::string email;
         int age;
         int id;
+        int wallet;
 };
 
 #endif

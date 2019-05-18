@@ -1,6 +1,7 @@
 #ifndef USER_H
 #define USER_H
 #include <string>
+#include "ExceptionHandler.h"
 #include <map>
 typedef std::map<std::string,std::string> Map;
 class User
@@ -9,10 +10,7 @@ class User
         User(std::string _username,
              std::string _password,
              std::string _email,
-             int _age,
-             bool _is_publisher);
-        //void signup(); hamoon constructore
-        //void login();
+             int _age);
         void follow(Map input);
         void chargeAccount(Map input);
         void searchMovies(Map input);
@@ -31,20 +29,19 @@ class User
         virtual void viewMovies(Map input);
         virtual void replyComment(Map input);
         virtual void deleteComments(Map input);
-        // std::string getUsername() const;
-        // std::string getPassword() const;
+        std::string getUsername() const;
+        std::string getPassword() const;
         // std::string getEmail() const;
         // int getAge() const;
         // int getId() const;
         // bool isPublisher() const;
-        std::string getType();
+        virtual std::string getType();
     protected:
         std::string username;
         std::string password;
         std::string email;
         int age;
         int id;
-        bool is_publisher;
 };
 
 #endif

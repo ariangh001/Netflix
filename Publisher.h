@@ -22,7 +22,7 @@ class Publisher : public User
         // virtual void replyComment(Map input);
         // virtual void deleteComments(Map input);
     private:
-        std::vector<Movie*> my_films;
+        std::vector<Movie*> published_films;
         std::vector<User*> my_followers;
 };
 

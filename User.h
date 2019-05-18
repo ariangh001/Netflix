@@ -43,6 +43,7 @@ class User
         int age;
         int id;
         int wallet;
+        std::vector<Movie*> purchased_films;
 };
 
 #endif

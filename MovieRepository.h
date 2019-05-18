@@ -7,7 +7,7 @@ class MovieRepository
 {
     public:
         MovieRepository();
-        void addMovie();//check kardane user id e jadid
+        void addMovie(Movie* movie);//check kardane user id e jadid
         //new kardan too khode add anjam beshe bekhatere check kardane id ba ozve akhare vector
         //va new kardan ba tavajoh be oon anjam mishe
     private:

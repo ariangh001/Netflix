@@ -22,9 +22,7 @@ class ProcessHandler
     private:
         User* active_user;
         UsersRepository users_repository;
-        MovieRepository movie_repository;
-        CommentRepository comment_repository;
-        //void checkPermission(std::string function_type);
+        void checkPermission(std::string function_type);
         void checkValues(Map input);
         void checkEmailSyntax(std::string email);
         bool isNumber(std::string str);

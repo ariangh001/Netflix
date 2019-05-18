@@ -255,7 +255,7 @@ void InputHandler::checkSignUp(CommandList words)
     }
     if(isEmpty(signUpInput) == true)
         throw BadRequest();
-    //handler.signup(signUpInput);
+    handler.signup(signUpInput);
 }
 
 void InputHandler::checkLogin(CommandList words)
@@ -276,7 +276,7 @@ void InputHandler::checkLogin(CommandList words)
     }
     if(isEmpty(loginInput) == true)
         throw BadRequest();
-    //handler.login(loginInput);
+    handler.login(loginInput);
 }
 
 void InputHandler::checkSubmitFilm(CommandList words)
@@ -313,8 +313,6 @@ void InputHandler::checkEditFilm(CommandList words)
 {
     Map editDetailsInput = {{"film_id","-1"},{"name","-1"},{"year","-1"},
         {"length","-1"},{"price","-1"},{"summary","-1"},{"director","-1"}};
-    if(words.size() < 17)
-        throw BadRequest();
     auto itr = editDetailsInput.find("");
     for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
     {
@@ -336,8 +334,6 @@ void InputHandler::checkEditFilm(CommandList words)
             throw BadRequest();
         itr->second = words[i+1];
     }
-    if(isEmpty(editDetailsInput) == true)
-        throw BadRequest();
     //handler.checkFunctions("editFilmDetails",editDetailsInput);
 }
 
@@ -599,7 +595,7 @@ void InputHandler::checkUnreadNotifications(CommandList words)
     Map viewUnreadNotifs;
     if(words.size() != 2)
         throw BadRequest();
-    ///handler.checkFunctions("viewUnreadNotifs",viewUnreadNotifs);
+    handler.checkFunctions("viewUnreadNotifs",viewUnreadNotifs);
 }
 
 void InputHandler::checkNotifications(CommandList words)

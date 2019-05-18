@@ -65,6 +65,7 @@ void InputHandler::commandExists(CommandList words)
 {
     if(questionMarkExists(words) == true)
     {
+         cout<<words[0]<<"    "<<words[1]<<"    "<<words[2]<<endl;
         if(words[2] == "?")
         {
             if(words[COMMAND_TYPE_INDEX] == POST_COMMAND)
@@ -122,7 +123,10 @@ void InputHandler::commandExists(CommandList words)
         else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
         {
             if(words[1] != "followers"
-            && words[1] != "notitfications")
+            && words[1] != "notifications"
+            && words[1] != "published"
+            && words[1] != "purchased"
+            && words[1] != "films")
                 throw NotFound();
         }
         else if(words[COMMAND_TYPE_INDEX] == DELETE_COMMAND)
@@ -241,13 +245,12 @@ void InputHandler::checkSignUp(CommandList words)
             itr = signUpInput.find("password");
         else if(words[i] == "age")
             itr = signUpInput.find("age");
-        else if(words[i] == "is_publisher")
+        else if(words[i] == "publisher")
             itr = signUpInput.find("is_publisher");
         else if(words[i] == "email")
-        {
-            checkEmailSyntax(words[i+1]);
             itr = signUpInput.find("email");
-        }
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(signUpInput) == true)
@@ -267,6 +270,8 @@ void InputHandler::checkLogin(CommandList words)
             itr = loginInput.find("username");
         else if(words[i] == "password")
             itr = loginInput.find("password");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(loginInput) == true)
@@ -295,6 +300,8 @@ void InputHandler::checkSubmitFilm(CommandList words)
             itr = submissionInput.find("summary");
         else if(words[i] == "director")
             itr = submissionInput.find("director");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(submissionInput) == true)
@@ -325,6 +332,8 @@ void InputHandler::checkEditFilm(CommandList words)
             itr = editDetailsInput.find("director");
         else if(words[i] == "film_id")
             itr = editDetailsInput.find("film_id");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(editDetailsInput) == true)
@@ -338,18 +347,19 @@ void InputHandler::checkDeleteFilm(CommandList words)
     if(words.size() < 5)
         throw BadRequest();
     auto itr = deleteFilmInput.find("film_id");
-    itr->second = words[words.size() - 1];
+    if(words[FIRST_PARAM_INDEX] == "film_id")
+        itr->second = words[words.size() - 1];
+    else
+        throw BadRequest();
     if(isEmpty(deleteFilmInput) == true)
         throw BadRequest();
-    //handler.checkFunctions("deleteFilmDetails",deleteFilmInput);
+    //handler.checkFunctions("deleteFilm",deleteFilmInput);
 }
 
 void InputHandler::checkPublishedFilms(CommandList words)
 {
     Map publishedInput = {{"name","-1"},{"min_rate","-1"},
         {"min_year","-1"},{"price","-1"},{"max_year","-1"},{"director","-1"}};
-    if(words.size() < 15)
-        throw BadRequest();
     auto itr = publishedInput.find("");
     for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
     {
@@ -365,10 +375,10 @@ void InputHandler::checkPublishedFilms(CommandList words)
             itr = publishedInput.find("max_year");
         else if(words[i] == "director")
             itr = publishedInput.find("director");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
-    if(isEmpty(publishedInput) == true)
-        throw BadRequest();
     //handler.checkFunctions("publishedFilms",publishedInput);
 }
 
@@ -385,7 +395,7 @@ void InputHandler::checkGetMoney(CommandList words)
     Map getMoney;
     if(words.size() != 2)
         throw BadRequest();
-    //handler.checkFunctions("showFollowers",getMoney);
+    //handler.checkFunctions("getMoney",getMoney);
 }
 
 void InputHandler::checkReply(CommandList words)
@@ -402,6 +412,8 @@ void InputHandler::checkReply(CommandList words)
             itr = replyInput.find("comment_id");
         else if(words[i] == "content")
             itr = replyInput.find("content");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(replyInput) == true)
@@ -421,6 +433,8 @@ void InputHandler::checkDeleteComment(CommandList words)
             itr = deleteCommentInput.find("film_id");
         else if(words[i] == "comment_id")
             itr = deleteCommentInput.find("comment_id");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(deleteCommentInput) == true)
@@ -433,8 +447,11 @@ void InputHandler::checkFollow(CommandList words)
     Map followInput = {{"user_id","-1"}};
     if(words.size() < 5)
         throw BadRequest();
-    auto itr = followInput.find("film_id");
-    itr->second = words[words.size() - 1];
+    auto itr = followInput.find("user_id");
+    if(words[FIRST_PARAM_INDEX] == "user_id")
+        itr->second = words[words.size() - 1];
+    else
+        throw BadRequest();
     if(isEmpty(followInput) == true)
         throw BadRequest();
     //handler.checkFunctions("follow",followInput);
@@ -445,8 +462,11 @@ void InputHandler::checkChargeAccount(CommandList words)
     Map chargeAccountInput = {{"amount","-1"}};
     if(words.size() < 5)
         throw BadRequest();
-    auto itr = chargeAccountInput.find("film_id");
-    itr->second = words[words.size() - 1];
+    auto itr = chargeAccountInput.find("amount");
+    if(words[FIRST_PARAM_INDEX] == "amount")
+        itr->second = words[words.size() - 1];
+    else
+        throw BadRequest();
     if(isEmpty(chargeAccountInput) == true)
         throw BadRequest();
     //handler.checkFunctions("chargeAccount",chargeInput);
@@ -471,6 +491,8 @@ void InputHandler::checkSearchMovie(CommandList words)
             itr = searchInput.find("max_year");
         else if(words[i] == "director")
             itr = searchInput.find("director");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     //handler.checkFunctions("searchMovies",searchInput);
@@ -482,7 +504,10 @@ void InputHandler::checkMovieDetails(CommandList words)
     if(words.size() != 5)
         throw BadRequest();
     auto itr = viewDetailsInput.find("film_id");
-    itr->second = words[words.size() - 1];
+    if(words[FIRST_PARAM_INDEX] == "film_id")
+        itr->second = words[words.size() - 1];
+    else
+        throw BadRequest();
     if(isEmpty(viewDetailsInput) == true)
         throw BadRequest();
     //handler.checkFunctions("viewDetails",viewDetailsInput);
@@ -494,7 +519,10 @@ void InputHandler::checkBuyFilm(CommandList words)
     if(words.size() != 5)
         throw BadRequest();
     auto itr = buyInput.find("film_id");
-    itr->second = words[words.size() - 1];
+    if(words[FIRST_PARAM_INDEX] == "film_id")
+        itr->second = words[words.size() - 1];
+    else
+        throw BadRequest();
     if(isEmpty(buyInput) == true)
         throw BadRequest();
     //handler.checkFunctions("buyInput",buyInput);
@@ -512,6 +540,8 @@ void InputHandler::checkRateMovie(CommandList words)
             itr = rateInput.find("film_id");
         else if(words[i] == "score")
             itr = rateInput.find("score");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(rateInput) == true)
@@ -531,6 +561,8 @@ void InputHandler::checkComment(CommandList words)
             itr = commentInput.find("film_id");
         else if(words[i] == "content")
             itr = commentInput.find("content");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
     if(isEmpty(commentInput) == true)
@@ -542,8 +574,6 @@ void InputHandler::checkPurchases(CommandList words)
 {
     Map purchasedInput ={{"name","-1"},{"min_year","-1"},
         {"price","-1"},{"max_year","-1"},{"director","-1"}};
-    if(words.size() < 13)
-        throw BadRequest();
     auto itr = purchasedInput.find("");
     for(Counter i=FIRST_PARAM_INDEX; i<words.size(); i+=2)
     {
@@ -557,10 +587,10 @@ void InputHandler::checkPurchases(CommandList words)
             itr = purchasedInput.find("max_year");
         else if(words[i] == "director")
             itr = purchasedInput.find("director");
+        else
+            throw BadRequest();
         itr->second = words[i+1];
     }
-    if(isEmpty(purchasedInput) == true)
-        throw BadRequest();
     //handler.checkFunctions("purchasedMovies",purchasedInput);
 }
 
@@ -578,7 +608,10 @@ void InputHandler::checkNotifications(CommandList words)
     if(words.size() != 5)
         throw BadRequest();
     auto itr = viewNotificationsInput.find("limit");
-    itr->second = words[words.size() - 1];
+    if(words[FIRST_PARAM_INDEX] == "limit")
+        itr->second = words[words.size() - 1];
+    else
+        throw BadRequest();
     if(isEmpty(viewNotificationsInput) == true)
         throw BadRequest();
     //handler.checkFunctions("viewNotifs",viewNotificationsInput);
@@ -592,22 +625,3 @@ bool InputHandler::isEmpty(Map words)
                 throw BadRequest();
 }
 
-void InputHandler::checkEmailSyntax(std::string email)
-{
-    int has_error = HAS_ERROR;
-    for(Counter i=1; i<email.length(); i++)
-    {
-        if(email[i] == '@')
-        {
-            for(Counter j=i+1; j<email.length(); j++)
-            {
-                if(email[j] == '.' && j != email.length() - 1)
-                {
-                    has_error = NO_ERROR;
-                }
-            }
-        }
-    }
-    if(has_error == HAS_ERROR)
-        throw BadRequest();
-}

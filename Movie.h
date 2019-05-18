@@ -24,6 +24,7 @@ class Movie
         std::string summary;
         std::string director;
         int id;
+        std::vector<int> rates;
         int rate;
 };
 

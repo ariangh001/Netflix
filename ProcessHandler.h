@@ -21,6 +21,9 @@ class ProcessHandler
         void checkFunctions(std::string function_type,Map input);
     private:
         User* active_user;
+        UsersRepository users_repository;
+        MovieRepository movie_repository;
+        CommentRepository comment_repository;
         //void checkPermission(std::string function_type);
         void checkValues(Map input);
         void checkEmailSyntax(std::string email);

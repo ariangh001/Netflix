@@ -26,6 +26,7 @@ class Movie
         int id;
         std::vector<int> rates;
         float rate;
+        int numbers_sold;
 };
 
 #endif

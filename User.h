@@ -21,6 +21,7 @@ class User
         void viewPurchases(Map input);
         void viewUnreadNotifs(Map input);
         void viewNotifs(Map input);
+        void sendNotification();
         virtual void submitMovie(Map input);
         virtual void editMovieDetails(Map input);
         virtual void deleteMovie(Map input);

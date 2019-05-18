@@ -8,10 +8,12 @@ typedef unsigned int Counter;
 class UsersRepository
 {
     public:
+        UsersRepository();
         void addUser(User* new_user);
         User* findUser(std::string username, std::string password);
         int getUsersNumber();
     private:
         std::vector<User*> users;
+        int last_id;
 };
 #endif

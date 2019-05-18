@@ -8,6 +8,7 @@ class Movie
             int _length, int _price,
             std::string _summary, std::string _director,
             int _id, int _rate);
+        void setId(int id);
         // std::string getName() const;
         // int getYear() const;
         // int getLength() const;

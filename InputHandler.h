@@ -25,10 +25,10 @@ typedef std::vector<std::string> CommandList;
 class InputHandler
 {
     public:
-        InputHandler();
+        InputHandler(ProcessHandler* process_handler);
         void start();
     private:
-        ProcessHandler handler;
+        ProcessHandler* handler;
         void handleInput();
         CommandList seperateString(input line);
         void checkSyntaxErrors(CommandList words);

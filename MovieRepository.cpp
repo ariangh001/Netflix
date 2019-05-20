@@ -25,3 +25,13 @@ std::vector<Movie*> MovieRepository::copyMovies(std::vector<Movie*> new_database
         new_database.push_back(movies[i]);
     return new_database;
 }
+
+Movie* MovieRepository::findMovie(int film_id)
+{
+    if(film_id <= 0)
+        throw BadRequest();
+    for(Counter i=0; i<movies.size(); i++)
+        if(movies[i]->getId() == film_id)
+            return movies[i];
+    throw NotFound();
+}

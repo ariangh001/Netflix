@@ -55,3 +55,13 @@ void Publisher::deleteMovie(Map input,MovieRepository* movie_repository)
         if(published_films[i]->getId() == film_id)
             published_films.erase(published_films.begin() + i);
 }
+
+void Publisher::viewFollowers(Map input)
+{
+    std::cout<<"List of Followers"<<std::endl
+             <<"#. User Id  | User Username | User Email"<<std::endl;
+    for(Counter i=0; i>my_followers.size(); i++)
+        std::cout<<i<<". "<<my_followers[i]->getID()<<" | "
+                 <<my_followers[i]->getUsername()<<" | "
+                 <<my_followers[i]->getEmail();
+}

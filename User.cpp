@@ -14,6 +14,16 @@ void User::setId(int _id)
     id = _id;
 }
 
+int User::getId() const
+{
+    return id;
+}
+
+std::string User::getEmail() const
+{
+    return email;
+}
+
 std::string User::getUsername() const
 {
     return username;

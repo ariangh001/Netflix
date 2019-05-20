@@ -34,9 +34,9 @@ class User
         virtual void deleteComments(Map input);
         std::string getUsername() const;
         std::string getPassword() const;
-        // std::string getEmail() const;
+        std::string getEmail() const;
         // int getAge() const;
-        // int getId() const;
+        int getId() const;
         void setId(int _id);
         virtual std::string getType();
     protected:

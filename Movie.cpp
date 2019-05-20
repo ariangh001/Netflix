@@ -13,6 +13,11 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     numbers_sold = 0;
 }
 
+int Movie::getId() const
+{
+    return id;
+}
+
 void Movie::setId(int _id)
 {
     if(_id > 0)

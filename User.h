@@ -2,9 +2,12 @@
 #define USER_H
 #include <string>
 #include "ExceptionHandler.h"
+#include "UsersRepository.h"
 #include <map>
 #include "Movie.h"
 #include <vector>
+//class UsersRepository;
+typedef unsigned int Counter;
 typedef std::map<std::string,std::string> Map;
 class User
 {
@@ -13,7 +16,7 @@ class User
              std::string _password,
              std::string _email,
              int _age);
-        void follow(Map input);
+        void follow(Map input,UsersRepository* repo);
         void chargeAccount(Map input);
         void searchMovies(Map input);
         void viewMovieDetails(Map input);
@@ -47,6 +50,7 @@ class User
         int id;
         int wallet;
         std::vector<Movie*> purchased_films;
+        std::vector<int> following_ids;
 };
 
 #endif

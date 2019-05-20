@@ -78,3 +78,9 @@ void User::deleteComments(Map input)
 {
     throw PermissionDenied();
 }
+
+void User::follow(Map input, UsersRepository* repo)
+{
+    User* publisher = repo->findPublisher(stoi(input["user_id"]));
+    following_ids.push_back(publisher->getId());
+}

@@ -15,13 +15,16 @@ typedef std::map<std::string,std::string> Map;
 class ProcessHandler
 {
     public:
-        ProcessHandler();
+        ProcessHandler(UsersRepository* users,
+            MovieRepository* movies,CommentRepository* comments);
         void signup(Map signupInput);
         void login(Map loginInput);
         void checkFunctions(std::string function_type,Map input);
     private:
         User* active_user;
-        UsersRepository users_repository;
+        MovieRepository* movie_repository;
+        UsersRepository* users_repository;
+        CommentRepository* comment_repository;
         void checkPermission(std::string function_type);
         void checkValues(Map input);
         void checkEmailSyntax(std::string email);

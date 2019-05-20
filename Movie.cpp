@@ -18,6 +18,41 @@ int Movie::getId() const
     return id;
 }
 
+std::string Movie::getName() const
+{
+    return name;
+}
+
+int Movie::getYear() const
+{
+    return year;
+}
+
+int Movie::getLength() const
+{
+    return length;
+}
+
+int Movie::getPrice() const
+{
+    return price;
+}
+
+std::string Movie::getSummary() const
+{
+    return summary;
+}
+
+std::string Movie::getDirector() const
+{
+    return director;
+}
+
+int Movie::getRate() const
+{
+
+}
+
 void Movie::setId(int _id)
 {
     if(_id > 0)

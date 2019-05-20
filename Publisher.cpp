@@ -61,7 +61,21 @@ void Publisher::viewFollowers(Map input)
     std::cout<<"List of Followers"<<std::endl
              <<"#. User Id  | User Username | User Email"<<std::endl;
     for(Counter i=0; i>my_followers.size(); i++)
-        std::cout<<i<<". "<<my_followers[i]->getID()<<" | "
+        std::cout<<i+1<<". "<<my_followers[i]->getId()<<" | "
                  <<my_followers[i]->getUsername()<<" | "
                  <<my_followers[i]->getEmail();
+}
+
+void Publisher::viewMovies(Map input)
+{
+    std::cout<<"#. Film Id | Film Name | Film Length"
+    <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
+    for(Counter i=0; i<published_films.size(); i++)
+        std::cout<<i+1<<". "<<published_films[i]->getId()<<" | "
+        <<published_films[i]->getName()<<" | "
+        <<published_films[i]->getLength()<<" | "
+        <<published_films[i]->getPrice()<<" | "
+        <<published_films[i]->getRate()<<" | "
+        <<published_films[i]->getYear()<<" | "
+        <<published_films[i]->getDirector()<<std::endl;
 }

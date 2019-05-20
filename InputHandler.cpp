@@ -1,8 +1,9 @@
 #include "InputHandler.h"
 using namespace std;
 
-InputHandler::InputHandler()
+InputHandler::InputHandler(ProcessHandler* process_handler)
 {
+    handler = process_handler;
     start();
 }
 
@@ -255,7 +256,7 @@ void InputHandler::checkSignUp(CommandList words)
     }
     if(isEmpty(signUpInput) == true)
         throw BadRequest();
-    handler.signup(signUpInput);
+    handler->signup(signUpInput);
 }
 
 void InputHandler::checkLogin(CommandList words)
@@ -276,7 +277,7 @@ void InputHandler::checkLogin(CommandList words)
     }
     if(isEmpty(loginInput) == true)
         throw BadRequest();
-    handler.login(loginInput);
+    handler->login(loginInput);
 }
 
 void InputHandler::checkSubmitFilm(CommandList words)
@@ -595,7 +596,7 @@ void InputHandler::checkUnreadNotifications(CommandList words)
     Map viewUnreadNotifs;
     if(words.size() != 2)
         throw BadRequest();
-    handler.checkFunctions("viewUnreadNotifs",viewUnreadNotifs);
+    handler->checkFunctions("viewUnreadNotifs",viewUnreadNotifs);
 }
 
 void InputHandler::checkNotifications(CommandList words)

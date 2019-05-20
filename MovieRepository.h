@@ -9,6 +9,7 @@ class MovieRepository
         MovieRepository();
         void addMovie(Movie* movie);
         void eraseMovie(int movie_id);
+        std::vector<Movie*> copyMovies(std::vector<Movie*> new_database);
         //check kardane user id e jadid
         //new kardan too khode add anjam beshe bekhatere check kardane id ba ozve akhare vector
         //va new kardan ba tavajoh be oon anjam mishe

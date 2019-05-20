@@ -45,3 +45,13 @@ void Publisher::editMovieDetails(Map input,MovieRepository* movie_repository)
         }
     }
 }
+
+void Publisher::deleteMovie(Map input,MovieRepository* movie_repository)
+{
+    auto itr = input.find("film_id");
+    int film_id = stoi(itr->second);
+    movie_repository->eraseMovie(film_id);
+    for(Counter i=0; i<published_films.size(); i++)
+        if(published_films[i]->getId() == film_id)
+            published_films.erase(published_films.begin() + i);
+}

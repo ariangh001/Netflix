@@ -1,7 +1,10 @@
 #include "ProcessHandler.h"
 
-ProcessHandler::ProcessHandler()
+ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies,CommentRepository* comments)
 {
+    users_repository = users;
+    comment_repository = comments;
+    movie_repository = movies;
 }
 
 void ProcessHandler::signup(Map input)
@@ -16,7 +19,7 @@ void ProcessHandler::signup(Map input)
         User* new_user = new User(
         input["username"],/*hash*/input["password"],
         input["email"],stoi(input["age"]));
-        users_repository.addUser(new_user);
+        users_repository->addUser(new_user);
         active_user = new_user;
     }
     else if(user_type == "publisher")
@@ -24,7 +27,7 @@ void ProcessHandler::signup(Map input)
         Publisher* new_publisher = new Publisher(
         input["username"],/*hash*/input["password"],
         input["email"],stoi(input["age"]));
-        users_repository.addUser(new_publisher);
+        users_repository->addUser(new_publisher);
         active_user = new_publisher;
     }
 }
@@ -40,7 +43,7 @@ void ProcessHandler::login(Map input)
             password = itr->second;
     }
     // password = hash(password);
-    active_user = users_repository.findUser(username,password);
+    active_user = users_repository->findUser(username,password);
 }
 
 void ProcessHandler::checkFunctions(std::string function_type, Map input)
@@ -48,21 +51,22 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
     checkPermission(function_type);
     checkValues(input);
     if(function_type == "submitFilm")
-        active_user->submitMovie(input);
+        active_user->submitMovie(input,movie_repository);
+    //get repos by reference
     // else if(function_type == "editFilmDetails")
     //     active_user->editMovieDetails(input);
-    // else if(function_type == "deleteFilm")
+    // else if(function_type == "deleteFilm")//erase not delete from movierepo and publishes
     //     active_user->deleteMovie(input);
     // else if(function_type == "publishedFilms")
     //     active_user->viewMovies(input);
     // else if(function_type == "showFollowers")
     //     active_user->viewFollowers(input);
     // else if(function_type == "getMoney")
-    //     active_user->recieveMoney(input);
+    //     active_user->recieveMoney(input);//numbers sold * price(rate)  (movie_repo)
     // else if(function_type == "reply")
     //     active_user->replyComment(input);
     // else if(function_type == "deleteComment")
-    //     active_user->deleteComments(input);
+    //     active_user->deleteComments(input);//delete from all places
     // else if(function_type == "follow")
     //     active_user->follow(input);
     // else if(function_type == "chargeAccount")
@@ -86,8 +90,8 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
 }
 
  void ProcessHandler::checkPermission(std::string function_type)
- {
-    if(users_repository.getUsersNumber() == 0)
+{
+    if(users_repository->getUsersNumber() == 0)
         throw PermissionDenied();
 }
 

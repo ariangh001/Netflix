@@ -1,12 +1,12 @@
 #ifndef USER_H
 #define USER_H
+#include <iostream>
 #include <string>
 #include "ExceptionHandler.h"
-#include "UsersRepository.h"
+#include "MovieRepository.h"
 #include <map>
 #include "Movie.h"
 #include <vector>
-//class UsersRepository;
 typedef unsigned int Counter;
 typedef std::map<std::string,std::string> Map;
 class User
@@ -16,9 +16,15 @@ class User
              std::string _password,
              std::string _email,
              int _age);
-        void follow(Map input,UsersRepository* repo);
+        void follow(Map input,User* publisher);
         void chargeAccount(Map input);
-        void searchMovies(Map input);
+        void searchMovies(Map input,MovieRepository* repo);
+        std::vector<Movie*> filterMovies(std::vector<Movie*> unfiltered_movies,Map input);
+        std::vector<Movie*> filterName(std::vector<Movie*> unfiltered_movies,Map input);
+        std::vector<Movie*> filterPrice(std::vector<Movie*> unfiltered_movies,Map input);
+        std::vector<Movie*> filterYear(std::vector<Movie*> unfiltered_movies,Map input);
+        std::vector<Movie*> filterDirector(std::vector<Movie*> unfiltered_movies,Map input);
+        std::vector<Movie*> filterRate(std::vector<Movie*> unfiltered_movies,Map input);
         void viewMovieDetails(Map input);
         void buyMovie(Map input);
         void rateMovie(Map input);
@@ -35,6 +41,7 @@ class User
         virtual void viewMovies(Map input);
         virtual void replyComment(Map input);
         virtual void deleteComments(Map input);
+        virtual void addFollower(User* user);
         std::string getUsername() const;
         std::string getPassword() const;
         std::string getEmail() const;

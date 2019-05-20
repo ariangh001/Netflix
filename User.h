@@ -3,6 +3,8 @@
 #include <string>
 #include "ExceptionHandler.h"
 #include <map>
+#include "Movie.h"
+#include <vector>
 typedef std::map<std::string,std::string> Map;
 class User
 {

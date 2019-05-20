@@ -89,3 +89,12 @@ void User::follow(Map input, UsersRepository* repo)
     User* publisher = repo->findPublisher(stoi(input["user_id"]));
     following_ids.push_back(publisher->getId());
 }
+
+void User::chargeAccount(Map input)
+{
+    int cash = stoi(input["amount"]);
+    if(cash > 0)
+        wallet += cash;
+    else
+        throw BadRequest();
+}

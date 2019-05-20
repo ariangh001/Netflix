@@ -184,4 +184,14 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
              <<"Summary = "<<movie->getSummary()<<std::endl
              <<"Rate = "<<movie->getRate()<<std::endl
              <<"Price = "<<movie->getPrice()<<std::endl<<std::endl<<std::endl;
+             //>>>>>>>>>>>
+}
+
+void User::buyMovie(Map input,MovieRepository* repo)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    if(movie->getPrice() <= wallet)
+        purchased_films.push_back(movie);
+    else
+        throw BadRequest();
 }

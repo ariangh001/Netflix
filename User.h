@@ -25,7 +25,7 @@ class User
         std::vector<Movie*> filterYear(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> filterDirector(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> filterRate(std::vector<Movie*> unfiltered_movies,Map input);
-        void viewMovieDetails(Map input);
+        void viewMovieDetails(Map input,MovieRepository* repo);
         void buyMovie(Map input);
         void rateMovie(Map input);
         void postComment(Map input);

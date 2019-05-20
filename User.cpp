@@ -171,3 +171,17 @@ std::vector<Movie*> User::filterRate(std::vector<Movie*> unfiltered_movies,Map i
                 unfiltered_movies.erase(unfiltered_movies.begin() + i);
     return unfiltered_movies;
 }
+
+void User::viewMovieDetails(Map input,MovieRepository* repo)
+{
+    int film_id = stoi(input["film_id"]);
+    Movie* movie = repo->findMovie(film_id);
+    std::cout<<"Details of Film "<<movie->getName()<<std::endl
+             <<"Id = "<<movie->getId()<<std::endl
+             <<"Director = "<<movie->getDirector()<<std::endl
+             <<"Length = "<<movie->getLength()<<std::endl
+             <<"Year = "<<movie->getYear()<<std::endl
+             <<"Summary = "<<movie->getSummary()<<std::endl
+             <<"Rate = "<<movie->getRate()<<std::endl
+             <<"Price = "<<movie->getPrice()<<std::endl<<std::endl<<std::endl;
+}

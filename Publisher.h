@@ -5,6 +5,7 @@
 #include "MovieRepository.h"
 #include <map>
 #include <vector>
+#include <iostream>
 typedef std::map<std::string,std::string> Map;
 typedef unsigned int Counter;
 class Publisher : public User
@@ -19,6 +20,7 @@ class Publisher : public User
         virtual void editMovieDetails(Map input,MovieRepository* movie_repository);
         virtual void deleteMovie(Map input,MovieRepository* movie_repository);
         virtual void viewFollowers(Map input);
+        virtual void addFollower(User* user);
         // virtual void recieveMoney(Map input);
         virtual void viewMovies(Map input);
         // virtual void replyComment(Map input);

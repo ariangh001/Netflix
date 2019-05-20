@@ -79,3 +79,8 @@ void Publisher::viewMovies(Map input)
         <<published_films[i]->getYear()<<" | "
         <<published_films[i]->getDirector()<<std::endl;
 }
+
+void Publisher::addFollower(User* user)
+{
+    my_followers.push_back(user);
+}

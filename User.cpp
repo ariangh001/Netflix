@@ -9,6 +9,11 @@ User::User(std::string _username, std::string _password,
     age = _age;
 }
 
+void User::setId(int _id)
+{
+    id = _id;
+}
+
 std::string User::getUsername() const
 {
     return username;

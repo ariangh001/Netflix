@@ -2,6 +2,8 @@
 #define MOVIE_H
 #include <string>
 #include <vector>
+#include <map>
+#include <iterator>
 class Movie
 {
     public:
@@ -31,9 +33,9 @@ class Movie
         std::string summary;
         std::string director;
         int id;
-        std::vector<int> rates;
         float rate;
         int numbers_sold;
+        std::map<int,int> rates;
 };
 
 #endif

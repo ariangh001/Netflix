@@ -30,5 +30,6 @@ class ProcessHandler
         void checkEmailSyntax(std::string email);
         bool isNumber(std::string str);
         bool isFloat(std::string str);
+        void followHandler(Map input);
 };
 #endif

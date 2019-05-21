@@ -50,8 +50,8 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
 {
     checkPermission(function_type);
     checkValues(input);
-    if(function_type == "submitFilm")
-        active_user->submitMovie(input,movie_repository);
+    // if(function_type == "submitFilm")
+    //     active_user->submitMovie(input,movie_repository);
     //get repos by reference
     // else if(function_type == "editFilmDetails")
     //     active_user->editMovieDetails(input);
@@ -68,7 +68,9 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
     // else if(function_type == "deleteComment")
     //     active_user->deleteComments(input);//delete from all places
     // else if(function_type == "follow")
-    //     active_user->follow(input);
+    //     followHandler()
+    //    User* publisher = repo->findPublisher(stoi(input["user_id"]));
+    //     active_user->follow(input,publisher);
     // else if(function_type == "chargeAccount")
     //     active_user->chargeAccount(input);
     // else if(function_type == "searchMovies")
@@ -157,4 +159,11 @@ bool ProcessHandler::isFloat(std::string str)
         || (str[i] == '.' && (i > 0 && i < str.size()-1)))
             return true;
     return false;
+}
+
+void ProcessHandler::followHandler(Map input)
+{
+    User* publisher = users_repository->findPublisher(stoi(input["user_id"]));
+    active_user->follow(input,publisher);
+    publisher->addFollower(active_user);
 }

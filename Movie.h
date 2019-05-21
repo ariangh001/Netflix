@@ -26,6 +26,10 @@ class Movie
         std::string getDirector() const;
         int getId() const;
         int getRate() const;
+        int getSold() const;
+        void increaseSoldNumber();
+        void updateRate();
+        std::string addSpaces(std::string _string);
     private:
         std::string name;
         int year;

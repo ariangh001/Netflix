@@ -50,7 +50,7 @@ std::string Movie::getDirector() const
 
 int Movie::getRate() const
 {
-
+    return rate;
 }
 
 void Movie::setId(int _id)
@@ -90,4 +90,13 @@ void Movie::setLength(int _length)
 void Movie::setSummary(std::string _summary)
 {
     summary = _summary;
+}
+
+void Movie::addRate(int user_id, int _rate)
+{
+    auto itr = rates.find(user_id);
+    if(_rate >= 0)
+        rates[user_id] = _rate;
+    else
+        throw BadRequest();
 }

@@ -64,3 +64,5 @@
 # End of https://www.gitignore.io/api/c++,linux
 .vscode/settings.json
 .vscode/ipch/7b9d7f6a3cabea9d/ExceptionHandler.ipch
+.vscode/ipch/cc7e331df9e3e5a7/mmap_address.bin
+.vscode/ipch/f4193a5eb4e3ea2/mmap_address.bin

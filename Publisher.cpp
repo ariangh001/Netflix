@@ -91,3 +91,9 @@ void Publisher::addFollower(User* user)
 {
     my_followers.push_back(user);
 }
+
+void Publisher::recieveMoney(Map input,MovieRepository* repo)
+{
+    for(Counter i=0; i<published_films.size(); i++)
+        wallet += repo->calculateShare(published_films[i]->getId());
+}

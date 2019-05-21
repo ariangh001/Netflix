@@ -21,7 +21,7 @@ class Publisher : public User
         virtual void deleteMovie(Map input,MovieRepository* movie_repository);
         virtual void viewFollowers(Map input);
         virtual void addFollower(User* user);
-        // virtual void recieveMoney(Map input);
+        virtual void recieveMoney(Map input,MovieRepository* repo);
         virtual void viewMovies(Map input);
         // virtual void replyComment(Map input);
         // virtual void deleteComments(Map input);

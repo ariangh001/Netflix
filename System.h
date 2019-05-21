@@ -15,6 +15,5 @@ class System
         CommentRepository* comment_repo;
         InputHandler* input_handler;
         ProcessHandler* process_handler;
-        int wallet;
 };
 #endif

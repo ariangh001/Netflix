@@ -56,7 +56,7 @@ std::string Movie::getDirector() const
     return director;
 }
 
-int Movie::getRate() const
+float Movie::getRate() const
 {
     return rate;
 }
@@ -103,7 +103,7 @@ void Movie::setSummary(std::string _summary)
 void Movie::addRate(int user_id, int _rate)
 {
     auto itr = rates.find(user_id);
-    if(_rate >= 0)
+    if(_rate >= 0 && _rate <= 10)
         rates[user_id] = _rate;
     else
         throw BadRequest();
@@ -117,6 +117,17 @@ void Movie::increaseSoldNumber()
 int Movie::getSold() const
 {
     return numbers_sold;
+}
+
+int Movie::getRecievedCash() const
+{
+    return cash_recieved_number;
+}
+
+int Movie::setRecievedCash(int amount)
+{
+    if(amount >= 0)
+        cash_recieved_number = amount;
 }
 
 void Movie::updateRate()

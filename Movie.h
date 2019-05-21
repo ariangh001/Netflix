@@ -25,11 +25,13 @@ class Movie
         std::string getSummary() const;
         std::string getDirector() const;
         int getId() const;
-        int getRate() const;
+        float getRate() const;
         int getSold() const;
         void increaseSoldNumber();
         void updateRate();
         std::string addSpaces(std::string _string);
+        int getRecievedCash() const;
+        int setRecievedCash(int amount);
     private:
         std::string name;
         int year;
@@ -40,6 +42,7 @@ class Movie
         int id;
         float rate;
         int numbers_sold;
+        int cash_recieved_number;
         std::map<int,int> rates;
 };
 

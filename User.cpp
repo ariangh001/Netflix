@@ -121,6 +121,7 @@ std::vector<Movie*> User::filterMovies(std::vector<Movie*> unfiltered_movies,Map
     unfiltered_movies = filterYear(unfiltered_movies,input);
     unfiltered_movies = filterPrice(unfiltered_movies,input);
     unfiltered_movies = filterDirector(unfiltered_movies,input);
+    return unfiltered_movies;
 }
 
 std::vector<Movie*> User::filterName(std::vector<Movie*> unfiltered_movies,Map input)
@@ -190,8 +191,29 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
 void User::buyMovie(Map input,MovieRepository* repo)
 {
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    for(Counter i=0; i<purchased_films.size(); i++)
+        if(movie->getId() == purchased_films[i]->getId())
+        {
+            std::cout<<"OK"<<std::endl;
+            return;
+        }
     if(movie->getPrice() <= wallet)
+    {
+        wallet -= movie->getPrice();
         purchased_films.push_back(movie);
+    }
     else
         throw BadRequest();
+}
+
+void User::rateMovie(Map input,MovieRepository* repo)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    for(Counter i=0; i<purchased_films.size(); i++)
+        if(movie->getId() == purchased_films[i]->getId())
+        {
+            movie->addRate(id,stoi(input["rate"]));
+            return;
+        }
+    throw PermissionDenied();
 }

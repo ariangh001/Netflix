@@ -7,10 +7,18 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     year = _year;
     length = _length;
     price = _price;
-    summary = _summary;
+    summary = addSpaces(_summary);
     director = _director;
     rate = _rate;
     numbers_sold = 0;
+}
+
+std::string Movie::addSpaces(std::string _string)
+{
+    for(Counter i=0; i<_string.size(); i++)
+        if(_string[i] == '|')
+            _string[i] = ' ';
+    return _string;
 }
 
 int Movie::getId() const
@@ -99,4 +107,27 @@ void Movie::addRate(int user_id, int _rate)
         rates[user_id] = _rate;
     else
         throw BadRequest();
+}
+
+void Movie::increaseSoldNumber()
+{
+    numbers_sold++;
+}
+
+int Movie::getSold() const
+{
+    return numbers_sold;
+}
+
+void Movie::updateRate()
+{
+    float sum = 0;
+    for(auto itr = rates.begin(); itr!=rates.end(); itr++)
+        sum += itr->second;
+    rate = sum / rates.size();
+}
+
+void Movie::decreaseWalletMoney(int amount)
+{
+
 }

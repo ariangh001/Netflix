@@ -50,12 +50,16 @@ int MovieRepository::calculateShare(int film_id)
         if(movies[i]->getId() == film_id)
         {
             if(movies[i]->getRate() < 5)
-                amount_returned = 8 / 10 * movies[i]->getPrice();
+                amount_returned = 8 / 10 * movies[i]->getPrice() *
+                         (movies[i]->getSold() - movies[i]->getRecievedCash());
             else if(movies[i]->getRate() >= 5 && movies[i]->getRate() < 8)
-                amount_returned = 9 / 10 * movies[i]->getPrice();
+                amount_returned = 9 / 10 * movies[i]->getPrice() *
+                         (movies[i]->getSold() - movies[i]->getRecievedCash());
             else if(movies[i]->getPrice() >= 8)
-                amount_returned = 95 / 100 * movies[i]->getPrice();
+                amount_returned = 95 / 100 * movies[i]->getPrice() *
+                         (movies[i]->getSold() - movies[i]->getRecievedCash());
             wallet -= amount_returned;
+            movies[i]->setRecievedCash(movies[i]->getSold());
             return amount_returned;
         }
     }

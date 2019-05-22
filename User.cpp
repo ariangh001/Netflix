@@ -7,6 +7,7 @@ User::User(std::string _username, std::string _password,
     password = _password;
     email = _email;
     age = _age;
+    wallet = 0;
 }
 
 void User::setId(int _id)
@@ -39,17 +40,17 @@ std::string User::getType()
     return "user";
 }
 
-void User::submitMovie(Map input)
+void User::submitMovie(Map input,MovieRepository* repo)
 {
     throw PermissionDenied();
 }
 
-void User::editMovieDetails(Map input)
+void User::editMovieDetails(Map input,MovieRepository* repo)
 {
     throw PermissionDenied();
 }
 
-void User::deleteMovie(Map input)
+void User::deleteMovie(Map input,MovieRepository* repo)
 {
     throw PermissionDenied();
 }
@@ -59,7 +60,7 @@ void User::viewFollowers(Map input)
     throw PermissionDenied();
 }
 
-void User::recieveMoney(Map input)
+void User::recieveMoney(Map input,MovieRepository* repo)
 {
     throw PermissionDenied();
 }
@@ -201,9 +202,11 @@ void User::buyMovie(Map input,MovieRepository* repo)
     {
         wallet -= movie->getPrice();
         purchased_films.push_back(movie);
+        movie->increaseSoldNumber();
+        repo->increaseMoney(movie->getPrice());
     }
     else
-        throw BadRequest();
+        throw PermissionDenied();
 }
 
 void User::rateMovie(Map input,MovieRepository* repo)
@@ -213,6 +216,29 @@ void User::rateMovie(Map input,MovieRepository* repo)
         if(movie->getId() == purchased_films[i]->getId())
         {
             movie->addRate(id,stoi(input["rate"]));
+            movie->updateRate();
+            return;
+        }
+    throw PermissionDenied();
+}
+
+std::string User::addSpaces(std::string _string)
+{
+    for(Counter i=0; i<_string.size(); i++)
+        if(_string[i] == '|')
+            _string[i] = ' ';
+    return _string;
+}
+
+void User::postComment(Map input,MovieRepository* repo)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    for(Counter i=0; i<purchased_films.size(); i++)
+        if(movie->getId() == purchased_films[i]->getId())
+        {
+            Comment* comment = new Comment(addSpaces(input["content"]),id,movie->getId());
+            movie->addComment(comment);
+            std::cout<<OK_REQUEST<<std::endl;
             return;
         }
     throw PermissionDenied();

@@ -28,7 +28,7 @@ class User
         void viewMovieDetails(Map input,MovieRepository* repo);
         void buyMovie(Map input,MovieRepository* repo);
         void rateMovie(Map input,MovieRepository* repo);
-        void postComment(Map input);
+        void postComment(Map input,MovieRepository* repo);
         void viewPurchases(Map input);
         void viewUnreadNotifs(Map input);
         void viewNotifs(Map input);
@@ -37,7 +37,7 @@ class User
         virtual void editMovieDetails(Map input,MovieRepository* movie_repository);
         virtual void deleteMovie(Map input,MovieRepository* movie_repository);
         virtual void viewFollowers(Map input);
-        virtual void recieveMoney(Map input);
+        virtual void recieveMoney(Map input,MovieRepository* repo);
         virtual void viewMovies(Map input);
         virtual void replyComment(Map input);
         virtual void deleteComments(Map input);
@@ -49,6 +49,7 @@ class User
         int getId() const;
         void setId(int _id);
         virtual std::string getType();
+        std::string addSpaces(std::string _string);
     protected:
         std::string username;
         std::string password;

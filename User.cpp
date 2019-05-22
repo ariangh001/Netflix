@@ -243,3 +243,21 @@ void User::postComment(Map input,MovieRepository* repo)
         }
     throw PermissionDenied();
 }
+
+void User::viewPurchases(Map input,MovieRepository* repo)
+{
+    std::vector<Movie*> unfiltered_movies;
+    for(Counter i=0; i<purchased_films.size(); i++)
+        unfiltered_movies.push_back(purchased_films[i]);
+    unfiltered_movies  = filterMovies(unfiltered_movies,input);
+    std::cout<<"#. Film Id | Film Name | Film Length"
+    <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
+    for(Counter i=0; i<unfiltered_movies.size(); i++)
+        std::cout<<i+1<<". "<<unfiltered_movies[i]->getId()<<" | "
+        <<unfiltered_movies[i]->getName()<<" | "
+        <<unfiltered_movies[i]->getLength()<<" | "
+        <<unfiltered_movies[i]->getPrice()<<" | "
+        <<unfiltered_movies[i]->getRate()<<" | "
+        <<unfiltered_movies[i]->getYear()<<" | "
+        <<unfiltered_movies[i]->getDirector()<<std::endl;
+}

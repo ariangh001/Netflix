@@ -29,7 +29,7 @@ class User
         void buyMovie(Map input,MovieRepository* repo);
         void rateMovie(Map input,MovieRepository* repo);
         void postComment(Map input,MovieRepository* repo);
-        void viewPurchases(Map input);
+        void viewPurchases(Map input,MovieRepository* repo);
         void viewUnreadNotifs(Map input);
         void viewNotifs(Map input);
         void sendNotification();
@@ -45,7 +45,6 @@ class User
         std::string getUsername() const;
         std::string getPassword() const;
         std::string getEmail() const;
-        // int getAge() const;
         int getId() const;
         void setId(int _id);
         virtual std::string getType();

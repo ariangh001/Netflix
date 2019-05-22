@@ -25,3 +25,8 @@ std::string Comment::getContent() const
 {
     return content;
 }
+
+int Comment::getMovieId() const
+{
+    return movie_id;
+}

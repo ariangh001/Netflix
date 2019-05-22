@@ -118,3 +118,17 @@ void Publisher::replyComment(Map input,MovieRepository* repo)
             }
     throw PermissionDenied();
 }
+
+void Publisher::deleteComments(Map input,MovieRepository* repo)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    for(Counter i=0; i<published_films.size(); i++)
+        if(published_films[i]->getId() == movie->getId())
+            if(movie->findComment(stoi(input["comment_id"])) == true)
+            {
+                movie->deleteComment(stoi(input["comment_id"]));
+                std::cout<<OK_REQUEST<<std::endl;
+                return;
+            }
+    throw PermissionDenied();
+}

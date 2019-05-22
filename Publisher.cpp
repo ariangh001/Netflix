@@ -57,10 +57,15 @@ void Publisher::deleteMovie(Map input,MovieRepository* movie_repository)
 {
     auto itr = input.find("film_id");
     int film_id = stoi(itr->second);
-    movie_repository->eraseMovie(film_id);
     for(Counter i=0; i<published_films.size(); i++)
         if(published_films[i]->getId() == film_id)
+        {
+            movie_repository->eraseMovie(film_id);
             published_films.erase(published_films.begin() + i);
+            std::cout<<OK_REQUEST<<std::endl;
+            return;
+        }
+    throw PermissionDenied();
 }
 
 void Publisher::viewFollowers(Map input)
@@ -96,4 +101,20 @@ void Publisher::recieveMoney(Map input,MovieRepository* repo)
 {
     for(Counter i=0; i<published_films.size(); i++)
         wallet += repo->calculateShare(published_films[i]->getId());
+}
+
+void Publisher::replyComment(Map input,MovieRepository* repo)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    for(Counter i=0; i<published_films.size(); i++)
+        if(published_films[i]->getId() == movie->getId())
+            if(movie->findComment(stoi(input["comment_id"])) == true)
+            {
+                Reply* reply = new Reply(
+                    stoi(input["comment_id"]),id,movie->getId(),addSpaces(input["content"]));
+                movie->addReply(reply);
+                std::cout<<OK_REQUEST<<std::endl;
+                return;
+            }
+    throw PermissionDenied();
 }

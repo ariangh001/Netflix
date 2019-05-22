@@ -1,9 +1,10 @@
 #include "MovieRepository.h"
 
 Movie::Movie(std::string _name, int _year,int _length, int _price,
-            std::string _summary, std::string _director, int _rate)
+            std::string _summary, std::string _director, int _rate, int _publisher_id)
 {
     name = _name;
+    publisher_id = _publisher_id;
     year = _year;
     length = _length;
     price = _price;

@@ -10,8 +10,8 @@ class Movie
 {
     public:
         Movie(std::string _name, int _year,
-            int _length, int _price,
-            std::string _summary, std::string _director,int _rate);
+            int _length, int _price, std::string _summary,
+             std::string _director, int _rate, int _publisher_id);
         void addRate(int user_id, int _rate);
         void setId(int id);
         void setName(std::string _name);
@@ -46,6 +46,7 @@ class Movie
         std::string summary;
         std::string director;
         int id;
+        int publisher_id;
         float rate;
         int numbers_sold;
         int cash_recieved_number;

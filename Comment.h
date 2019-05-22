@@ -8,7 +8,7 @@ class Comment
         Comment(std::string _content, int _user_id, int _movie_id);
         void setId(int _id);
         int getId() const;
-        // std::string getContent() const;
+        std::string getContent() const;
     private:
         int user_id;
         int movie_id;

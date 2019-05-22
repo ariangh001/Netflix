@@ -20,3 +20,8 @@ int Comment::getId() const
 {
     return id;
 }
+
+std::string Comment::getContent() const
+{
+    return content;
+}

@@ -149,6 +149,8 @@ void Movie::updateRate()
 
 void Movie::addComment(Comment* comment)
 {
+    last_comment_id++;
+    comment->setId(last_comment_id);
     comments.push_back(comment);
 }
 
@@ -164,5 +166,18 @@ bool Movie::findComment(int comment_id)
     for(Counter i=0; i<comments.size(); i++)
         if(comments[i]->getId() == comment_id)
             return true;
+    throw NotFound();
+}
+
+void Movie::deleteComment(int comment_id)
+{
+    if(comment_id <= 0)
+        throw BadRequest();
+    for(Counter i=0; i<comments.size(); i++)
+        if(comments[i]->getId() == comment_id)
+        {
+            comments.erase(comments.begin() + i);
+            return;
+        }
     throw NotFound();
 }

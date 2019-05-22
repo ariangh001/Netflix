@@ -151,3 +151,8 @@ void Movie::addComment(Comment* comment)
 {
     comments.push_back(comment);
 }
+
+void Movie::addReply(Reply* reply)
+{
+    replis.push_back(reply);
+}

@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 #include <iterator>
+#include "Comment.h"
+#include "Reply.h"
 class Movie
 {
     public:
@@ -32,6 +34,9 @@ class Movie
         std::string addSpaces(std::string _string);
         int getRecievedCash() const;
         int setRecievedCash(int amount);
+        void addComment(Comment* comment);
+        void addReply(Reply* reply);
+        void deleteComment(int comment_id);
     private:
         std::string name;
         int year;
@@ -44,6 +49,9 @@ class Movie
         int numbers_sold;
         int cash_recieved_number;
         std::map<int,int> rates;
+        std::vector<Comment*> comments;
+        std::vector<Reply*> replies;
+        int last_comment_id;
 };
 
 #endif

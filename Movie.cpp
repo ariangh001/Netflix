@@ -11,6 +11,7 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     director = _director;
     rate = _rate;
     numbers_sold = 0;
+    last_comment_id = 0;
 }
 
 std::string Movie::addSpaces(std::string _string)
@@ -65,6 +66,8 @@ void Movie::setId(int _id)
 {
     if(_id > 0)
         id = _id;
+    else
+        throw BadRequest();
 }
 
 void Movie::setDirector(std::string _director)
@@ -81,18 +84,24 @@ void Movie::setYear(int _year)
 {
     if(_year > 0)
         year = _year;
+    else
+        throw BadRequest();
 }
 
 void Movie::setPrice(int _price)
 {
     if(_price >= 0)
         price = _price;
+    else
+        throw BadRequest();
 }
 
 void Movie::setLength(int _length)
 {
     if(_length > 0)
         length = _length;
+    else
+        throw BadRequest();
 }
 
 void Movie::setSummary(std::string _summary)
@@ -136,4 +145,9 @@ void Movie::updateRate()
     for(auto itr = rates.begin(); itr!=rates.end(); itr++)
         sum += itr->second;
     rate = sum / rates.size();
+}
+
+void Movie::addComment(Comment* comment)
+{
+    comments.push_back(comment);
 }

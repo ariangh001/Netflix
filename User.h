@@ -32,6 +32,7 @@ class User
         void viewPurchases(Map input,MovieRepository* repo);
         void viewUnreadNotifs(Map input);
         void viewNotifs(Map input);
+        void recieveNotification(std::string notif);
         std::string replyNotification();
         std::string submitNotification();
         std::string followNotification();

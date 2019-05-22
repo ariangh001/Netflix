@@ -333,3 +333,8 @@ std::string User::commentNotification(MovieRepository* repo, Map input)
     content += input["film_id"];
     return content;
 }
+
+void User::recieveNotification(std::string notif)
+{
+    notifications.push_back(notif);
+}

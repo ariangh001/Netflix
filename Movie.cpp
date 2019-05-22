@@ -154,5 +154,15 @@ void Movie::addComment(Comment* comment)
 
 void Movie::addReply(Reply* reply)
 {
-    replis.push_back(reply);
+    replies.push_back(reply);
+}
+
+bool Movie::findComment(int comment_id)
+{
+    if(comment_id <= 0)
+        throw BadRequest();
+    for(Counter i=0; i<comments.size(); i++)
+        if(comments[i]->getId() == comment_id)
+            return true;
+    throw NotFound();
 }

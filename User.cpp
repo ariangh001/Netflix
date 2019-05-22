@@ -261,3 +261,75 @@ void User::viewPurchases(Map input,MovieRepository* repo)
         <<unfiltered_movies[i]->getYear()<<" | "
         <<unfiltered_movies[i]->getDirector()<<std::endl;
 }
+
+std::string User::replyNotification()
+{
+    std::string content = "Publisher ";
+    content += username;
+    content += " with id ";
+    content += id;
+    content += " reply to your comment.";
+    return content;
+}
+
+std::string User::submitNotification()
+{
+    std::string content = "Publisher ";
+    content += username;
+    content += " with id ";
+    content += id;
+    content += " register new film.";
+    return content;
+}
+
+std::string User::followNotification()
+{
+    std::string content = "User ";
+    content += username;
+    content += " with id ";
+    content += id;
+    content += " follow you.";
+    return content;
+}
+
+std::string User::buyNotification(MovieRepository* repo, Map input)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    std::string content = "";
+    content += username;
+    content += " with id ";
+    content += id;
+    content += " buy your film ";
+    content += movie->getName();
+    content += " with id ";
+    content += input["film_id"];
+    return content;
+}
+
+std::string User::rateNotification(MovieRepository* repo, Map input)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    std::string content = "";
+    content += username;
+    content += " with id ";
+    content += id;
+    content += " rate your film ";
+    content += movie->getName();
+    content += " with id ";
+    content += input["film_id"];
+    return content;
+}
+
+std::string User::commentNotification(MovieRepository* repo, Map input)
+{
+    Movie* movie = repo->findMovie(stoi(input["film_id"]));
+    std::string content = "";
+    content += username;
+    content += " with id ";
+    content += id;
+    content += " comment on your film ";
+    content += movie->getName();
+    content += " with id ";
+    content += input["film_id"];
+    return content;
+}

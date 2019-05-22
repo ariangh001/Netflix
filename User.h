@@ -32,7 +32,12 @@ class User
         void viewPurchases(Map input,MovieRepository* repo);
         void viewUnreadNotifs(Map input);
         void viewNotifs(Map input);
-        void sendNotification();
+        std::string replyNotification();
+        std::string submitNotification();
+        std::string followNotification();
+        std::string buyNotification(MovieRepository* repo,Map input);
+        std::string rateNotification(MovieRepository* repo,Map input);
+        std::string commentNotification(MovieRepository* repo,Map input);
         virtual void submitMovie(Map input,MovieRepository* movie_repository);
         virtual void editMovieDetails(Map input,MovieRepository* movie_repository);
         virtual void deleteMovie(Map input,MovieRepository* movie_repository);
@@ -58,6 +63,7 @@ class User
         int wallet;
         std::vector<Movie*> purchased_films;
         std::vector<int> following_ids;
+        std::vector<std::string> notifications;
 };
 
 #endif

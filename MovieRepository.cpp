@@ -17,7 +17,11 @@ void MovieRepository::eraseMovie(int movie_id)
 {
     for(Counter i=0; i<movies.size(); i++)
         if(movies[i]->getId() == movie_id)
+        {
             movies.erase(movies.begin() + i);
+            return;
+        }
+    throw NotFound();
 }
 
 std::vector<Movie*> MovieRepository::copyMovies(std::vector<Movie*> new_database)
@@ -39,7 +43,10 @@ Movie* MovieRepository::findMovie(int film_id)
 
 void MovieRepository::increaseMoney(int amount)
 {
-    wallet += amount;
+    if(amount >= 0)
+        wallet += amount;
+    else
+        throw BadRequest();
 }
 
 int MovieRepository::calculateShare(int film_id)

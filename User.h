@@ -66,7 +66,8 @@ class User
         int wallet;
         std::vector<Movie*> purchased_films;
         std::vector<int> following_ids;
-        std::vector<std::string> notifications;
+        std::vector<std::string> unread_notifications;
+        std::vector<std::string> read_notifications;
 };
 
 #endif

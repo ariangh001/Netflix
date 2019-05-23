@@ -203,6 +203,8 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
     repo->deleteMovies(temp,movie);
     for(Counter i=0; i<4; i++)
     {
+        if(temp.size() == 0)
+            break;
         Movie* temp_movie = repo->filterByRate(temp);
         repo->deleteMovies(temp,temp_movie);
         std::cout<<i+1<<". "<<temp_movie->getId()
@@ -361,5 +363,22 @@ std::string User::commentNotification(MovieRepository* repo, Map input)
 
 void User::recieveNotification(std::string notif)
 {
-    notifications.push_back(notif);
+    unread_notifications.push_back(notif);
+}
+
+void User::viewUnreadNotifs(Map input)
+{
+    std::cout<<"#. Notification Message"<<std::endl;
+    for(Counter i=unread_notifications.size() - 1; i>=0; i++)
+        std::cout<<i+1<<". "<<unread_notifications[i]<<std::endl;
+    for(Counter i=0; i<unread_notifications.size(); i++)
+        read_notifications.push_back(unread_notifications[i]);
+    unread_notifications.clear();
+}
+
+void User::viewNotifs(Map input)
+{
+    std::cout<<"#. Notification Message"<<std::endl;
+    for(Counter i=read_notifications.size() - 1; i>=0; i++)
+        std::cout<<i+1<<". "<<read_notifications[i]<<std::endl;
 }

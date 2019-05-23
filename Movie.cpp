@@ -160,13 +160,13 @@ void Movie::addReply(Reply* reply)
     replies.push_back(reply);
 }
 
-bool Movie::findComment(int comment_id)
+Comment* Movie::findComment(int comment_id)
 {
     if(comment_id <= 0)
         throw BadRequest();
     for(Counter i=0; i<comments.size(); i++)
         if(comments[i]->getId() == comment_id)
-            return true;
+            return comments[i];
     throw NotFound();
 }
 

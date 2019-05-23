@@ -37,7 +37,7 @@ class Movie
         void addComment(Comment* comment);
         void addReply(Reply* reply);
         void deleteComment(int comment_id);
-        bool findComment(int comment_id);
+        Comment* findComment(int comment_id);
     private:
         std::string name;
         int year;

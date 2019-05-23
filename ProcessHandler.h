@@ -6,6 +6,7 @@
 #include "UsersRepository.h"
 #include "MovieRepository.h"
 #include "CommentRepository.h"
+#include <string>
 #include <map>
 #include <iterator>
 #define HAS_ERROR 1
@@ -31,5 +32,12 @@ class ProcessHandler
         bool isNumber(std::string str);
         bool isFloat(std::string str);
         void followHandler(Map input);
+        void notificationHandler(Map input,std::string function);
+        void submitNotifHandler(Map input);
+        void followNotifHandler(Map input);
+        void replyNotifHandler(Map input);
+        void commentNotifHandler(Map input);
+        void buyNotifHandler(Map input);
+        void rateNotifHandler(Map input);
 };
 #endif

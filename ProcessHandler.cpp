@@ -167,3 +167,67 @@ void ProcessHandler::followHandler(Map input)
     active_user->follow(input,publisher);
     publisher->addFollower(active_user);
 }
+
+void ProcessHandler::notificationHandler(Map input, std::string function)
+{
+    if(function == "reply")
+        replyNotifHandler(input);
+    else if(function == "submit")
+        submitNotifHandler(input);
+    else if(function == "follow")
+        followNotifHandler(input);
+    else if(function == "buy")
+        buyNotifHandler(input);
+    else if(function == "rate")
+        rateNotifHandler(input);
+    else if(function == "comment")
+        commentNotifHandler(input);
+}
+void ProcessHandler::submitNotifHandler(Map input)
+{
+    std::string notification = active_user->submitNotification();
+    std::vector<User*> followers = active_user->getFollowers();
+    for(Counter i=0; i<followers.size(); i++)
+        followers[i]->recieveNotification(notification);
+}
+
+void ProcessHandler::followNotifHandler(Map input)
+{
+    std::string notification = active_user->followNotification();
+    User* publisher = users_repository->findPublisher(stoi(input["user_id"]));
+    publisher->recieveNotification(notification);
+}
+
+void ProcessHandler::replyNotifHandler(Map input)
+{
+    std::string notification = active_user->replyNotification();
+    Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
+    Comment* comment = movie->findComment(stoi(input["comment_id"]));
+    int user_id = comment->getUserId();
+    User* user = users_repository->findPeople(user_id);
+    user->recieveNotification(notification);
+}
+
+void ProcessHandler::commentNotifHandler(Map input)
+{
+    std::string notification = active_user->commentNotification(movie_repository,input);
+    Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
+    User* publisher = users_repository->findPublisher(movie->getPubId());
+    publisher->recieveNotification(notification);
+}
+
+void ProcessHandler::buyNotifHandler(Map input)
+{
+    std::string notification = active_user->buyNotification(movie_repository,input);
+    Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
+    User* publisher = users_repository->findPublisher(movie->getPubId());
+    publisher->recieveNotification(notification);
+}
+
+void ProcessHandler::rateNotifHandler(Map input)
+{
+    std::string notification = active_user->rateNotification(movie_repository,input);
+    Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
+    User* publisher = users_repository->findPublisher(movie->getPubId());
+    publisher->recieveNotification(notification);
+}

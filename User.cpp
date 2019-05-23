@@ -74,12 +74,12 @@ void User::viewMovies(Map input)
     throw PermissionDenied();
 }
 
-void User::replyComment(Map input)
+void User::replyComment(Map input,MovieRepository* repo)
 {
     throw PermissionDenied();
 }
 
-void User::deleteComments(Map input)
+void User::deleteComments(Map input,MovieRepository* repo)
 {
     throw PermissionDenied();
 }
@@ -111,7 +111,8 @@ void User::chargeAccount(Map input)
 
 void User::searchMovies(Map input,MovieRepository* repo)
 {
-    std::vector<Movie*> unfiltered_movies = repo->copyMovies(unfiltered_movies);
+    std::vector<Movie*> unfiltered_movies;
+    unfiltered_movies = repo->copyMovies(unfiltered_movies);
     unfiltered_movies = filterMovies(unfiltered_movies,input);
     std::cout<<"#. Film Id | Film Name | Film Length"
     <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
@@ -181,7 +182,7 @@ std::vector<Movie*> User::filterRate(std::vector<Movie*> unfiltered_movies,Map i
 {
     if(input["min_rate"] != "-1")
         for(Counter i=0; i<unfiltered_movies.size(); i++)
-            if(unfiltered_movies[i]->getRate() < stoi(input["min_rate"]))
+            if(unfiltered_movies[i]->getRate() < stof(input["min_rate"]))
                 unfiltered_movies.erase(unfiltered_movies.begin() + i);
     return unfiltered_movies;
 }
@@ -197,21 +198,22 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
              <<"Year = "<<movie->getYear()<<std::endl
              <<"Summary = "<<movie->getSummary()<<std::endl;
     std::cout<<"Rate = "<<std::setprecision(2)<<movie->getRate()<<std::endl;
-    std::cout<<"Price = "<<movie->getPrice()<<std::endl<<std::endl<<std::endl;
+    std::cout<<"Price = "<<movie->getPrice()<<std::endl<<std::endl;
     std::cout<<"Comments"<<std::endl;
     movie->showCommentsDetails();
     std::cout<<std::endl<<"Recommendation Film"<<std::endl;
     std::cout<<"#. Film Id | Film Name | Film Length | Film Director"<<std::endl;
-    std::vector<Movie*> temp = repo->copyMovies(temp);
+    std::vector<Movie*> temp;
+    temp = repo->copyMovies(temp);
     for(Counter i=0; i<purchased_films.size(); i++)
-        repo->deleteMovies(temp,purchased_films[i]);
-    repo->deleteMovies(temp,movie);
+        temp = repo->deleteMovies(temp,purchased_films[i]);
+    temp = repo->deleteMovies(temp,movie);
     for(Counter i=0; i<4; i++)
     {
         if(temp.size() == 0)
             break;
         Movie* temp_movie = repo->filterByRate(temp);
-        repo->deleteMovies(temp,temp_movie);
+        temp = repo->deleteMovies(temp,temp_movie);
         std::cout<<i+1<<". "<<temp_movie->getId()
                  <<" | "<<temp_movie->getName()
                  <<" | "<<temp_movie->getLength()
@@ -246,20 +248,12 @@ void User::rateMovie(Map input,MovieRepository* repo)
     for(Counter i=0; i<purchased_films.size(); i++)
         if(movie->getId() == purchased_films[i]->getId())
         {
-            movie->addRate(id,stoi(input["rate"]));
+            movie->addRate(id,stoi(input["score"]));
             movie->updateRate();
             std::cout<<OK_REQUEST<<std::endl;
             return;
         }
     throw PermissionDenied();
-}
-
-std::string User::addSpaces(std::string _string)
-{
-    for(Counter i=0; i<_string.size(); i++)
-        if(_string[i] == '|')
-            _string[i] = ' ';
-    return _string;
 }
 
 void User::postComment(Map input,MovieRepository* repo)
@@ -268,7 +262,7 @@ void User::postComment(Map input,MovieRepository* repo)
     for(Counter i=0; i<purchased_films.size(); i++)
         if(movie->getId() == purchased_films[i]->getId())
         {
-            Comment* comment = new Comment(addSpaces(input["content"]),id,movie->getId());
+            Comment* comment = new Comment(input["content"],id,movie->getId());
             movie->addComment(comment);
             std::cout<<OK_REQUEST<<std::endl;
             return;
@@ -281,7 +275,10 @@ void User::viewPurchases(Map input,MovieRepository* repo)
     std::vector<Movie*> unfiltered_movies;
     for(Counter i=0; i<purchased_films.size(); i++)
         unfiltered_movies.push_back(purchased_films[i]);
-    unfiltered_movies  = filterMovies(unfiltered_movies,input);
+    unfiltered_movies = filterName(unfiltered_movies,input);
+    unfiltered_movies = filterYear(unfiltered_movies,input);
+    unfiltered_movies = filterPrice(unfiltered_movies,input);
+    unfiltered_movies = filterDirector(unfiltered_movies,input);
     std::cout<<"#. Film Id | Film Name | Film Length"
     <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
     for(Counter i=0; i<unfiltered_movies.size(); i++)
@@ -301,7 +298,7 @@ std::string User::replyNotification()
     std::string content = "Publisher ";
     content += username;
     content += " with id ";
-    content += id;
+    content += std::to_string(id);
     content += " reply to your comment.";
     return content;
 }
@@ -311,7 +308,7 @@ std::string User::submitNotification()
     std::string content = "Publisher ";
     content += username;
     content += " with id ";
-    content += id;
+    content += std::to_string(id);
     content += " register new film.";
     return content;
 }
@@ -321,7 +318,7 @@ std::string User::followNotification()
     std::string content = "User ";
     content += username;
     content += " with id ";
-    content += id;
+    content += std::to_string(id);
     content += " follow you.";
     return content;
 }
@@ -329,42 +326,45 @@ std::string User::followNotification()
 std::string User::buyNotification(MovieRepository* repo, Map input)
 {
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
-    std::string content = "";
+    std::string content = "User ";
     content += username;
     content += " with id ";
-    content += id;
+    content += std::to_string(id);
     content += " buy your film ";
     content += movie->getName();
     content += " with id ";
     content += input["film_id"];
+    content += '.';
     return content;
 }
 
 std::string User::rateNotification(MovieRepository* repo, Map input)
 {
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
-    std::string content = "";
+    std::string content = "User ";
     content += username;
     content += " with id ";
-    content += id;
+    content += std::to_string(id);
     content += " rate your film ";
     content += movie->getName();
     content += " with id ";
     content += input["film_id"];
+    content += '.';
     return content;
 }
 
 std::string User::commentNotification(MovieRepository* repo, Map input)
 {
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
-    std::string content = "";
+    std::string content = "User ";
     content += username;
     content += " with id ";
-    content += id;
+    content += std::to_string(id);
     content += " comment on your film ";
     content += movie->getName();
     content += " with id ";
     content += input["film_id"];
+    content += '.';
     return content;
 }
 
@@ -376,8 +376,8 @@ void User::recieveNotification(std::string notif)
 void User::viewUnreadNotifs(Map input)
 {
     std::cout<<"#. Notification Message"<<std::endl;
-    for(Counter i=unread_notifications.size() - 1; i>=0; i++)
-        std::cout<<i+1<<". "<<unread_notifications[i]<<std::endl;
+    for(Counter i =0; i<unread_notifications.size(); i++)
+        std::cout<<i + 1<<". "<<unread_notifications[unread_notifications.size() - i - 1]<<std::endl;
     for(Counter i=0; i<unread_notifications.size(); i++)
         read_notifications.push_back(unread_notifications[i]);
     unread_notifications.clear();
@@ -385,7 +385,10 @@ void User::viewUnreadNotifs(Map input)
 
 void User::viewNotifs(Map input)
 {
+    int last_num = read_notifications.size() - stoi(input["limit"]);
+    if(last_num < 0)
+        last_num = 0;
     std::cout<<"#. Notification Message"<<std::endl;
-    for(Counter i=read_notifications.size() - 1; i>=0; i++)
-        std::cout<<i+1<<". "<<read_notifications[i]<<std::endl;
+    for(Counter i= read_notifications.size() - 1; i >= last_num; i--)
+        std::cout<<read_notifications.size() - i<<". "<<read_notifications[i]<<std::endl;
 }

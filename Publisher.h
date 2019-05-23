@@ -3,6 +3,7 @@
 #include "User.h"
 #include "Movie.h"
 #include "MovieRepository.h"
+#include "ExceptionHandler.h"
 #include <map>
 #include <vector>
 #include <iostream>

@@ -6,9 +6,9 @@ MovieRepository::MovieRepository()
     wallet = 0;
 }
 
-Movie::~Movie()
+MovieRepository::~MovieRepository()
 {
-    for(Counter i=0; i<movies.size(); i++)
+    for(Counter i=0; i< movies.size(); i++)
         delete movies[i];
 }
 

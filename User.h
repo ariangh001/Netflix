@@ -46,8 +46,8 @@ class User
         virtual void viewFollowers(Map input);
         virtual void recieveMoney(Map input,MovieRepository* repo);
         virtual void viewMovies(Map input);
-        virtual void replyComment(Map input);
-        virtual void deleteComments(Map input);
+        virtual void replyComment(Map input,MovieRepository* repo);
+        virtual void deleteComments(Map input,MovieRepository* repo);
         virtual void addFollower(User* user);
         virtual std::vector<User*> getFollowers();
         std::string getUsername() const;
@@ -56,7 +56,6 @@ class User
         int getId() const;
         void setId(int _id);
         virtual std::string getType();
-        std::string addSpaces(std::string _string);
     protected:
         std::string username;
         std::string password;

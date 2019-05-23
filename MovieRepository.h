@@ -1,5 +1,5 @@
-#ifndef MOVIE_REPOSITORY
-#define MOVIE_REPOSITORY
+#ifndef MOVIE_REPOSITORY_H
+#define MOVIE_REPOSITORY_H
 #include "Movie.h"
 #include "ExceptionHandler.h"
 #include <vector>

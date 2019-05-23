@@ -5,7 +5,6 @@
 #include "ExceptionHandler.h"
 #include "UsersRepository.h"
 #include "MovieRepository.h"
-#include "CommentRepository.h"
 #include <string>
 #include <map>
 #include <iterator>
@@ -16,8 +15,7 @@ typedef std::map<std::string,std::string> Map;
 class ProcessHandler
 {
     public:
-        ProcessHandler(UsersRepository* users,
-            MovieRepository* movies,CommentRepository* comments);
+        ProcessHandler(UsersRepository* users,MovieRepository* movies);
         void signup(Map signupInput);
         void login(Map loginInput);
         void checkFunctions(std::string function_type,Map input);
@@ -25,7 +23,6 @@ class ProcessHandler
         User* active_user;
         MovieRepository* movie_repository;
         UsersRepository* users_repository;
-        CommentRepository* comment_repository;
         void checkPermission(std::string function_type);
         void checkValues(Map input);
         void checkEmailSyntax(std::string email);

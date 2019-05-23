@@ -43,7 +43,6 @@ void Publisher::editMovieDetails(Map input,MovieRepository* movie_repository)
                 else if(input["director"] != "-1")
                     published_films[i]->setDirector(input["director"]);
             }
-            break;
         }
     }
     else
@@ -74,11 +73,11 @@ void Publisher::deleteMovie(Map input,MovieRepository* movie_repository)
 void Publisher::viewFollowers(Map input)
 {
     std::cout<<"List of Followers"<<std::endl
-             <<"#. User Id  | User Username | User Email"<<std::endl;
-    for(Counter i=0; i>my_followers.size(); i++)
+             <<"#. User Id | User Username | User Email"<<std::endl;
+    for(Counter i=0; i<my_followers.size(); i++)
         std::cout<<i+1<<". "<<my_followers[i]->getId()<<" | "
                  <<my_followers[i]->getUsername()<<" | "
-                 <<my_followers[i]->getEmail();
+                 <<my_followers[i]->getEmail()<<std::endl;
 }
 
 void Publisher::viewMovies(Map input)
@@ -119,7 +118,7 @@ void Publisher::replyComment(Map input,MovieRepository* repo)
             if(comment->getId() == stoi(input["comment_id"]))
             {
                 Reply* reply = new Reply(
-                    stoi(input["comment_id"]),id,movie->getId(),addSpaces(input["content"]));
+                    stoi(input["comment_id"]),id,movie->getId(),input["content"]);
                 movie->addReply(reply);
                 std::cout<<OK_REQUEST<<std::endl;
                 return;

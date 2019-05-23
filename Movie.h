@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <iterator>
+#include "ExceptionHandler.h"
 #include "Comment.h"
 #include "Reply.h"
 class Movie
@@ -34,7 +35,6 @@ class Movie
         int getSold() const;
         void increaseSoldNumber();
         void updateRate();
-        std::string addSpaces(std::string _string);
         int getRecievedCash() const;
         int setRecievedCash(int amount);
         void addComment(Comment* comment);

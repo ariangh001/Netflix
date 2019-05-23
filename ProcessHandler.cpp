@@ -1,9 +1,8 @@
 #include "ProcessHandler.h"
 
-ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies,CommentRepository* comments)
+ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies)
 {
     users_repository = users;
-    comment_repository = comments;
     movie_repository = movies;
 }
 
@@ -30,6 +29,7 @@ void ProcessHandler::signup(Map input)
         users_repository->addUser(new_publisher);
         active_user = new_publisher;
     }
+    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void ProcessHandler::login(Map input)
@@ -44,54 +44,71 @@ void ProcessHandler::login(Map input)
     }
     // password = hash(password);
     active_user = users_repository->findUser(username,password);
+    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void ProcessHandler::checkFunctions(std::string function_type, Map input)
 {
     checkPermission(function_type);
     checkValues(input);
-    // if(function_type == "submitFilm")
-    //     active_user->submitMovie(input,movie_repository);
-    //get repos by reference
-    // else if(function_type == "editFilmDetails")
-    //     active_user->editMovieDetails(input);
-    // else if(function_type == "deleteFilm")//erase not delete from movierepo and publishes
-    //     active_user->deleteMovie(input);
-    // else if(function_type == "publishedFilms")
-    //     active_user->viewMovies(input);
-    // else if(function_type == "showFollowers")
-    //     active_user->viewFollowers(input);
-    // else if(function_type == "getMoney")
-    //     active_user->recieveMoney(input);//numbers sold * price(rate)  (movie_repo)
-    // else if(function_type == "reply")
-    //     active_user->replyComment(input);
-    // else if(function_type == "deleteComment")
-    //     active_user->deleteComments(input);//delete from all places
-    // else if(function_type == "follow")
-    //     followHandler()
-    //    User* publisher = repo->findPublisher(stoi(input["user_id"]));
-    //     active_user->follow(input,publisher);
-    // else if(function_type == "chargeAccount")
-    //     active_user->chargeAccount(input);
-    // else if(function_type == "searchMovies")
-    //     active_user->searchMovies(input);
-    // else if(function_type == "viewDetails")
-    //     active_user->viewMovieDetails(input);
-    // else if(function_type == "buyInput")
-    //     active_user->buyMovie(input);
-    // else if(function_type == "rateMovie")
-    //     active_user->rateMovie(input);
-    // else if(function_type == "comment")
-    //     active_user->postComment(input);
-    // else if(function_type == "purchasedMovies")
-    //     active_user->viewPurchases(input);
-    // else if(function_type == "viewUnreadNotifs")
-    //     active_user->viewUnreadNotifs(input);
-    // else if(function_type == "viewNotifs")
-    //     active_user->viewNotifs(input);
+    if(function_type == "submitFilm")
+    {
+        active_user->submitMovie(input,movie_repository);
+        notificationHandler(input,"submit");
+    }
+    else if(function_type == "editFilmDetails")
+        active_user->editMovieDetails(input,movie_repository);
+    else if(function_type == "deleteFilm")
+        active_user->deleteMovie(input,movie_repository);
+    else if(function_type == "publishedFilms")
+        active_user->viewMovies(input);
+    else if(function_type == "showFollowers")
+        active_user->viewFollowers(input);
+    else if(function_type == "getMoney")
+        active_user->recieveMoney(input,movie_repository);
+    else if(function_type == "reply")
+    {
+        active_user->replyComment(input,movie_repository);
+        notificationHandler(input,"reply");
+    }
+    else if(function_type == "deleteComment")
+        active_user->deleteComments(input,movie_repository);
+    else if(function_type == "follow")
+    {
+        followHandler(input);
+        notificationHandler(input,"follow");
+        std::cout<<OK_REQUEST<<std::endl;
+    }
+    else if(function_type == "chargeAccount")
+        active_user->chargeAccount(input);
+    else if(function_type == "searchMovies")
+        active_user->searchMovies(input,movie_repository);
+    else if(function_type == "viewDetails")
+        active_user->viewMovieDetails(input,movie_repository);
+    else if(function_type == "buyInput")
+    {
+        active_user->buyMovie(input,movie_repository);
+        notificationHandler(input,"buy");
+    }
+    else if(function_type == "rateMovie")
+    {
+        active_user->rateMovie(input,movie_repository);
+        notificationHandler(input,"rate");
+    }
+    else if(function_type == "comment")
+    {
+        active_user->postComment(input,movie_repository);
+        notificationHandler(input,"comment");
+    }
+    else if(function_type == "purchasedMovies")
+        active_user->viewPurchases(input,movie_repository);
+    else if(function_type == "viewUnreadNotifs")
+        active_user->viewUnreadNotifs(input);
+    else if(function_type == "viewNotifs")
+        active_user->viewNotifs(input);
 }
 
- void ProcessHandler::checkPermission(std::string function_type)
+void ProcessHandler::checkPermission(std::string function_type)
 {
     if(users_repository->getUsersNumber() == 0)
         throw PermissionDenied();
@@ -109,16 +126,13 @@ void ProcessHandler::checkValues(Map input)
         || itr->first == "max_year" || itr->first == "comment_id"
         || itr->first == "user_id" || itr->first == "amount"
         || itr->first == "score" || itr->first == "limit")
-            if(isNumber(itr->second) == false)
+            if(isNumber(itr->second) == false && itr->second != "-1")
                 throw BadRequest();
         if(itr->first == "is_publisher")
             if(itr->second != "true" && itr->second != "false"
             && itr->second != "-1")
                 throw BadRequest();
-        if(itr->first == "director" || itr->first == "name")
-            if(isNumber(itr->second) == true)
-                throw BadRequest();
-        if(itr->first == "min_rate")
+        if(itr->first == "min_rate" && itr->second != "-1")
             if(isFloat(itr->second) == false)
                 throw BadRequest();
     }

@@ -8,7 +8,7 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     year = _year;
     length = _length;
     price = _price;
-    summary = addSpaces(_summary);
+    summary = _summary;
     director = _director;
     rate = _rate;
     numbers_sold = 0;
@@ -23,14 +23,6 @@ Movie::~Movie()
         delete comments[i];
     for(Counter i=0; i<replies.size(); i++)
         delete replies[i];
-}
-
-std::string Movie::addSpaces(std::string _string)
-{
-    for(Counter i=0; i<_string.size(); i++)
-        if(_string[i] == '|')
-            _string[i] = ' ';
-    return _string;
 }
 
 int Movie::getId() const
@@ -129,7 +121,12 @@ void Movie::addRate(int user_id, int _rate)
 {
     auto itr = rates.find(user_id);
     if(_rate >= 0 && _rate <= 10)
-        rates[user_id] = _rate;
+    {
+        if(itr != rates.end())
+            itr->second = _rate;
+        else
+            rates.insert({user_id , _rate});
+    }
     else
         throw BadRequest();
 }
@@ -159,7 +156,7 @@ void Movie::updateRate()
 {
     float sum = 0;
     for(auto itr = rates.begin(); itr!=rates.end(); itr++)
-        sum += itr->second;
+        sum+= itr->second;
     rate = sum / rates.size();
 }
 

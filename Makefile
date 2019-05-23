@@ -2,8 +2,8 @@ CC := g++ -std=c++11
 
 all : a.out
 
-a.out : main.o  ExceptionHandler.o InputHandler.o ProcessHandler.o UsersRepository.o User.o Publisher.o System.o Movie.o MovieRepository.o Reply.o Comment.o
-	$(CC) main.o  ExceptionHandler.o InputHandler.o ProcessHandler.o UsersRepository.o User.o Publisher.o System.o Movie.o MovieRepository.o Reply.o Comment.o
+a.out : main.o  ExceptionHandler.o InputHandler.o ProcessHandler.o UsersRepository.o User.o Publisher.o System.o Movie.o MovieRepository.o Reply.o Comment.o sha256.o
+	$(CC) main.o  ExceptionHandler.o InputHandler.o ProcessHandler.o UsersRepository.o User.o Publisher.o System.o Movie.o MovieRepository.o Reply.o Comment.o sha256.o
 
 main.o : main.cpp Comment.h Reply.h ExceptionHandler.h InputHandler.h Movie.h MovieRepository.h Publisher.h System.h User.h UsersRepository.h ProcessHandler.h
 	$(CC) -c main.cpp -o main.o
@@ -20,7 +20,7 @@ ExceptionHandler.o : ExceptionHandler.cpp ExceptionHandler.h
 InputHandler.o : InputHandler.h InputHandler.cpp ExceptionHandler.h ProcessHandler.h User.h
 	$(CC) -c InputHandler.cpp -o InputHandler.o
 
-ProcessHandler.o: ProcessHandler.h ProcessHandler.cpp ExceptionHandler.h UsersRepository.h User.h Publisher.h MovieRepository.h
+ProcessHandler.o: ProcessHandler.h ProcessHandler.cpp ExceptionHandler.h UsersRepository.h User.h Publisher.h MovieRepository.h sha256.h
 	$(CC) -c ProcessHandler.cpp -o ProcessHandler.o
 
 Movie.o : Movie.h Movie.cpp Comment.h Reply.h ExceptionHandler.h
@@ -40,6 +40,9 @@ User.o : User.h User.cpp ExceptionHandler.h Movie.h MovieRepository.h
 
 UsersRepository.o : User.h ExceptionHandler.h UsersRepository.h UsersRepository.cpp
 	$(CC) -c UsersRepository.cpp -o UsersRepository.o
+
+sha256.o: sha256.h sha256.cpp
+	$(CC) -c sha256.cpp -o sha256.o
 
 .PHONY : clean
 clean:

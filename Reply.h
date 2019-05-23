@@ -1,6 +1,7 @@
 #ifndef REPLY_H
 #define REPLY_H
 #include <string>
+#include "ExceptionHandler.h"
 class Reply
 {
     public:

@@ -14,7 +14,7 @@ std::string Publisher::getType()
 void Publisher::submitMovie(Map input,MovieRepository* movie_repository)
 {
     Movie* new_movie = new Movie(input["name"],stoi(input["year"]),
-        stoi(input["length"]),stoi(input["price"]),input["summary"],input["director"],0);
+        stoi(input["length"]),stoi(input["price"]),input["summary"],input["director"],0,id);
     movie_repository->addMovie(new_movie);
     published_films.push_back(new_movie);
     //send_notif
@@ -108,7 +108,9 @@ void Publisher::replyComment(Map input,MovieRepository* repo)
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
     for(Counter i=0; i<published_films.size(); i++)
         if(published_films[i]->getId() == movie->getId())
-            if(movie->findComment(stoi(input["comment_id"])) == true)
+        {
+            Comment* comment = movie->findComment(stoi(input["comment_id"]));
+            if(comment->getId() == stoi(input["comment_id"]))
             {
                 Reply* reply = new Reply(
                     stoi(input["comment_id"]),id,movie->getId(),addSpaces(input["content"]));
@@ -116,6 +118,7 @@ void Publisher::replyComment(Map input,MovieRepository* repo)
                 std::cout<<OK_REQUEST<<std::endl;
                 return;
             }
+        }
     throw PermissionDenied();
 }
 
@@ -124,11 +127,14 @@ void Publisher::deleteComments(Map input,MovieRepository* repo)
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
     for(Counter i=0; i<published_films.size(); i++)
         if(published_films[i]->getId() == movie->getId())
-            if(movie->findComment(stoi(input["comment_id"])) == true)
+        {
+            Comment* comment = movie->findComment(stoi(input["comment_id"]));
+            if(comment->getId() == stoi(input["comment_id"]))
             {
                 movie->deleteComment(stoi(input["comment_id"]));
                 std::cout<<OK_REQUEST<<std::endl;
                 return;
             }
+        }
     throw PermissionDenied();
 }

@@ -48,6 +48,7 @@ class User
         virtual void replyComment(Map input);
         virtual void deleteComments(Map input);
         virtual void addFollower(User* user);
+        virtual std::vector<User*> getFollowers();
         std::string getUsername() const;
         std::string getPassword() const;
         std::string getEmail() const;

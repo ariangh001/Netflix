@@ -85,6 +85,11 @@ void User::addFollower(User* user)
     throw PermissionDenied();
 }
 
+std::vector<User*> User::getFollowers()
+{
+    throw PermissionDenied();
+}
+
 void User::follow(Map input, User* publisher)
 {
     following_ids.push_back(publisher->getId());
@@ -186,7 +191,10 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
              <<"Summary = "<<movie->getSummary()<<std::endl
              <<"Rate = "<<movie->getRate()<<std::endl
              <<"Price = "<<movie->getPrice()<<std::endl<<std::endl<<std::endl;
-             //>>>>>>>>>>>
+    std::cout<<"Comments"<<std::endl;
+    //for(Counter i=0; i< movie->com)
+
+
 }
 
 void User::buyMovie(Map input,MovieRepository* repo)

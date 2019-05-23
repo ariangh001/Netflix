@@ -25,6 +25,7 @@ class Publisher : public User
         virtual void viewMovies(Map input);
         virtual void replyComment(Map input,MovieRepository* repo);
         virtual void deleteComments(Map input,MovieRepository* repo);
+        virtual std::vector<User*> getFollowers();
     private:
         std::vector<Movie*> published_films;
         std::vector<User*> my_followers;

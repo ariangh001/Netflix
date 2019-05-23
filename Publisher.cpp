@@ -138,3 +138,8 @@ void Publisher::deleteComments(Map input,MovieRepository* repo)
         }
     throw PermissionDenied();
 }
+
+std::vector<User*> Publisher::getFollowers()
+{
+    return my_followers;
+}

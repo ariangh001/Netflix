@@ -13,6 +13,7 @@ class Movie
         Movie(std::string _name, int _year,
             int _length, int _price, std::string _summary,
              std::string _director, int _rate, int _publisher_id);
+        ~Movie();
         void addRate(int user_id, int _rate);
         void setId(int id);
         void setName(std::string _name);

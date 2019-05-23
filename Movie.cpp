@@ -17,6 +17,14 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     id = 0;
 }
 
+Movie::~Movie()
+{
+    for(Counter i=0; i<comments.size(); i++)
+        delete comments[i];
+    for(Counter i=0; i<replies.size(); i++)
+        delete replies[i];
+}
+
 std::string Movie::addSpaces(std::string _string)
 {
     for(Counter i=0; i<_string.size(); i++)

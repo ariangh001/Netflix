@@ -4,6 +4,8 @@ Publisher::Publisher(std::string _username, std::string _password,
                                         std::string _email, int _age)
         :User(_username,_password,_email,_age)
 {
+    wallet = 0;
+    id = 0;
 }
 
 std::string Publisher::getType()

@@ -8,11 +8,15 @@ User::User(std::string _username, std::string _password,
     email = _email;
     age = _age;
     wallet = 0;
+    id = 0;
 }
 
 void User::setId(int _id)
 {
-    id = _id;
+    if(_id > 0)
+        id = _id;
+    else
+        throw BadRequest();
 }
 
 int User::getId() const

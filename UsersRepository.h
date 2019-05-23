@@ -9,6 +9,7 @@ class UsersRepository
 {
     public:
         UsersRepository();
+        ~UsersRepository();
         void addUser(User* new_user);
         User* findUser(std::string username, std::string password);
         User* findPublisher(int publisher_id);

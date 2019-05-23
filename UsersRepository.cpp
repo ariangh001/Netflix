@@ -5,6 +5,12 @@ UsersRepository::UsersRepository()
     last_id = 0;
 }
 
+UsersRepository::~UsersRepository()
+{
+    for(Counter i=0; i<users.size(); i++)
+        delete users[i];
+}
+
 void UsersRepository::addUser(User* user)
 {
     last_id++;

@@ -75,8 +75,10 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
         active_user->deleteComments(input,movie_repository);
     else if(function_type == "follow")
     {
+        int size = active_user->getFollowingsNumber();
         followHandler(input);
-        notificationHandler(input,"follow");
+        if(active_user->getFollowingsNumber() != size)
+            notificationHandler(input,"follow");
         std::cout<<OK_REQUEST<<std::endl;
     }
     else if(function_type == "chargeAccount")
@@ -87,8 +89,10 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
         active_user->viewMovieDetails(input,movie_repository);
     else if(function_type == "buyInput")
     {
+        int size = active_user->getFilmsNumber();
         active_user->buyMovie(input,movie_repository);
-        notificationHandler(input,"buy");
+        if(active_user->getFilmsNumber() != size)
+            notificationHandler(input,"buy");
     }
     else if(function_type == "rateMovie")
     {

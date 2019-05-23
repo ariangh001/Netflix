@@ -56,6 +56,8 @@ class User
         int getId() const;
         void setId(int _id);
         virtual std::string getType();
+        int getFilmsNumber() const;
+        int getFollowingsNumber() const;
     protected:
         std::string username;
         std::string password;

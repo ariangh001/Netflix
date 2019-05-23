@@ -27,6 +27,16 @@ int User::getId() const
     return id;
 }
 
+int User::getFilmsNumber() const
+{
+    return purchased_films.size();
+}
+
+int User::getFollowingsNumber() const
+{
+    return following_ids.size();
+}
+
 std::string User::getEmail() const
 {
     return email;
@@ -99,6 +109,9 @@ std::vector<User*> User::getFollowers()
 
 void User::follow(Map input, User* publisher)
 {
+    for(Counter i=0;i<following_ids.size();i++)
+        if(following_ids[i] == publisher->getId())
+            return;
     following_ids.push_back(publisher->getId());
 }
 

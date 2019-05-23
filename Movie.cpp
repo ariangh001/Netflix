@@ -13,6 +13,8 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     rate = _rate;
     numbers_sold = 0;
     last_comment_id = 0;
+    cash_recieved_number = 0;
+    id = 0;
 }
 
 std::string Movie::addSpaces(std::string _string)

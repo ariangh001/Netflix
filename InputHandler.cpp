@@ -66,7 +66,6 @@ void InputHandler::commandExists(CommandList words)
 {
     if(questionMarkExists(words) == true)
     {
-        //cout<<words[0]<<"    "<<words[1]<<"    "<<words[2]<<endl;
         if(words[2] == "?")
         {
             if(words[COMMAND_TYPE_INDEX] == POST_COMMAND)
@@ -360,9 +359,7 @@ void InputHandler::checkPublishedFilms(CommandList words)
             throw BadRequest();
         itr->second = words[i+1];
     }
-    //std::cout<<"hello"<<std::endl;
     handler->checkFunctions("publishedFilms",publishedInput);
-    //std::cout<<"hello"<<std::endl;
 }
 
 void InputHandler::checkShowFollowers(CommandList words)

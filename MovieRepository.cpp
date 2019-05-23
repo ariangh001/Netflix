@@ -6,6 +6,12 @@ MovieRepository::MovieRepository()
     wallet = 0;
 }
 
+Movie::~Movie()
+{
+    for(Counter i=0; i<movies.size(); i++)
+        delete movies[i];
+}
+
 void MovieRepository::addMovie(Movie* movie)
 {
     last_id++;

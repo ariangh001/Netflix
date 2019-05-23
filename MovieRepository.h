@@ -8,6 +8,7 @@ class MovieRepository
 {
     public:
         MovieRepository();
+        ~MovieRepository();
         void addMovie(Movie* movie);
         void eraseMovie(int movie_id);
         std::vector<Movie*> copyMovies(std::vector<Movie*> new_database);

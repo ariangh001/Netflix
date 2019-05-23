@@ -24,6 +24,7 @@ class Movie
         int getYear() const;
         int getLength() const;
         int getPrice() const;
+        int getPubId() const;
         std::string getSummary() const;
         std::string getDirector() const;
         int getId() const;

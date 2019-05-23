@@ -63,6 +63,11 @@ float Movie::getRate() const
     return rate;
 }
 
+int Movie::getPubId() const
+{
+    return publisher_id;
+}
+
 void Movie::setId(int _id)
 {
     if(_id > 0)

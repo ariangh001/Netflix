@@ -1,6 +1,7 @@
 #ifndef MOVIE_H
 #define MOVIE_H
 #include <string>
+#include <iostream>
 #include <vector>
 #include <map>
 #include <iterator>
@@ -39,6 +40,7 @@ class Movie
         void addReply(Reply* reply);
         void deleteComment(int comment_id);
         Comment* findComment(int comment_id);
+        void showCommentsDetails();
     private:
         std::string name;
         int year;

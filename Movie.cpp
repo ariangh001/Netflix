@@ -187,3 +187,15 @@ void Movie::deleteComment(int comment_id)
         }
     throw NotFound();
 }
+
+void Movie::showCommentsDetails()
+{
+    for(Counter i=0; i<comments.size(); i++)
+    {
+        std::cout<<comments[i]->getId()<<". "<<comments[i]->getContent()<<std::endl;
+        for(Counter j=0; j<replies.size(); j++)
+            if(replies[j]->getId() == comments[i]->getId())
+                std::cout<<comments[i]->getId()<<'.'
+                         <<j+1<<". "<<replies[j]->getContent()<<std::endl;
+    }
+}

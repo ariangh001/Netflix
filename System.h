@@ -8,6 +8,7 @@ class System
 {
     public:
         System();
+        ~System();
     private:
         UsersRepository* users_repo;
         MovieRepository* movie_repo;

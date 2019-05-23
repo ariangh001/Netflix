@@ -83,13 +83,15 @@ void Publisher::viewMovies(Map input)
     std::cout<<"#. Film Id | Film Name | Film Length"
     <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
     for(Counter i=0; i<published_films.size(); i++)
+    {
         std::cout<<i+1<<". "<<published_films[i]->getId()<<" | "
         <<published_films[i]->getName()<<" | "
         <<published_films[i]->getLength()<<" | "
-        <<published_films[i]->getPrice()<<" | "
-        <<published_films[i]->getRate()<<" | "
-        <<published_films[i]->getYear()<<" | "
+        <<published_films[i]->getPrice()<<" | ";
+        std::cout<<std::setprecision(2)<<published_films[i]->getRate()<<" | ";
+        std::cout<<published_films[i]->getYear()<<" | "
         <<published_films[i]->getDirector()<<std::endl;
+    }
 }
 
 void Publisher::addFollower(User* user)

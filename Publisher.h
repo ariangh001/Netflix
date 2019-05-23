@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <iomanip>
 typedef std::map<std::string,std::string> Map;
 typedef unsigned int Counter;
 class Publisher : public User

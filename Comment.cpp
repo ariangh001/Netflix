@@ -30,3 +30,7 @@ int Comment::getMovieId() const
 {
     return movie_id;
 }
+int Comment::getUserId() const
+{
+    return user_id;
+}

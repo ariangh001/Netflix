@@ -9,11 +9,12 @@ class Comment
         void setId(int _id);
         int getId() const;
         int getMovieId() const;
+        int getUserId() const;
         std::string getContent() const;
     private:
         std::string content;
         int user_id;
-        int movie_id;
         int id;
+        int movie_id;
 };
 #endif

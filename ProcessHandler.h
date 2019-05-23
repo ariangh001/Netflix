@@ -1,5 +1,6 @@
 #ifndef PROCESS_HANDLER
 #define PROCESS_HANDLER
+#include "sha256.h"
 #include "User.h"
 #include "Publisher.h"
 #include "ExceptionHandler.h"

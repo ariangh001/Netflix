@@ -16,7 +16,7 @@ void ProcessHandler::signup(Map input)
     if(user_type == "user")
     {
         User* new_user = new User(
-        input["username"],/*hash*/input["password"],
+        input["username"],sha256(input["password"]),
         input["email"],stoi(input["age"]));
         users_repository->addUser(new_user);
         active_user = new_user;
@@ -24,7 +24,7 @@ void ProcessHandler::signup(Map input)
     else if(user_type == "publisher")
     {
         Publisher* new_publisher = new Publisher(
-        input["username"],/*hash*/input["password"],
+        input["username"],sha256(input["password"]),
         input["email"],stoi(input["age"]));
         users_repository->addUser(new_publisher);
         active_user = new_publisher;
@@ -42,7 +42,7 @@ void ProcessHandler::login(Map input)
         else if(itr->first == "password")
             password = itr->second;
     }
-    // password = hash(password);
+    password = sha256(password);
     active_user = users_repository->findUser(username,password);
     std::cout<<OK_REQUEST<<std::endl;
 }

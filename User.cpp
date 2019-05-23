@@ -102,6 +102,7 @@ void User::chargeAccount(Map input)
         wallet += cash;
     else
         throw BadRequest();
+    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void User::searchMovies(Map input,MovieRepository* repo)
@@ -220,7 +221,7 @@ void User::buyMovie(Map input,MovieRepository* repo)
     for(Counter i=0; i<purchased_films.size(); i++)
         if(movie->getId() == purchased_films[i]->getId())
         {
-            std::cout<<"OK"<<std::endl;
+            std::cout<<OK_REQUEST<<std::endl;
             return;
         }
     if(movie->getPrice() <= wallet)
@@ -232,6 +233,7 @@ void User::buyMovie(Map input,MovieRepository* repo)
     }
     else
         throw PermissionDenied();
+    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void User::rateMovie(Map input,MovieRepository* repo)
@@ -242,6 +244,7 @@ void User::rateMovie(Map input,MovieRepository* repo)
         {
             movie->addRate(id,stoi(input["rate"]));
             movie->updateRate();
+            std::cout<<OK_REQUEST<<std::endl;
             return;
         }
     throw PermissionDenied();

@@ -17,7 +17,7 @@ void Publisher::submitMovie(Map input,MovieRepository* movie_repository)
         stoi(input["length"]),stoi(input["price"]),input["summary"],input["director"],0,id);
     movie_repository->addMovie(new_movie);
     published_films.push_back(new_movie);
-    //send_notif
+    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void Publisher::editMovieDetails(Map input,MovieRepository* movie_repository)
@@ -51,6 +51,7 @@ void Publisher::editMovieDetails(Map input,MovieRepository* movie_repository)
         &&   input["summary"] == "-1" && input["director"] == "-1"))
             throw BadRequest();
     }
+    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void Publisher::deleteMovie(Map input,MovieRepository* movie_repository)
@@ -103,6 +104,7 @@ void Publisher::recieveMoney(Map input,MovieRepository* repo)
 {
     for(Counter i=0; i<published_films.size(); i++)
         wallet += repo->calculateShare(published_films[i]->getId());
+    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void Publisher::replyComment(Map input,MovieRepository* repo)

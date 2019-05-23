@@ -111,13 +111,15 @@ void User::searchMovies(Map input,MovieRepository* repo)
     std::cout<<"#. Film Id | Film Name | Film Length"
     <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
     for(Counter i=0; i<unfiltered_movies.size(); i++)
+    {
         std::cout<<i+1<<". "<<unfiltered_movies[i]->getId()<<" | "
         <<unfiltered_movies[i]->getName()<<" | "
         <<unfiltered_movies[i]->getLength()<<" | "
-        <<unfiltered_movies[i]->getPrice()<<" | "
-        <<unfiltered_movies[i]->getRate()<<" | "
-        <<unfiltered_movies[i]->getYear()<<" | "
+        <<unfiltered_movies[i]->getPrice()<<" | ";
+        std::cout<<std::setprecision(2)<<unfiltered_movies[i]->getRate()<<" | ";
+        std::cout<<unfiltered_movies[i]->getYear()<<" | "
         <<unfiltered_movies[i]->getDirector()<<std::endl;
+    }
 }
 
 std::vector<Movie*> User::filterMovies(std::vector<Movie*> unfiltered_movies,Map input)
@@ -188,13 +190,26 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
              <<"Director = "<<movie->getDirector()<<std::endl
              <<"Length = "<<movie->getLength()<<std::endl
              <<"Year = "<<movie->getYear()<<std::endl
-             <<"Summary = "<<movie->getSummary()<<std::endl
-             <<"Rate = "<<movie->getRate()<<std::endl
-             <<"Price = "<<movie->getPrice()<<std::endl<<std::endl<<std::endl;
+             <<"Summary = "<<movie->getSummary()<<std::endl;
+    std::cout<<"Rate = "<<std::setprecision(2)<<movie->getRate()<<std::endl;
+    std::cout<<"Price = "<<movie->getPrice()<<std::endl<<std::endl<<std::endl;
     std::cout<<"Comments"<<std::endl;
-    //for(Counter i=0; i< movie->com)
-
-
+    movie->showCommentsDetails();
+    std::cout<<std::endl<<"Recommendation Film"<<std::endl;
+    std::cout<<"#. Film Id | Film Name | Film Length | Film Director"<<std::endl;
+    std::vector<Movie*> temp = repo->copyMovies(temp);
+    for(Counter i=0; i<purchased_films.size(); i++)
+        repo->deleteMovies(temp,purchased_films[i]);
+    repo->deleteMovies(temp,movie);
+    for(Counter i=0; i<4; i++)
+    {
+        Movie* temp_movie = repo->filterByRate(temp);
+        repo->deleteMovies(temp,temp_movie);
+        std::cout<<i+1<<". "<<temp_movie->getId()
+                 <<" | "<<temp_movie->getName()
+                 <<" | "<<temp_movie->getLength()
+                 <<" | "<<temp_movie->getDirector()<<std::endl;
+    }
 }
 
 void User::buyMovie(Map input,MovieRepository* repo)
@@ -261,13 +276,15 @@ void User::viewPurchases(Map input,MovieRepository* repo)
     std::cout<<"#. Film Id | Film Name | Film Length"
     <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
     for(Counter i=0; i<unfiltered_movies.size(); i++)
+    {
         std::cout<<i+1<<". "<<unfiltered_movies[i]->getId()<<" | "
         <<unfiltered_movies[i]->getName()<<" | "
         <<unfiltered_movies[i]->getLength()<<" | "
-        <<unfiltered_movies[i]->getPrice()<<" | "
-        <<unfiltered_movies[i]->getRate()<<" | "
-        <<unfiltered_movies[i]->getYear()<<" | "
+        <<unfiltered_movies[i]->getPrice()<<" | ";
+        std::cout<<std::setprecision(2)<<unfiltered_movies[i]->getRate()<<" | ";
+        std::cout<<unfiltered_movies[i]->getYear()<<" | "
         <<unfiltered_movies[i]->getDirector()<<std::endl;
+    }
 }
 
 std::string User::replyNotification()

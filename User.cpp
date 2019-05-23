@@ -6,7 +6,10 @@ User::User(std::string _username, std::string _password,
     username = _username;
     password = _password;
     email = _email;
-    age = _age;
+    if(_age > 0)
+        age = _age;
+    else
+        throw BadRequest();
     wallet = 0;
     id = 0;
 }

@@ -3,14 +3,19 @@
 Movie::Movie(std::string _name, int _year,int _length, int _price,
             std::string _summary, std::string _director, int _rate, int _publisher_id)
 {
+    if(_year > 0 && _length > 0 && _price > 0 && _rate >= 0 && _rate <= 10 && _publisher_id > 0)
+    {
+        publisher_id = _publisher_id;
+        year = _year;
+        length = _length;
+        price = _price;
+        rate = _rate;
+    }
+    else
+        throw BadRequest();
     name = _name;
-    publisher_id = _publisher_id;
-    year = _year;
-    length = _length;
-    price = _price;
     summary = _summary;
     director = _director;
-    rate = _rate;
     numbers_sold = 0;
     last_comment_id = 0;
     cash_recieved_number = 0;

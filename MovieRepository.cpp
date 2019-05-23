@@ -71,3 +71,20 @@ int MovieRepository::calculateShare(int film_id)
         }
     }
 }
+
+std::vector<Movie*> MovieRepository::deleteMovies(std::vector<Movie*> temp, Movie* movie)
+{
+    for(Counter i=0; i<temp.size(); i++)
+        if(temp[i]->getId() == movie->getId())
+            temp.erase(temp.begin() + i);
+    return temp;
+}
+
+Movie* MovieRepository::filterByRate(std::vector<Movie*> temp)
+{
+    Movie* temp_movie = temp[0];
+    for(Counter i=0; i<temp.size(); i++)
+        if(temp[i]->getRate() > temp_movie->getRate())
+            temp_movie = temp[i];
+    return temp_movie;
+}

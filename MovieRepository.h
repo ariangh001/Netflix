@@ -14,6 +14,8 @@ class MovieRepository
         Movie* findMovie(int film_id);
         void increaseMoney(int money);
         int calculateShare(int film_id);
+        std::vector<Movie*> deleteMovies(std::vector<Movie*> temp, Movie* movie);
+        Movie* filterByRate(std::vector<Movie*> temp);
     private:
         std::vector<Movie*> movies;
         int last_id;

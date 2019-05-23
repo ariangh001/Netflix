@@ -41,3 +41,13 @@ User* UsersRepository::findPublisher(int publisher_id)
             return users[i];
     throw NotFound();
 }
+
+User* UsersRepository::findPeople(int user_id)
+{
+    if(user_id <= 0)
+        throw BadRequest();
+    for(Counter i=0; i<users.size(); i++)
+        if(users[i]->getId() == user_id)
+            return users[i];
+    throw NotFound();
+}

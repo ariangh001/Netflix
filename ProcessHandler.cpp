@@ -4,10 +4,12 @@ ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies)
 {
     users_repository = users;
     movie_repository = movies;
+    active_user = NULL;
 }
 
-void ProcessHandler::signup(Map input)
+void ProcessHandler::signup(Map input,std::string function_type)
 {
+    checkPermission(function_type);
     std::string user_type = "user";
     for(auto itr=input.begin(); itr!=input.end(); ++itr)
         if(itr->first == "is_publisher")
@@ -32,8 +34,9 @@ void ProcessHandler::signup(Map input)
     std::cout<<OK_REQUEST<<std::endl;
 }
 
-void ProcessHandler::login(Map input)
+void ProcessHandler::login(Map input,std::string function_type)
 {
+    checkPermission(function_type);
     std::string username, password;
     for(auto itr=input.begin(); itr!=input.end(); itr++)
     {
@@ -44,6 +47,15 @@ void ProcessHandler::login(Map input)
     }
     password = sha256(password);
     active_user = users_repository->findUser(username,password);
+    std::cout<<OK_REQUEST<<std::endl;
+}
+
+void ProcessHandler::logout()
+{
+    if(active_user != NULL)
+        active_user = NULL;
+    else
+        throw BadRequest();
     std::cout<<OK_REQUEST<<std::endl;
 }
 
@@ -109,8 +121,12 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
 
 void ProcessHandler::checkPermission(std::string function_type)
 {
-    if(users_repository->getUsersNumber() == 0)
-        throw PermissionDenied();
+    if(function_type == "signup" || function_type == "login")
+        if(active_user != NULL)
+            throw BadRequest();
+    else
+        if(active_user == NULL)
+            throw PermissionDenied();
 }
 
 void ProcessHandler::checkValues(Map input)

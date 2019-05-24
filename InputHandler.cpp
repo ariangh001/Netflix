@@ -227,7 +227,7 @@ void InputHandler::checkSignUp(CommandList words)
     }
     if(isEmpty(signUpInput) == true)
         throw BadRequest();
-    handler->signup(signUpInput);
+    handler->signup(signUpInput,"signup");
 }
 
 void InputHandler::checkLogin(CommandList words)
@@ -248,15 +248,14 @@ void InputHandler::checkLogin(CommandList words)
     }
     if(isEmpty(loginInput) == true)
         throw BadRequest();
-    handler->login(loginInput);
+    handler->login(loginInput,"login");
 }
 
 void InputHandler::checkLogout(CommandList words)
 {
-    Map logoutInput;
     if(words.size() != 2)
         throw BadRequest();
-    handler->checkFunctions("getMoney",logoutInput);
+    handler->logout();
 }
 
 void InputHandler::checkSubmitFilm(CommandList words)

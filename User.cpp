@@ -224,19 +224,15 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
     movie->showCommentsDetails();
     std::cout<<std::endl<<"Recommendation Film"<<std::endl;
     std::cout<<"#. Film Id | Film Name | Film Length | Film Director"<<std::endl;
-    std::vector<Movie*> temp;
+    AI ai;
+    std::vector<Movie*> temp, recommended;
     temp = repo->copyMovies(temp);
-    for(Counter i=0; i<purchased_films.size(); i++)
-        temp = repo->deleteMovies(temp,purchased_films[i]);
-    temp = repo->deleteMovies(temp,movie);
-    for(Counter i=0; i<4; i++)
+    ai.makeMatrix(temp);
+    recommended = ai.recommendMovie(movie->getId(),temp);
+    for(Counter i=0; i<recommended.size(); i++)
     {
-        if(temp.size() == 0)
-            break;
-        Movie* temp_movie = repo->filterByRate(temp);
-        temp = repo->deleteMovies(temp,temp_movie);
-        std::cout<<i+1<<". "<<temp_movie->getId()<<" | "<<temp_movie->getName()
-        <<" | "<<temp_movie->getLength()<<" | "<<temp_movie->getDirector()<<std::endl;
+        std::cout<<i+1<<". "<<recommended[i]->getId()<<" | "<<recommended[i]->getName()
+        <<" | "<<recommended[i]->getLength()<<" | "<<recommended[i]->getDirector()<<std::endl;
     }
 }
 

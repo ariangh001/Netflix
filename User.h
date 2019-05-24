@@ -8,6 +8,7 @@
 #include <map>
 #include "Movie.h"
 #include <vector>
+#include "AI.h"
 typedef unsigned int Counter;
 typedef std::map<std::string,std::string> Map;
 class User

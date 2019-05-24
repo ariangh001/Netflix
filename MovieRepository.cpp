@@ -98,3 +98,8 @@ Movie* MovieRepository::filterByRate(std::vector<Movie*> temp)
             temp_movie = temp[i];
     return temp_movie;
 }
+
+int MovieRepository::getWallet() const
+{
+    return wallet;
+}

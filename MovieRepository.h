@@ -18,6 +18,7 @@ class MovieRepository
         int calculateShare(int film_id);
         std::vector<Movie*> deleteMovies(std::vector<Movie*> temp, Movie* movie);
         Movie* filterByRate(std::vector<Movie*> temp);
+        int getWallet() const;
     private:
         std::vector<Movie*> movies;
         int last_id;

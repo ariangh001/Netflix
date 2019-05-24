@@ -413,3 +413,8 @@ void User::viewNotifs(Map input)
     for(Counter i= read_notifications.size() - 1; i >= last_num; i--)
         std::cout<<read_notifications.size() - i<<". "<<read_notifications[i]<<std::endl;
 }
+
+void User::viewMoney()
+{
+    std::cout<<wallet<<std::endl;
+}

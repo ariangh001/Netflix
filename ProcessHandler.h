@@ -37,5 +37,6 @@ class ProcessHandler
         void commentNotifHandler(Map input);
         void buyNotifHandler(Map input);
         void rateNotifHandler(Map input);
+        void buyHandler(Map input);
 };
 #endif

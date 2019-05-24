@@ -88,15 +88,7 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
     else if(function_type == "viewDetails")
         active_user->viewMovieDetails(input,movie_repository);
     else if(function_type == "buyInput")
-    {
-        Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
-        int pub_id = movie->getPubId();
-        User* publisher = users_repository->findPublisher(pub_id);
-        int size = active_user->getFilmsNumber();
-        active_user->buyMovie(input,movie_repository,publisher);
-        if(active_user->getFilmsNumber() != size)
-            notificationHandler(input,"buy");
-    }
+        buyHandler(input);
     else if(function_type == "rateMovie")
     {
         active_user->rateMovie(input,movie_repository);
@@ -251,4 +243,15 @@ void ProcessHandler::rateNotifHandler(Map input)
     Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
     User* publisher = users_repository->findPublisher(movie->getPubId());
     publisher->recieveNotification(notification);
+}
+
+void ProcessHandler::buyHandler(Map input)
+{
+    Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
+    int pub_id = movie->getPubId();
+    User* publisher = users_repository->findPublisher(pub_id);
+    int size = active_user->getFilmsNumber();
+    active_user->buyMovie(input,movie_repository,publisher);
+    if(active_user->getFilmsNumber() != size)
+        notificationHandler(input,"buy");
 }

@@ -107,7 +107,8 @@ void InputHandler::commandExists(CommandList words)
             && words[FUNCTION_INDEX] != "notifications"
             && words[FUNCTION_INDEX] != "published"
             && words[FUNCTION_INDEX] != "purchased"
-            && words[FUNCTION_INDEX] != "films")
+            && words[FUNCTION_INDEX] != "films"
+            && words[FUNCTION_INDEX] != "money")
                 throw NotFound();
     }
 }
@@ -199,6 +200,8 @@ void InputHandler::checkFunctions(CommandList words)
             else
                 checkUnreadNotifications(words);
         }
+        else if(words[FUNCTION_INDEX] == "money")
+            checkViewMoney(words);
     }
 }
 
@@ -256,6 +259,14 @@ void InputHandler::checkLogout(CommandList words)
     if(words.size() != 2)
         throw BadRequest();
     handler->logout();
+}
+
+void InputHandler::checkViewMoney(CommandList words)
+{
+    Map viewMoneyInput;
+    if(words.size() != 2)
+        throw BadRequest();
+    handler->checkFunctions("viewMoney",viewMoneyInput);
 }
 
 void InputHandler::checkSubmitFilm(CommandList words)

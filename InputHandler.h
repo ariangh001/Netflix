@@ -59,6 +59,7 @@ class InputHandler
         void checkPurchases(CommandList words);
         void checkUnreadNotifications(CommandList words);
         void checkNotifications(CommandList words);
+        void checkViewMoney(CommandList words);
         bool isEmpty(Map words);
 };
 

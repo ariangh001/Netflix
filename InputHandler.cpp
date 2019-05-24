@@ -80,8 +80,7 @@ void InputHandler::commandExists(CommandList words)
                 && words[FUNCTION_INDEX] != "comments")
                     throw NotFound();
             else if(words[COMMAND_TYPE_INDEX] == PUT_COMMAND)
-                if(words[FUNCTION_INDEX] != "films"
-                && words[FUNCTION_INDEX] != "signup")
+                if(words[FUNCTION_INDEX] != "films")
                     throw NotFound();
             else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
                 if(words[FUNCTION_INDEX] != "published"

@@ -16,9 +16,7 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     name = _name;
     summary = _summary;
     director = _director;
-    numbers_sold = 0;
     last_comment_id = 0;
-    cash_recieved_number = 0;
     id = 0;
 }
 
@@ -134,27 +132,6 @@ void Movie::addRate(int user_id, int _rate)
     }
     else
         throw BadRequest();
-}
-
-void Movie::increaseSoldNumber()
-{
-    numbers_sold++;
-}
-
-int Movie::getSold() const
-{
-    return numbers_sold;
-}
-
-int Movie::getRecievedCash() const
-{
-    return cash_recieved_number;
-}
-
-int Movie::setRecievedCash(int amount)
-{
-    if(amount >= 0)
-        cash_recieved_number = amount;
 }
 
 void Movie::updateRate()

@@ -13,6 +13,9 @@ UsersRepository::~UsersRepository()
 
 void UsersRepository::addUser(User* user)
 {
+    for(Counter i=0; i<users.size(); i++)
+        if(users[i]->getUsername() == user->getUsername())
+            throw BadRequest();
     last_id++;
     user->setId(last_id);
     users.push_back(user);

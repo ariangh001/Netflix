@@ -107,6 +107,11 @@ std::vector<User*> User::getFollowers()
     throw PermissionDenied();
 }
 
+void User::increaseVirtualWallet(int money)
+{
+    throw PermissionDenied();
+}
+
 void User::follow(Map input, User* publisher)
 {
     for(Counter i=0;i<following_ids.size();i++)
@@ -237,7 +242,7 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
     }
 }
 
-void User::buyMovie(Map input,MovieRepository* repo)
+void User::buyMovie(Map input,MovieRepository* repo,User* publisher)
 {
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
     for(Counter i=0; i<purchased_films.size(); i++)
@@ -250,8 +255,8 @@ void User::buyMovie(Map input,MovieRepository* repo)
     {
         wallet -= movie->getPrice();
         purchased_films.push_back(movie);
-        movie->increaseSoldNumber();
         repo->increaseMoney(movie->getPrice());
+        publisher->increaseVirtualWallet(repo->calculateShare(stoi(input["film_id"])));
     }
     else
         throw PermissionDenied();

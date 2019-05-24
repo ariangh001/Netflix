@@ -28,9 +28,11 @@ class Publisher : public User
         virtual void replyComment(Map input,MovieRepository* repo);
         virtual void deleteComments(Map input,MovieRepository* repo);
         virtual std::vector<User*> getFollowers();
+        virtual void increaseVirtualWallet(int money);
     private:
         std::vector<Movie*> published_films;
         std::vector<User*> my_followers;
+        int virtual_wallet;
 };
 
 #endif

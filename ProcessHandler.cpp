@@ -89,8 +89,11 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
         active_user->viewMovieDetails(input,movie_repository);
     else if(function_type == "buyInput")
     {
+        Movie* movie = movie_repository->findMovie(stoi(input["film_id"]));
+        int pub_id = movie->getPubId();
+        User* publisher = users_repository->findPublisher(pub_id);
         int size = active_user->getFilmsNumber();
-        active_user->buyMovie(input,movie_repository);
+        active_user->buyMovie(input,movie_repository,publisher);
         if(active_user->getFilmsNumber() != size)
             notificationHandler(input,"buy");
     }

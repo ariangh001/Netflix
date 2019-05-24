@@ -27,7 +27,7 @@ class User
         std::vector<Movie*> filterDirector(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> filterRate(std::vector<Movie*> unfiltered_movies,Map input);
         void viewMovieDetails(Map input,MovieRepository* repo);
-        void buyMovie(Map input,MovieRepository* repo);
+        void buyMovie(Map input,MovieRepository* repo,User* publisher);
         void rateMovie(Map input,MovieRepository* repo);
         void postComment(Map input,MovieRepository* repo);
         void viewPurchases(Map input,MovieRepository* repo);
@@ -50,6 +50,7 @@ class User
         virtual void deleteComments(Map input,MovieRepository* repo);
         virtual void addFollower(User* user);
         virtual std::vector<User*> getFollowers();
+        virtual void increaseVirtualWallet(int money);
         std::string getUsername() const;
         std::string getPassword() const;
         std::string getEmail() const;

@@ -63,20 +63,24 @@ int MovieRepository::calculateShare(int film_id)
         if(movies[i]->getId() == film_id)
         {
             if(movies[i]->getRate() < 5)
-                amount_returned = 8 / 10 * movies[i]->getPrice() *
-                         (movies[i]->getSold() - movies[i]->getRecievedCash());
+                amount_returned = 8 / 10 * movies[i]->getPrice();
             else if(movies[i]->getRate() >= 5 && movies[i]->getRate() < 8)
-                amount_returned = 9 / 10 * movies[i]->getPrice() *
-                         (movies[i]->getSold() - movies[i]->getRecievedCash());
+                amount_returned = 9 / 10 * movies[i]->getPrice();
             else if(movies[i]->getPrice() >= 8)
-                amount_returned = 95 / 100 * movies[i]->getPrice() *
-                         (movies[i]->getSold() - movies[i]->getRecievedCash());
-            wallet -= amount_returned;
-            movies[i]->setRecievedCash(movies[i]->getSold());
+                amount_returned = 95 / 100 * movies[i]->getPrice();
             return amount_returned;
         }
     }
+    throw NotFound();
 }
+
+ void MovieRepository::decreaseMoney(int money)
+ {
+     if(money >= 0)
+        wallet -= money;
+    else
+        throw BadRequest();
+ }
 
 std::vector<Movie*> MovieRepository::deleteMovies(std::vector<Movie*> temp, Movie* movie)
 {

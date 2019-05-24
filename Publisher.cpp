@@ -5,6 +5,7 @@ Publisher::Publisher(std::string _username, std::string _password,
         :User(_username,_password,_email,_age)
 {
     wallet = 0;
+    virtual_wallet = 0;
     id = 0;
 }
 
@@ -103,9 +104,18 @@ void Publisher::addFollower(User* user)
 
 void Publisher::recieveMoney(Map input,MovieRepository* repo)
 {
-    for(Counter i=0; i<published_films.size(); i++)
-        wallet += repo->calculateShare(published_films[i]->getId());
+    wallet += virtual_wallet;
+    repo->decreaseMoney(virtual_wallet);
+    virtual_wallet = 0;
     std::cout<<OK_REQUEST<<std::endl;
+}
+
+void Publisher::increaseVirtualWallet(int money)
+{
+    if(money >= 0)
+        virtual_wallet += money;
+    else
+        throw BadRequest();
 }
 
 void Publisher::replyComment(Map input,MovieRepository* repo)

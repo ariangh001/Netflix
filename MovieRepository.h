@@ -14,6 +14,7 @@ class MovieRepository
         std::vector<Movie*> copyMovies(std::vector<Movie*> new_database);
         Movie* findMovie(int film_id);
         void increaseMoney(int money);
+        void decreaseMoney(int money);
         int calculateShare(int film_id);
         std::vector<Movie*> deleteMovies(std::vector<Movie*> temp, Movie* movie);
         Movie* filterByRate(std::vector<Movie*> temp);

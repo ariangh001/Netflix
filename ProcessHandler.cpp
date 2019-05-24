@@ -117,6 +117,8 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
         active_user->viewUnreadNotifs(input);
     else if(function_type == "viewNotifs")
         active_user->viewNotifs(input);
+    else if(function_type == "viewMoney")
+        active_user->viewMoney();
 }
 
 void ProcessHandler::checkPermission(std::string function_type)

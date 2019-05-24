@@ -59,7 +59,7 @@ class User
         virtual std::string getType();
         int getFilmsNumber() const;
         int getFollowingsNumber() const;
-        void viewMoney();
+        void viewMoney(MovieRepository* repo);
     protected:
         std::string username;
         std::string password;

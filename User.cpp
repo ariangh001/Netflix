@@ -235,10 +235,8 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
             break;
         Movie* temp_movie = repo->filterByRate(temp);
         temp = repo->deleteMovies(temp,temp_movie);
-        std::cout<<i+1<<". "<<temp_movie->getId()
-                 <<" | "<<temp_movie->getName()
-                 <<" | "<<temp_movie->getLength()
-                 <<" | "<<temp_movie->getDirector()<<std::endl;
+        std::cout<<i+1<<". "<<temp_movie->getId()<<" | "<<temp_movie->getName()
+        <<" | "<<temp_movie->getLength()<<" | "<<temp_movie->getDirector()<<std::endl;
     }
 }
 
@@ -256,6 +254,7 @@ void User::buyMovie(Map input,MovieRepository* repo,User* publisher)
         wallet -= movie->getPrice();
         purchased_films.push_back(movie);
         repo->increaseMoney(movie->getPrice());
+        movie->increaseSoldNumbers();
         publisher->increaseVirtualWallet(repo->calculateShare(stoi(input["film_id"])));
     }
     else
@@ -414,7 +413,10 @@ void User::viewNotifs(Map input)
         std::cout<<read_notifications.size() - i<<". "<<read_notifications[i]<<std::endl;
 }
 
-void User::viewMoney()
+void User::viewMoney(MovieRepository* repo)
 {
-    std::cout<<wallet<<std::endl;
+    if(username != "admin")
+        std::cout<<wallet<<std::endl;
+    else
+        std::cout<<repo->getWallet()<<std::endl;
 }

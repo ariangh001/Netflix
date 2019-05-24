@@ -5,6 +5,8 @@ ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies)
     users_repository = users;
     movie_repository = movies;
     active_user = NULL;
+    User* admin = new User("admin",sha256("admin"),"admin@admin.com",20);
+    users_repository->addUser(admin);
 }
 
 void ProcessHandler::signup(Map input,std::string function_type)
@@ -63,62 +65,74 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
 {
     checkPermission(function_type);
     checkValues(input);
-    if(function_type == "submitFilm")
+    if(active_user->getUsername() != "admin")
     {
-        active_user->submitMovie(input,movie_repository);
-        notificationHandler(input,"submit");
+        if(function_type == "submitFilm")
+        {
+            active_user->submitMovie(input,movie_repository);
+            notificationHandler(input,"submit");
+        }
+        else if(function_type == "editFilmDetails")
+            active_user->editMovieDetails(input,movie_repository);
+        else if(function_type == "deleteFilm")
+            active_user->deleteMovie(input,movie_repository);
+        else if(function_type == "publishedFilms")
+            active_user->viewMovies(input);
+        else if(function_type == "showFollowers")
+            active_user->viewFollowers(input);
+        else if(function_type == "getMoney")
+            active_user->recieveMoney(input,movie_repository);
+        else if(function_type == "reply")
+        {
+            active_user->replyComment(input,movie_repository);
+            notificationHandler(input,"reply");
+        }
+        else if(function_type == "deleteComment")
+            active_user->deleteComments(input,movie_repository);
+        else if(function_type == "follow")
+        {
+            int size = active_user->getFollowingsNumber();
+            followHandler(input);
+            if(active_user->getFollowingsNumber() != size)
+                notificationHandler(input,"follow");
+            std::cout<<OK_REQUEST<<std::endl;
+        }
+        else if(function_type == "chargeAccount")
+            active_user->chargeAccount(input);
+        else if(function_type == "searchMovies")
+            active_user->searchMovies(input,movie_repository);
+        else if(function_type == "viewDetails")
+            active_user->viewMovieDetails(input,movie_repository);
+        else if(function_type == "buyInput")
+            buyHandler(input);
+        else if(function_type == "rateMovie")
+        {
+            active_user->rateMovie(input,movie_repository);
+            notificationHandler(input,"rate");
+        }
+        else if(function_type == "comment")
+        {
+            active_user->postComment(input,movie_repository);
+            notificationHandler(input,"comment");
+        }
+        else if(function_type == "purchasedMovies")
+            active_user->viewPurchases(input,movie_repository);
+        else if(function_type == "viewUnreadNotifs")
+            active_user->viewUnreadNotifs(input);
+        else if(function_type == "viewNotifs")
+            active_user->viewNotifs(input);
+        else if(function_type == "viewMoney")
+            active_user->viewMoney(movie_repository);
+        else
+            throw PermissionDenied();
     }
-    else if(function_type == "editFilmDetails")
-        active_user->editMovieDetails(input,movie_repository);
-    else if(function_type == "deleteFilm")
-        active_user->deleteMovie(input,movie_repository);
-    else if(function_type == "publishedFilms")
-        active_user->viewMovies(input);
-    else if(function_type == "showFollowers")
-        active_user->viewFollowers(input);
-    else if(function_type == "getMoney")
-        active_user->recieveMoney(input,movie_repository);
-    else if(function_type == "reply")
+    else
     {
-        active_user->replyComment(input,movie_repository);
-        notificationHandler(input,"reply");
+        if(function_type == "viewMoney")
+            active_user->viewMoney(movie_repository);
+        else
+            throw PermissionDenied();
     }
-    else if(function_type == "deleteComment")
-        active_user->deleteComments(input,movie_repository);
-    else if(function_type == "follow")
-    {
-        int size = active_user->getFollowingsNumber();
-        followHandler(input);
-        if(active_user->getFollowingsNumber() != size)
-            notificationHandler(input,"follow");
-        std::cout<<OK_REQUEST<<std::endl;
-    }
-    else if(function_type == "chargeAccount")
-        active_user->chargeAccount(input);
-    else if(function_type == "searchMovies")
-        active_user->searchMovies(input,movie_repository);
-    else if(function_type == "viewDetails")
-        active_user->viewMovieDetails(input,movie_repository);
-    else if(function_type == "buyInput")
-        buyHandler(input);
-    else if(function_type == "rateMovie")
-    {
-        active_user->rateMovie(input,movie_repository);
-        notificationHandler(input,"rate");
-    }
-    else if(function_type == "comment")
-    {
-        active_user->postComment(input,movie_repository);
-        notificationHandler(input,"comment");
-    }
-    else if(function_type == "purchasedMovies")
-        active_user->viewPurchases(input,movie_repository);
-    else if(function_type == "viewUnreadNotifs")
-        active_user->viewUnreadNotifs(input);
-    else if(function_type == "viewNotifs")
-        active_user->viewNotifs(input);
-    else if(function_type == "viewMoney")
-        active_user->viewMoney();
 }
 
 void ProcessHandler::checkPermission(std::string function_type)

@@ -77,23 +77,20 @@ void InputHandler::commandExists(CommandList words)
                 && words[FUNCTION_INDEX] != "money"
                 && words[FUNCTION_INDEX] != "buy"
                 && words[FUNCTION_INDEX] != "rate"
+                && words[FUNCTION_INDEX] != "edit_films"
+                && words[FUNCTION_INDEX] != "delete_comments"
+                && words[FUNCTION_INDEX] != "delete_films"
                 && words[FUNCTION_INDEX] != "comments")
-                    throw NotFound();
-            else if(words[COMMAND_TYPE_INDEX] == PUT_COMMAND)
-                if(words[FUNCTION_INDEX] != "films")
                     throw NotFound();
             else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
                 if(words[FUNCTION_INDEX] != "published"
                 && words[FUNCTION_INDEX] != "films"
                 && words[FUNCTION_INDEX] != "purchased")
                     throw NotFound();
-            else if(words[COMMAND_TYPE_INDEX] == DELETE_COMMAND)
-                if(words[FUNCTION_INDEX] != "comments"
-                && words[FUNCTION_INDEX] != "films")
-                    throw NotFound();
         }
         else if(words[3] == "?")
-            if(!(words[FUNCTION_INDEX] == "notifications" && words[2] == "read"))
+            if(!(words[COMMAND_TYPE_INDEX] == GET_COMMAND
+                && words[FUNCTION_INDEX] == "notifications" && words[2] == "read"))
                 throw NotFound();
         else
             throw NotFound();
@@ -101,10 +98,9 @@ void InputHandler::commandExists(CommandList words)
     else
     {
         if(words[COMMAND_TYPE_INDEX] == POST_COMMAND)
-            if(words[FUNCTION_INDEX] != "money")
-                throw NotFound();
-        else if(words[COMMAND_TYPE_INDEX] == PUT_COMMAND)
-            if(words[FUNCTION_INDEX] != "films")
+            if(words[FUNCTION_INDEX] != "money"
+            && words[FUNCTION_INDEX] != "edit_films"
+            && words[FUNCTION_INDEX] != "logout")
                 throw NotFound();
         else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
             if(words[FUNCTION_INDEX] != "followers"
@@ -113,17 +109,13 @@ void InputHandler::commandExists(CommandList words)
             && words[FUNCTION_INDEX] != "purchased"
             && words[FUNCTION_INDEX] != "films")
                 throw NotFound();
-        else if(words[COMMAND_TYPE_INDEX] == DELETE_COMMAND)
-            throw NotFound();
     }
 }
 
 void InputHandler::checkFirstParameter(string first_command)
 {
     if(first_command != "POST"
-    && first_command != "GET"
-    && first_command != "DELETE"
-    && first_command != "PUT")
+    && first_command != "GET")
         throw BadRequest();
 }
 
@@ -176,18 +168,14 @@ void InputHandler::checkFunctions(CommandList words)
             checkComment(words);
         else if(words[FUNCTION_INDEX] == "followers")
             checkFollow(words);
-    }
-    else if(words[COMMAND_TYPE_INDEX] == PUT_COMMAND)
-    {
-        if(words[FUNCTION_INDEX] == "films")
+        else if(words[FUNCTION_INDEX] == "edit_films")
             checkEditFilm(words);
-    }
-    else if(words[COMMAND_TYPE_INDEX] == DELETE_COMMAND)
-    {
-        if(words[FUNCTION_INDEX] == "films")
+        else if(words[FUNCTION_INDEX] == "delete_films")
             checkDeleteFilm(words);
-        else if(words[FUNCTION_INDEX] == "comments")
+        else if(words[FUNCTION_INDEX] == "delete_comments")
             checkDeleteComment(words);
+        else if(words[FUNCTION_INDEX] == "logout")
+            checkLogout(words);
     }
     else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
     {
@@ -261,6 +249,14 @@ void InputHandler::checkLogin(CommandList words)
     if(isEmpty(loginInput) == true)
         throw BadRequest();
     handler->login(loginInput);
+}
+
+void InputHandler::checkLogout(CommandList words)
+{
+    Map logoutInput;
+    if(words.size() != 2)
+        throw BadRequest();
+    handler->checkFunctions("getMoney",logoutInput);
 }
 
 void InputHandler::checkSubmitFilm(CommandList words)

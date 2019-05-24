@@ -40,6 +40,7 @@ class InputHandler
         void checkFunctions(CommandList words);
         void checkSignUp(CommandList words);
         void checkLogin(CommandList words);
+        void checkLogout(CommandList words);
         void checkSubmitFilm(CommandList words);
         void checkEditFilm(CommandList words);
         void checkDeleteFilm(CommandList words);

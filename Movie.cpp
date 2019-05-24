@@ -18,6 +18,7 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     director = _director;
     last_comment_id = 0;
     id = 0;
+    numbers_sold = 0;
 }
 
 Movie::~Movie()
@@ -71,6 +72,16 @@ float Movie::getRate() const
 int Movie::getPubId() const
 {
     return publisher_id;
+}
+
+int Movie::getSold() const
+{
+    return numbers_sold;
+}
+
+void Movie::increaseSoldNumbers()
+{
+    numbers_sold++;
 }
 
 void Movie::setId(int _id)

@@ -32,6 +32,8 @@ class Movie
         std::string getDirector() const;
         int getId() const;
         float getRate() const;
+        int getSold() const;
+        void increaseSoldNumbers();
         void updateRate();
         void addComment(Comment* comment);
         void addReply(Reply* reply);
@@ -48,6 +50,7 @@ class Movie
         int id;
         int publisher_id;
         float rate;
+        int numbers_sold;
         std::map<int,int> rates;
         std::vector<Comment*> comments;
         std::vector<Reply*> replies;

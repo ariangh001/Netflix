@@ -101,16 +101,17 @@ void InputHandler::commandExists(CommandList words)
     else
     {
         if(words[COMMAND_TYPE_INDEX] == POST_COMMAND)
-            if(words[1] != "money")
+            if(words[FUNCTION_INDEX] != "money")
                 throw NotFound();
         else if(words[COMMAND_TYPE_INDEX] == PUT_COMMAND)
-            throw NotFound();
+            if(words[FUNCTION_INDEX] != "films")
+                throw NotFound();
         else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
-            if(words[1] != "followers"
-            && words[1] != "notifications"
-            && words[1] != "published"
-            && words[1] != "purchased"
-            && words[1] != "films")
+            if(words[FUNCTION_INDEX] != "followers"
+            && words[FUNCTION_INDEX] != "notifications"
+            && words[FUNCTION_INDEX] != "published"
+            && words[FUNCTION_INDEX] != "purchased"
+            && words[FUNCTION_INDEX] != "films")
                 throw NotFound();
         else if(words[COMMAND_TYPE_INDEX] == DELETE_COMMAND)
             throw NotFound();

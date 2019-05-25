@@ -40,6 +40,7 @@ class Movie
         void deleteComment(int comment_id);
         Comment* findComment(int comment_id);
         void showCommentsDetails();
+        bool isDeleted();
     private:
         std::string name;
         int year;
@@ -55,6 +56,7 @@ class Movie
         std::vector<Comment*> comments;
         std::vector<Reply*> replies;
         int last_comment_id;
+        bool is_deleted;
 };
 
 #endif

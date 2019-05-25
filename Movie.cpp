@@ -19,6 +19,7 @@ Movie::Movie(std::string _name, int _year,int _length, int _price,
     last_comment_id = 0;
     id = 0;
     numbers_sold = 0;
+    is_deleted = false;
 }
 
 Movie::~Movie()
@@ -27,6 +28,11 @@ Movie::~Movie()
         delete comments[i];
     for(Counter i=0; i<replies.size(); i++)
         delete replies[i];
+}
+
+bool Movie::isDeleted()
+{
+    return is_deleted;
 }
 
 int Movie::getId() const

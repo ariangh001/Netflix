@@ -60,3 +60,10 @@ User* UsersRepository::findPeople(int user_id)
             return users[i];
     throw NotFound();
 }
+
+std::vector<User*> UsersRepository::copyUsers(std::vector<User*> temp)
+{
+    for(Counter i=0; i<users.size();i++)
+        temp.push_back(users[i]);
+    return temp;
+}

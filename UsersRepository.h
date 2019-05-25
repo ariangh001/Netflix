@@ -15,6 +15,7 @@ class UsersRepository
         User* findPublisher(int publisher_id);
         User* findPeople(int user_id);
         int getUsersNumber();
+        std::vector<User*> copyUsers(std::vector<User*> temp);
     private:
         std::vector<User*> users;
         int last_id;

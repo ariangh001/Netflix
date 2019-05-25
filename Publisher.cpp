@@ -33,15 +33,15 @@ void Publisher::editMovieDetails(Map input,MovieRepository* movie_repository)
             {
                 if(input["name"] != "-1")
                     published_films[i]->setName(input["name"]);
-                else if(input["year"] != "-1")
+                if(input["year"] != "-1")
                     published_films[i]->setYear(stoi(input["year"]));
-                else if(input["length"] != "-1")
+                if(input["length"] != "-1")
                     published_films[i]->setLength(stoi(input["length"]));
-                else if(input["price"] != "-1")
+                if(input["price"] != "-1")
                     published_films[i]->setPrice(stoi(input["price"]));
-                else if(input["summary"] != "-1")
+                if(input["summary"] != "-1")
                     published_films[i]->setSummary(input["summary"]);
-                else if(input["director"] != "-1")
+                if(input["director"] != "-1")
                     published_films[i]->setDirector(input["director"]);
             }
         }

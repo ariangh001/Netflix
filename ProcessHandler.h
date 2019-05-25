@@ -6,6 +6,7 @@
 #include "ExceptionHandler.h"
 #include "UsersRepository.h"
 #include "MovieRepository.h"
+#include "AI.h"
 #include <string>
 #include <map>
 #include <iterator>
@@ -39,5 +40,6 @@ class ProcessHandler
         void buyNotifHandler(Map input);
         void rateNotifHandler(Map input);
         void buyHandler(Map input);
+        AI recommendationHandler();
 };
 #endif

@@ -20,7 +20,7 @@ ExceptionHandler.o : ExceptionHandler.cpp ExceptionHandler.h
 InputHandler.o : InputHandler.h InputHandler.cpp ExceptionHandler.h ProcessHandler.h User.h
 	$(CC) -c InputHandler.cpp -o InputHandler.o
 
-ProcessHandler.o: ProcessHandler.h ProcessHandler.cpp ExceptionHandler.h UsersRepository.h User.h Publisher.h MovieRepository.h sha256.h
+ProcessHandler.o: ProcessHandler.h ProcessHandler.cpp ExceptionHandler.h UsersRepository.h User.h Publisher.h MovieRepository.h sha256.h AI.h
 	$(CC) -c ProcessHandler.cpp -o ProcessHandler.o
 
 Movie.o : Movie.h Movie.cpp Comment.h Reply.h ExceptionHandler.h
@@ -44,7 +44,7 @@ UsersRepository.o : User.h ExceptionHandler.h UsersRepository.h UsersRepository.
 sha256.o: sha256.h sha256.cpp
 	$(CC) -c sha256.cpp -o sha256.o
 
-AI.o: AI.h AI.cpp Movie.h
+AI.o: AI.h AI.cpp Movie.h UsersRepository.h MovieRepository.h User.h
 	$(CC) -c AI.cpp -o AI.o
 
 .PHONY : clean

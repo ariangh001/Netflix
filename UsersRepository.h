@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 typedef unsigned int Counter;
+class User;
 class UsersRepository
 {
     public:

@@ -217,7 +217,7 @@ std::vector<Movie*> User::filterRate(std::vector<Movie*> unfiltered_movies,Map i
     return unfiltered_movies;
 }
 
-void User::viewMovieDetails(Map input,MovieRepository* repo)
+void User::viewMovieDetails(Map input,MovieRepository* repo,AI &ai)
 {
     int film_id = stoi(input["film_id"]);
     Movie* movie = repo->findMovie(film_id);
@@ -233,11 +233,9 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
     movie->showCommentsDetails();
     std::cout<<std::endl<<"Recommendation Film"<<std::endl;
     std::cout<<"#. Film Id | Film Name | Film Length | Film Director"<<std::endl;
-    AI ai;
     std::vector<Movie*> temp, recommended;
     temp = repo->copyMovies(temp);
-    ai.makeMatrix(temp);
-    recommended = ai.recommendMovie(movie->getId(),temp,purchased_films);
+    recommended = ai.recommendMovie(film_id,temp,purchased_films);
     for(Counter i=0; i<recommended.size(); i++)
     {
         std::cout<<i+1<<". "<<recommended[i]->getId()<<" | "<<recommended[i]->getName()
@@ -426,8 +424,9 @@ void User::viewMoney(MovieRepository* repo)
         std::cout<<repo->getWallet()<<std::endl;
 }
 
-Movie* User::getPurchased(Movie* movie)
+std::vector<Movie*> User::getPurchased(std::vector<Movie*> movies)
 {
     for(Counter i=0; i<purchased_films.size(); i++)
-        //return all push back kon
+        movies.push_back(purchased_films[i]);
+    return movies;
 }

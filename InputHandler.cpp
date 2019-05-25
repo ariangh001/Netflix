@@ -77,7 +77,7 @@ void InputHandler::commandExists(CommandList words)
                 && words[FUNCTION_INDEX] != "money"
                 && words[FUNCTION_INDEX] != "buy"
                 && words[FUNCTION_INDEX] != "rate"
-                && words[FUNCTION_INDEX] != "edit_films"
+                && words[FUNCTION_INDEX] != "put_films"
                 && words[FUNCTION_INDEX] != "delete_comments"
                 && words[FUNCTION_INDEX] != "delete_films"
                 && words[FUNCTION_INDEX] != "comments")
@@ -99,7 +99,7 @@ void InputHandler::commandExists(CommandList words)
     {
         if(words[COMMAND_TYPE_INDEX] == POST_COMMAND)
             if(words[FUNCTION_INDEX] != "money"
-            && words[FUNCTION_INDEX] != "edit_films"
+            && words[FUNCTION_INDEX] != "put_films"
             && words[FUNCTION_INDEX] != "logout")
                 throw NotFound();
         else if(words[COMMAND_TYPE_INDEX] == GET_COMMAND)
@@ -169,7 +169,7 @@ void InputHandler::checkFunctions(CommandList words)
             checkComment(words);
         else if(words[FUNCTION_INDEX] == "followers")
             checkFollow(words);
-        else if(words[FUNCTION_INDEX] == "edit_films")
+        else if(words[FUNCTION_INDEX] == "put_films")
             checkEditFilm(words);
         else if(words[FUNCTION_INDEX] == "delete_films")
             checkDeleteFilm(words);

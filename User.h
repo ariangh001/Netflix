@@ -9,6 +9,7 @@
 #include "Movie.h"
 #include <vector>
 #include "AI.h"
+class AI;
 typedef unsigned int Counter;
 typedef std::map<std::string,std::string> Map;
 class User
@@ -28,7 +29,7 @@ class User
         std::vector<Movie*> filterDirector(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> filterRate(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> eraseDeletedMovies(std::vector<Movie*> unfiltered_movies);
-        void viewMovieDetails(Map input,MovieRepository* repo);
+        void viewMovieDetails(Map input,MovieRepository* repo,AI &ai);
         void buyMovie(Map input,MovieRepository* repo,User* publisher);
         void rateMovie(Map input,MovieRepository* repo);
         void postComment(Map input,MovieRepository* repo);
@@ -62,7 +63,7 @@ class User
         int getFilmsNumber() const;
         int getFollowingsNumber() const;
         void viewMoney(MovieRepository* repo);
-        Movie* getPurchased(Movie* movie);
+        std::vector<Movie*> getPurchased(std::vector<Movie*> movies);
     protected:
         std::string username;
         std::string password;

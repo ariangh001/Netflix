@@ -102,7 +102,11 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
         else if(function_type == "searchMovies")
             active_user->searchMovies(input,movie_repository);
         else if(function_type == "viewDetails")
-            active_user->viewMovieDetails(input,movie_repository);
+        {
+            AI ai= recommendationHandler();
+            active_user->viewMovieDetails(input,movie_repository,ai);
+        }
+
         else if(function_type == "buyInput")
             buyHandler(input);
         else if(function_type == "rateMovie")
@@ -138,8 +142,10 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
 void ProcessHandler::checkPermission(std::string function_type)
 {
     if(function_type == "signup" || function_type == "login")
+    {
         if(active_user != NULL)
             throw BadRequest();
+    }
     else
         if(active_user == NULL)
             throw PermissionDenied();
@@ -286,4 +292,31 @@ void ProcessHandler::buyHandler(Map input)
     active_user->buyMovie(input,movie_repository,publisher);
     if(active_user->getFilmsNumber() != size)
         notificationHandler(input,"buy");
+}
+
+AI ProcessHandler::recommendationHandler()
+{
+    AI ai;
+    std::vector<Movie*> movies;
+    std::vector<User*> temp;
+    movies = movie_repository->copyMovies(movies);
+    ai.makeMatrix(movies);
+    int first_index,second_index;
+    temp = users_repository->copyUsers(temp);
+    for(Counter i=1; i<temp.size(); i++)
+    {
+        std::vector<Movie*> purchases;
+        purchases = temp[i]->getPurchased(purchases);
+        for(Counter j=0; j<purchases.size(); j++)
+        {
+            first_index = movie_repository->getIndex(purchases[j]);
+            for(Counter k=0; k<purchases.size(); k++)
+                if(j != k)
+                {
+                    second_index = movie_repository->getIndex(purchases[k]);
+                    ai.updateMatrix(first_index,second_index);
+                }
+        }
+    }
+    return ai;
 }

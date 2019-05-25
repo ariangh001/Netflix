@@ -15,15 +15,8 @@ std::vector<Movie*> AI::recommendMovie(int film_id,std::vector<Movie*> temp,std:
     std::vector<Movie*> recommended;
     int movie_index = 0, new_movie = 0, max_sold = -1;
     bool is_zero = true;
-    for(Counter i=0; i<temp.size(); i++)
-        if(temp[i]->getId() == film_id)
-            movie_index = i;
-    for(Counter i=0; i<matrix[movie_index].size(); i++)
-        if(isPurchased(purchased,temp[i]->getId()) == true)
-            matrix[movie_index][i] = -1;
-    for(Counter i=0;i<temp.size();i++)
-        if(temp[i]->isDeleted() == true)
-            matrix[movie_index][i] = -1;
+    movie_index = getMovieIndex(temp,film_id);
+    checkMatrix(temp,purchased,movie_index);
     for(Counter i=0; i < 4; i++)
     {
         max_sold = -1;
@@ -51,4 +44,19 @@ bool AI::isPurchased(std::vector<Movie*> purchased,int film_id)
         if(purchased[i]->getId() == film_id)
             return true;
     return false;
+}
+
+void AI::checkMatrix(std::vector<Movie*> temp,std::vector<Movie*> purchased,int movie_index)
+{
+    for(Counter i=0; i<matrix[movie_index].size(); i++)
+        if(isPurchased(purchased,temp[i]->getId()) == true
+        || temp[i]->isDeleted() == true)
+            matrix[movie_index][i] = -1;
+}
+
+int AI::getMovieIndex(std::vector<Movie*> temp,int film_id)
+{
+    for(Counter i=0; i<temp.size(); i++)
+        if(temp[i]->getId() == film_id)
+            return i;
 }

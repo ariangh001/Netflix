@@ -24,7 +24,7 @@ void MovieRepository::eraseMovie(int movie_id)
     for(Counter i=0; i<movies.size(); i++)
         if(movies[i]->getId() == movie_id)
         {
-            movies.erase(movies.begin() + i);
+            movies[i]->deleteMovie();
             return;
         }
     throw NotFound();
@@ -42,7 +42,7 @@ Movie* MovieRepository::findMovie(int film_id)
     if(film_id <= 0)
         throw BadRequest();
     for(Counter i=0; i<movies.size(); i++)
-        if(movies[i]->getId() == film_id)
+        if(movies[i]->getId() == film_id && movies[i]->isDeleted() == false)
             return movies[i];
     throw NotFound();
 }
@@ -63,24 +63,24 @@ int MovieRepository::calculateShare(int film_id)
         if(movies[i]->getId() == film_id)
         {
             if(movies[i]->getRate() < 5)
-                amount_returned = 8 / 10 * movies[i]->getPrice();
+                amount_returned = (float)8 / 10 * movies[i]->getPrice();
             else if(movies[i]->getRate() >= 5 && movies[i]->getRate() < 8)
-                amount_returned = 9 / 10 * movies[i]->getPrice();
+                amount_returned = (float)9 / 10 * movies[i]->getPrice();
             else if(movies[i]->getPrice() >= 8)
-                amount_returned = 95 / 100 * movies[i]->getPrice();
+                amount_returned = (float)95 / 100 * movies[i]->getPrice();
             return amount_returned;
         }
     }
     throw NotFound();
 }
 
- void MovieRepository::decreaseMoney(int money)
- {
-     if(money >= 0)
+void MovieRepository::decreaseMoney(int money)
+{
+    if(money >= 0)
         wallet -= money;
     else
         throw BadRequest();
- }
+}
 
 std::vector<Movie*> MovieRepository::deleteMovies(std::vector<Movie*> temp, Movie* movie)
 {

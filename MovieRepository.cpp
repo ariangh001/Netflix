@@ -103,3 +103,11 @@ int MovieRepository::getWallet() const
 {
     return wallet;
 }
+
+int MovieRepository::getIndex(Movie* movie) const
+{
+    for(Counter i=0; i<movies.size(); i++)
+        if(movie->getId() == movies[i]->getId())
+            return i;
+    throw NotFound();
+}

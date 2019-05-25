@@ -19,6 +19,7 @@ class MovieRepository
         std::vector<Movie*> deleteMovies(std::vector<Movie*> temp, Movie* movie);
         Movie* filterByRate(std::vector<Movie*> temp);
         int getWallet() const;
+        int getIndex(Movie* movie) const;
     private:
         std::vector<Movie*> movies;
         int last_id;

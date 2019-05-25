@@ -35,6 +35,11 @@ bool Movie::isDeleted()
     return is_deleted;
 }
 
+void Movie::deleteMovie()
+{
+    is_deleted = true;
+}
+
 int Movie::getId() const
 {
     return id;

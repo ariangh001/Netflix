@@ -41,6 +41,7 @@ class Movie
         Comment* findComment(int comment_id);
         void showCommentsDetails();
         bool isDeleted();
+        void deleteMovie();
     private:
         std::string name;
         int year;

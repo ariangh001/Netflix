@@ -156,6 +156,15 @@ std::vector<Movie*> User::filterMovies(std::vector<Movie*> unfiltered_movies,Map
     unfiltered_movies = filterYear(unfiltered_movies,input);
     unfiltered_movies = filterPrice(unfiltered_movies,input);
     unfiltered_movies = filterDirector(unfiltered_movies,input);
+    unfiltered_movies = eraseDeletedMovies(unfiltered_movies);
+    return unfiltered_movies;
+}
+
+std::vector<Movie*> User::eraseDeletedMovies(std::vector<Movie*> unfiltered_movies)
+{
+    for(Counter i=0; i<unfiltered_movies.size(); i++)
+        if(unfiltered_movies[i]->isDeleted() == true)
+            unfiltered_movies.erase(unfiltered_movies.begin() + i);
     return unfiltered_movies;
 }
 
@@ -228,7 +237,7 @@ void User::viewMovieDetails(Map input,MovieRepository* repo)
     std::vector<Movie*> temp, recommended;
     temp = repo->copyMovies(temp);
     ai.makeMatrix(temp);
-    recommended = ai.recommendMovie(movie->getId(),temp);
+    recommended = ai.recommendMovie(movie->getId(),temp,purchased_films);
     for(Counter i=0; i<recommended.size(); i++)
     {
         std::cout<<i+1<<". "<<recommended[i]->getId()<<" | "<<recommended[i]->getName()
@@ -251,7 +260,7 @@ void User::buyMovie(Map input,MovieRepository* repo,User* publisher)
         purchased_films.push_back(movie);
         repo->increaseMoney(movie->getPrice());
         movie->increaseSoldNumbers();
-        publisher->increaseVirtualWallet(repo->calculateShare(stoi(input["film_id"])));
+        publisher->increaseVirtualWallet(repo->calculateShare(movie->getId()));
     }
     else
         throw PermissionDenied();
@@ -415,4 +424,10 @@ void User::viewMoney(MovieRepository* repo)
         std::cout<<wallet<<std::endl;
     else
         std::cout<<repo->getWallet()<<std::endl;
+}
+
+Movie* User::getPurchased(Movie* movie)
+{
+    for(Counter i=0; i<purchased_films.size(); i++)
+        //return all push back kon
 }

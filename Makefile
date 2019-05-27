@@ -49,4 +49,4 @@ AI.o: AI.h AI.cpp Movie.h UsersRepository.h MovieRepository.h User.h
 
 .PHONY : clean
 clean:
-	rm -r *.o
+	rm -r *.o *.out

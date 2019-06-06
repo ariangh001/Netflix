@@ -20,8 +20,8 @@ class ProcessHandler
 {
     public:
         ProcessHandler(UsersRepository* users,MovieRepository* movies);
-        void signup(Map signupInput,std::string function_type);
-        void login(Map loginInput,std::string function_type);
+        std::string signup(Map signupInput,std::string function_type);
+        std::string login(Map loginInput,std::string function_type);
         void logout();
         void checkFunctions(std::string function_type,Map input);
     private:

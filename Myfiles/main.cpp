@@ -1,4 +1,3 @@
-#include "InputHandler.h"
 #include "ExceptionHandler.h"
 #include "System.h"
 #include "my_server.hpp"

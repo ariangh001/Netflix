@@ -302,3 +302,140 @@ Response* Profile::callback(Request* req)
     }
     return res;
 }
+
+Response* Home::callback(Request* req)
+{
+    Response* res = new Response;
+    res->setHeader("Content-Type","text/html");
+    res->setHeader("Developer-Name","ariyan");
+    try
+    {
+        std::string session_id = req->getSessionId(), body = "", Delete = "";
+        body += "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css\">";
+        body += "<!DOCTYPE html>";
+        body += "<html>";
+        body += "<body style=\"background-image: url(/back.jpg); background-attachment: fixed; background-position : center;\">";
+        body += "<nav class=\"navbar navbar-inverse\"><div class=\"container-fluid\"><div class=\"navbar-header\">";
+        body += "<img class=\"navbar-brand\" src=\"University_of_Tehran_logo.svg.png\" style=\"width: 60px; height : 60px;\"></a></div>";
+        body += "<ul class=\"nav navbar-nav\"><li><a href=\"/submitfilm\">Add Movie</a></li>";
+        body += "<li><a href=\"/moviedetails\">Find Movies</a></li></ul>";
+        body += "<ul class=\"nav navbar-nav navbar-right\">";
+        body += "<li><a href = \"/profile\">Profile</li><li><a href=\"/logout\">";
+        body += "<span class=\"glyphicon glyphicon-log-out\"></span>Log out</a></li></ul></ul></div></nav>";
+        if(handler->isPublisher(session_id) == true)
+        {
+            Map input = {{"director",""}}, deleteInput = {{"film_id",""}};
+            input["director"] = req->getQueryParam("director");
+            std::vector<Movie*> publishes;
+            publishes = handler->viewPublishes(input,session_id);
+            for(Counter i=0; i<publishes.size(); i++)
+                if(req->getQueryParam(std::to_string(publishes[i]->getId())) == "delete")
+                    Delete = std::to_string(publishes[i]->getId());
+            if(Delete != "")
+            {
+                deleteInput["film_id"] = Delete;
+                handler->deleteFilm(deleteInput,session_id);
+                Delete = "";
+            }
+            publishes = handler->viewPublishes(input,session_id);
+            body += "<div align = \"center\"><br><h3 style = \"color : white;\">Published Movies<h3></div>";
+            body += "<table class=\"table table-striped\" align = \"center\" style = \"width:75%; background-color : rgb(23, 48, 80);color : yellow;\">";
+            body += "<style> th {color : gray; background-color : rgb(23, 48, 80); }</style>";
+            body += "<tr><th>Index</th><th>Name</th><th>Year</th>";
+            body += "<th>Length</th><th>Price</th><th>Rate</th><th>Director</th><th>Details</th><th>Delete</th></tr>";
+            for(Counter i=0; i<publishes.size(); i++)
+            {
+                body += "<tr><td>";
+                body += std::to_string(i+1);
+                body += "</td><td>";
+                body += publishes[i]->getName();
+                body += "</td><td>";
+                body += std::to_string(publishes[i]->getYear());
+                body += "</td><td>";
+                body += std::to_string(publishes[i]->getLength());
+                body += "</td><td>";
+                body += std::to_string(publishes[i]->getPrice());
+                body += "</td><td>";
+                body += std::to_string(publishes[i]->getRate());
+                body += "</td><td>";
+                body += publishes[i]->getDirector();
+                body += "</td><td>";
+                body += "<a href = /moviedetails?film_id=";
+                body += std::to_string(publishes[i]->getId());
+                body += "&search=Search><span class=\"glyphicon glyphicon-info-sign\"></span></a>";
+                body += "</td><td>";
+                body += "<form action = \"/home\" method = \"GET\">";
+                body += "<button type = \"submit\" value = \"delete\" style = \"background-color : rgb(23, 48, 80);\" name = \"";
+                body += std::to_string(publishes[i]->getId());
+                body += "\"><span class=\"glyphicon glyphicon-trash\" style = \"background-color : rgb(23, 48, 80);\"></span></button>";
+                body += "</form></td></tr>";
+            }
+            body += "</table>";
+            body += "<div align = \"center\"><form action = \"/home\" method = \"GET\">";
+            body += "<input type = \"text\" name = \"director\" value = \"Enter a Director's Name\"><br>";
+            body += "<input type = \"submit\" value = \"Filter\" ></form></div>";
+        }
+        std::vector<Movie*> movies;
+        movies = handler->showValidMovies(session_id);
+        if(handler->isPublisher(session_id) == false || movies.size() > 0)
+        {
+            body += "<div align = \"center\"><br><h3 style = \"color : white;\">Available Movies</h3></div>";
+            body += "<table class=\"table table-striped\" align = \"center\" style = \"width:75%; background-color : rgb(23, 48, 80);color : yellow;\">";
+            body += "<style> th {color : gray; background-color : rgb(23, 48, 80); }</style>";
+            body += "<tr><th>Index</th><th>Name</th><th>Year</th>";
+            body += "<th>Length</th><th>Price</th><th>Rate</th><th>Director</th><th>Details</th></tr>";
+            for(Counter i=0; i<movies.size(); i++)
+            {
+                body += "<tr><td>";
+                body += std::to_string(i+1);
+                body += "</td><td>";
+                body += movies[i]->getName();
+                body += "</td><td>";
+                body += std::to_string(movies[i]->getYear());
+                body += "</td><td>";
+                body += std::to_string(movies[i]->getLength());
+                body += "</td><td>";
+                body += std::to_string(movies[i]->getPrice());
+                body += "</td><td>";
+                body += std::to_string(movies[i]->getRate());
+                body += "</td><td>";
+                body += movies[i]->getDirector();
+                body += "</td><td>";
+                body += "<a href = /moviedetails?film_id=";
+                body += std::to_string(movies[i]->getId());
+                body += "&search=Search><span class=\"glyphicon glyphicon-info-sign\"></span></a>";
+                body += "</td></tr>";
+            }
+            body += "</table>";
+            body += "</body>";
+            body += "</html>";
+        }
+        res->setBody(body);
+    }
+    catch(std::exception& e)
+    {
+        std::string exc = e.what();
+        if(exc == "Bad Request")
+        {
+            Response* failed = Response::redirect("/badrequest");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Permission Denied")
+        {
+            Response* failed = Response::redirect("/permissionerror");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Not Found")
+        {
+            Response* failed = Response::redirect("/notfound");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+    }
+    return res;
+}

@@ -39,7 +39,7 @@ class Movie
         void addReply(Reply* reply);
         void deleteComment(int comment_id);
         Comment* findComment(int comment_id);
-        void showCommentsDetails();
+        std::vector<Comment*> showCommentsDetails();
         bool isDeleted();
         void deleteMovie();
     private:

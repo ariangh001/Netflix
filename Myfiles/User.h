@@ -23,13 +23,9 @@ class User
         void chargeAccount(Map input);
         void searchMovies(Map input,MovieRepository* repo);
         std::vector<Movie*> filterMovies(std::vector<Movie*> unfiltered_movies,Map input);
-        std::vector<Movie*> filterName(std::vector<Movie*> unfiltered_movies,Map input);
-        std::vector<Movie*> filterPrice(std::vector<Movie*> unfiltered_movies,Map input);
-        std::vector<Movie*> filterYear(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> filterDirector(std::vector<Movie*> unfiltered_movies,Map input);
-        std::vector<Movie*> filterRate(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> eraseDeletedMovies(std::vector<Movie*> unfiltered_movies);
-        void viewMovieDetails(Map input,MovieRepository* repo,AI &ai);
+        std::vector<Movie*> viewMovieDetails(Map input,MovieRepository* repo,AI &ai);
         void buyMovie(Map input,MovieRepository* repo,User* publisher);
         void rateMovie(Map input,MovieRepository* repo);
         void postComment(Map input,MovieRepository* repo);

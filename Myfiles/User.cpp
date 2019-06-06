@@ -168,51 +168,11 @@ std::vector<Movie*> User::eraseDeletedMovies(std::vector<Movie*> unfiltered_movi
     return unfiltered_movies;
 }
 
-std::vector<Movie*> User::filterName(std::vector<Movie*> unfiltered_movies,Map input)
-{
-    if(input["name"] != "-1")
-        for(Counter i=0; i<unfiltered_movies.size(); i++)
-            if(unfiltered_movies[i]->getName() != input["name"])
-                unfiltered_movies.erase(unfiltered_movies.begin() + i);
-    return unfiltered_movies;
-}
-
-std::vector<Movie*> User::filterPrice(std::vector<Movie*> unfiltered_movies,Map input)
-{
-    if(input["price"] != "-1")
-        for(Counter i=0; i<unfiltered_movies.size(); i++)
-            if(unfiltered_movies[i]->getPrice() < stoi(input["price"]))
-                unfiltered_movies.erase(unfiltered_movies.begin() + i);
-    return unfiltered_movies;
-}
-
-std::vector<Movie*> User::filterYear(std::vector<Movie*> unfiltered_movies,Map input)
-{
-    if(input["min_year"] != "-1")
-        for(Counter i=0; i<unfiltered_movies.size(); i++)
-            if(unfiltered_movies[i]->getYear() < stoi(input["min_year"]))
-                unfiltered_movies.erase(unfiltered_movies.begin() + i);
-    if(input["max_year"] != "-1")
-        for(Counter i=0; i<unfiltered_movies.size(); i++)
-            if(unfiltered_movies[i]->getYear() > stoi(input["max_year"]))
-                unfiltered_movies.erase(unfiltered_movies.begin() + i);
-    return unfiltered_movies;
-}
-
 std::vector<Movie*> User::filterDirector(std::vector<Movie*> unfiltered_movies,Map input)
 {
     if(input["director"] != "-1")
         for(Counter i=0; i<unfiltered_movies.size(); i++)
             if(unfiltered_movies[i]->getDirector() != input["director"])
-                unfiltered_movies.erase(unfiltered_movies.begin() + i);
-    return unfiltered_movies;
-}
-
-std::vector<Movie*> User::filterRate(std::vector<Movie*> unfiltered_movies,Map input)
-{
-    if(input["min_rate"] != "-1")
-        for(Counter i=0; i<unfiltered_movies.size(); i++)
-            if(unfiltered_movies[i]->getRate() < stof(input["min_rate"]))
                 unfiltered_movies.erase(unfiltered_movies.begin() + i);
     return unfiltered_movies;
 }

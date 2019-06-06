@@ -1,11 +1,11 @@
 #include "System.h"
 
-System::System()
+System::System(int argc,char** argv)
 {
     users_repo = new UsersRepository();
     movie_repo = new MovieRepository();
     process_handler = new ProcessHandler(users_repo,movie_repo);
-    input_handler = new InputHandler(process_handler);
+    run(argc,argv);
 }
 
 System::~System()
@@ -13,5 +13,4 @@ System::~System()
     delete users_repo;
     delete movie_repo;
     delete process_handler;
-    delete input_handler;
 }

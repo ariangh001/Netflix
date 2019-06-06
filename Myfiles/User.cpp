@@ -131,10 +131,6 @@ void User::chargeAccount(Map input)
 
 std::vector<Movie*> User::filterMovies(std::vector<Movie*> unfiltered_movies,Map input)
 {
-    unfiltered_movies = filterName(unfiltered_movies,input);
-    unfiltered_movies = filterRate(unfiltered_movies,input);
-    unfiltered_movies = filterYear(unfiltered_movies,input);
-    unfiltered_movies = filterPrice(unfiltered_movies,input);
     unfiltered_movies = filterDirector(unfiltered_movies,input);
     unfiltered_movies = eraseDeletedMovies(unfiltered_movies);
     return unfiltered_movies;
@@ -142,18 +138,23 @@ std::vector<Movie*> User::filterMovies(std::vector<Movie*> unfiltered_movies,Map
 
 std::vector<Movie*> User::eraseDeletedMovies(std::vector<Movie*> unfiltered_movies)
 {
+    std::vector<Movie*> filtered_movies;
     for(Counter i=0; i<unfiltered_movies.size(); i++)
-        if(unfiltered_movies[i]->isDeleted() == true)
-            unfiltered_movies.erase(unfiltered_movies.begin() + i);
-    return unfiltered_movies;
+        if(unfiltered_movies[i]->isDeleted() == false)
+            filtered_movies.push_back(unfiltered_movies[i]);
+    return filtered_movies;
 }
 
 std::vector<Movie*> User::filterDirector(std::vector<Movie*> unfiltered_movies,Map input)
 {
-    if(input["director"] != "-1")
+    if(input["director"] != "")
+    {
+        std::vector<Movie*> filtered_movies;
         for(Counter i=0; i<unfiltered_movies.size(); i++)
-            if(unfiltered_movies[i]->getDirector() != input["director"])
-                unfiltered_movies.erase(unfiltered_movies.begin() + i);
+            if(unfiltered_movies[i]->getDirector() == input["director"])
+                filtered_movies.push_back(unfiltered_movies[i]);
+        return filtered_movies;
+    }
     return unfiltered_movies;
 }
 
@@ -218,27 +219,13 @@ void User::postComment(Map input,MovieRepository* repo)
     throw PermissionDenied();
 }
 
-void User::viewPurchases(Map input,MovieRepository* repo)
+std::vector<Movie*> User::viewPurchases(Map input,MovieRepository* repo)
 {
     std::vector<Movie*> unfiltered_movies;
     for(Counter i=0; i<purchased_films.size(); i++)
         unfiltered_movies.push_back(purchased_films[i]);
-    unfiltered_movies = filterName(unfiltered_movies,input);
-    unfiltered_movies = filterYear(unfiltered_movies,input);
-    unfiltered_movies = filterPrice(unfiltered_movies,input);
     unfiltered_movies = filterDirector(unfiltered_movies,input);
-    std::cout<<"#. Film Id | Film Name | Film Length"
-    <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
-    for(Counter i=0; i<unfiltered_movies.size(); i++)
-    {
-        std::cout<<i+1<<". "<<unfiltered_movies[i]->getId()<<" | "
-        <<unfiltered_movies[i]->getName()<<" | "
-        <<unfiltered_movies[i]->getLength()<<" | "
-        <<unfiltered_movies[i]->getPrice()<<" | ";
-        std::cout<<std::setprecision(2)<<unfiltered_movies[i]->getRate()<<" | ";
-        std::cout<<unfiltered_movies[i]->getYear()<<" | "
-        <<unfiltered_movies[i]->getDirector()<<std::endl;
-    }
+    return unfiltered_movies;
 }
 
 std::string User::replyNotification()

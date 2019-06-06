@@ -28,7 +28,7 @@ class User
         void buyMovie(Map input,MovieRepository* repo,User* publisher);
         void rateMovie(Map input,MovieRepository* repo);
         void postComment(Map input,MovieRepository* repo);
-        void viewPurchases(Map input,MovieRepository* repo);
+        std::vector<Movie*> viewPurchases(Map input,MovieRepository* repo);
         void viewUnreadNotifs(Map input);
         void viewNotifs(Map input);
         void recieveNotification(std::string notif);

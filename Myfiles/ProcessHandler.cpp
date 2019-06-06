@@ -6,6 +6,7 @@ ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies)
     movie_repository = movies;
     User* admin = new User("admin",sha256("admin"),"admin@admin.com",20);
     users_repository->addUser(admin);
+    last_movie_id = 0;
 }
 
 void ProcessHandler::checkInput(Map input,std::string function_type)
@@ -502,4 +503,17 @@ bool ProcessHandler::isPublisher(std::string session_id)
         else
             return false;
     throw NotFound();
+}
+
+void ProcessHandler::setMovieId(int id)
+{
+    if(id > 0)
+        last_movie_id = id;
+    else
+        throw BadRequest();
+}
+
+int ProcessHandler::getLastId() const
+{
+    return last_movie_id;
 }

@@ -59,6 +59,8 @@ class ProcessHandler
         bool isPublisher(std::string session_id);
         bool compareMoney(std::string session_id, int money);
         bool hasPurchased(std::string session_id, int id);
+        void setMovieId(int id);
+        int getLastId() const;
     private:
         Active active_users;
         MovieRepository* movie_repository;
@@ -68,5 +70,6 @@ class ProcessHandler
         bool isNumber(std::string str);
         bool isFloat(std::string str);
         void checkEmailSyntax(std::string email);
+        int last_movie_id;
 };
 #endif

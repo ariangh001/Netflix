@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!DOCTYPE HTML>
+<html>
+        <body style="background-image: url(/back.jpg); background-attachment: fixed; background-position : center ;">
+            <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                      <div class="navbar-header">
+                        <img class="navbar-brand" src="/University_of_Tehran_logo.svg.png" style="width: 60px; height : 60px;"></a>
+                      </div>
+                      <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/signup"><span class="glyphicon glyphicon-user" ></span> Sign Up</a></li>
+                        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                      </ul>
+                    </div>
+                  </nav>
+        <br><br><br><br><br>
+        <div align = "center" >
+            <form style = "width: 50%; border: 2px solid rgb(0, 0, 0); background-color: rgb(60, 122, 173); border-radius: 5px; width : 30%;" class= "form-horizontal" action = "/signup" method = "POST">
+                <br><img src="/logoe3.png" style="width: 100px; height : 100px;"><br><br>
+                <div class="form-group" align = "center">
+                    <label style = "width: 33%;" class="control-label col-sm-2" for="username">Username:</label>
+                    <div class="col-sm-5">
+                        <input type="text" name = "username" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style = "width: 33%;" class="control-label col-sm-2" for="password">Password:</label>
+                    <div class="col-sm-5">
+                        <input type="password" name = "password" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style = "width: 33%;" class="control-label col-sm-2" for="username">Email:</label>
+                    <div class="col-sm-5">
+                        <input type="email" name = "email" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style = "width: 33%;" class="control-label col-sm-2" for="age">Age:</label>
+                    <div class="col-sm-5">
+                        <input type="text" name = "age" class="form-control">
+                    </div>
+                </div>
+                Are you a Publisher ?<br>
+                <input type="radio" name = "is_publisher" value= "true"> Yes<br>
+                <input type="radio" name = "is_publisher" value= "false"> No<br><br>
+                <input type = "submit" value = "SignUp"><br><br><br>
+            </form>
+        </div>
+
+    </body>
+</html>

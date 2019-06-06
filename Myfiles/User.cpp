@@ -336,3 +336,8 @@ std::vector<Movie*> User::getPurchased(std::vector<Movie*> movies)
         movies.push_back(purchased_films[i]);
     return movies;
 }
+
+int User::getWallet() const
+{
+    return wallet;
+}

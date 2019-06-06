@@ -59,6 +59,7 @@ class User
         int getFollowingsNumber() const;
         std::string viewMoney(MovieRepository* repo);
         std::vector<Movie*> getPurchased(std::vector<Movie*> movies);
+        int getWallet() const;
     protected:
         std::string username;
         std::string password;

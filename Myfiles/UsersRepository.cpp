@@ -46,7 +46,7 @@ User* UsersRepository::findPublisher(int publisher_id)
     if(publisher_id <= 0)
         throw BadRequest();
     for(Counter i=0; i<users.size(); i++)
-        if(users[i]->getId() == publisher_id)
+        if(users[i]->getId() == publisher_id && users[i]->getType() == "publisher")
             return users[i];
     throw NotFound();
 }

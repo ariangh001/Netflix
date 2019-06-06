@@ -33,7 +33,6 @@ void ProcessHandler::signup(Map input,std::string function_type)
         users_repository->addUser(new_publisher);
         active_user = new_publisher;
     }
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void ProcessHandler::login(Map input,std::string function_type)
@@ -49,7 +48,6 @@ void ProcessHandler::login(Map input,std::string function_type)
     }
     password = sha256(password);
     active_user = users_repository->findUser(username,password);
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void ProcessHandler::logout()
@@ -58,7 +56,6 @@ void ProcessHandler::logout()
         active_user = NULL;
     else
         throw BadRequest();
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void ProcessHandler::checkFunctions(std::string function_type, Map input)
@@ -95,7 +92,6 @@ void ProcessHandler::checkFunctions(std::string function_type, Map input)
             followHandler(input);
             if(active_user->getFollowingsNumber() != size)
                 notificationHandler(input,"follow");
-            std::cout<<OK_REQUEST<<std::endl;
         }
         else if(function_type == "chargeAccount")
             active_user->chargeAccount(input);

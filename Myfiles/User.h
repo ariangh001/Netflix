@@ -21,7 +21,6 @@ class User
              int _age);
         void follow(Map input,User* publisher);
         void chargeAccount(Map input);
-        void searchMovies(Map input,MovieRepository* repo);
         std::vector<Movie*> filterMovies(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> filterDirector(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> eraseDeletedMovies(std::vector<Movie*> unfiltered_movies);

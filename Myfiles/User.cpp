@@ -129,25 +129,6 @@ void User::chargeAccount(Map input)
         throw BadRequest();
 }
 
-void User::searchMovies(Map input,MovieRepository* repo)
-{
-    std::vector<Movie*> unfiltered_movies;
-    unfiltered_movies = repo->copyMovies(unfiltered_movies);
-    unfiltered_movies = filterMovies(unfiltered_movies,input);
-    std::cout<<"#. Film Id | Film Name | Film Length"
-    <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
-    for(Counter i=0; i<unfiltered_movies.size(); i++)
-    {
-        std::cout<<i+1<<". "<<unfiltered_movies[i]->getId()<<" | "
-        <<unfiltered_movies[i]->getName()<<" | "
-        <<unfiltered_movies[i]->getLength()<<" | "
-        <<unfiltered_movies[i]->getPrice()<<" | ";
-        std::cout<<std::setprecision(2)<<unfiltered_movies[i]->getRate()<<" | ";
-        std::cout<<unfiltered_movies[i]->getYear()<<" | "
-        <<unfiltered_movies[i]->getDirector()<<std::endl;
-    }
-}
-
 std::vector<Movie*> User::filterMovies(std::vector<Movie*> unfiltered_movies,Map input)
 {
     unfiltered_movies = filterName(unfiltered_movies,input);

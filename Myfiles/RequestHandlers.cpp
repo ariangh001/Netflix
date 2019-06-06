@@ -439,3 +439,182 @@ Response* Home::callback(Request* req)
     }
     return res;
 }
+
+Response* MovieDetails::callback(Request* req)
+{
+    Response* res = new Response;
+    res->setHeader("Content-Type","text/html");
+    res->setHeader("Developer-Name","ariyan");
+    try
+    {
+        Movie* movie = NULL;
+        std::string session_id = req->getSessionId(), body = "", buy = "";
+        Map input = {{"film_id",""}}, rateInput = {{"film_id",""},{"score",""}},
+            buyInput = {{"film_id",""}}, commentInput = {{"film_id",""},{"content",""}};
+        rateInput["score"] = req->getQueryParam("score");
+        input["film_id"] = req->getQueryParam("film_id");
+        commentInput["content"] = req->getQueryParam("content");
+        if(input["film_id"] != "")
+            handler->setMovieId(stoi(input["film_id"]));
+        buy = req->getQueryParam("Buy");
+        if(input["film_id"] != "")
+            movie = handler->searchMovie(stoi(input["film_id"]),session_id);
+        if(buy == "Buy")
+        {
+            buyInput["film_id"] = std::to_string(handler->getLastId());
+            handler->buy(buyInput,session_id);
+            buy = "";
+        }
+        if(rateInput["score"] != "")
+        {
+            rateInput["film_id"] = std::to_string(handler->getLastId());
+            handler->rateMovie(rateInput,session_id);
+            rateInput["score"] = "";
+        }
+        if(commentInput["content"] != "")
+        {
+            commentInput["film_id"] = std::to_string(handler->getLastId());
+            handler->postComment(commentInput,session_id);
+            commentInput["content"] = "";
+        }
+        body += "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css\">";
+        body += "<!DOCTYPE html>";
+        body += "<html>";
+        body += "<body style=\"background-image: url(/back.jpg); background-attachment: fixed; background-position : center;\">";
+        body += "<nav class=\"navbar navbar-inverse\"><div class=\"container-fluid\"><div class=\"navbar-header\">";
+        body += "<img class=\"navbar-brand\" src=\"University_of_Tehran_logo.svg.png\" style=\"width: 60px; height : 60px;\"></a></div>";
+        body += "<ul class=\"nav navbar-nav\"><li><a href=\"/submitfilm\">Add Movie</a></li>";
+        body += "<li><a href=\"/home\">Home</a></li></ul>";
+        body += "<ul class=\"nav navbar-nav navbar-right\">";
+        body += "<li><a href = \"/profile\">Profile</li><li><a href=\"/logout\">";
+        body += "<span class=\"glyphicon glyphicon-log-out\"></span>Log out</a></li></ul></ul></div></nav>";
+        body += "<div align = \"center\"><form action = \"/moviedetails\" method = \"GET\" style = \"width: 50%;\">";
+        body += "<h4 style = \"color : white;\">Type a Movie ID</h4><br>";
+        body += "<form method = \"GET\" action = \"/moviedetails\">";
+        body += "<input type = \"text\" name = \"film_id\"><br><br>";
+        body += "<button type = submit name = \"search\" style = \"background-color : rgb(23, 48, 80);\" value = \"Search\">";
+        body += "<span class=\"glyphicon glyphicon-search\" style = \"color : yellow;\"></span></button>";
+        body += "</form></div>";
+        if(movie != NULL)
+        {
+            body += "<div align = \"center\"><div style = \" border: 2px solid yellow; background-color : rgb(23, 48, 80); border-radius: 5px; width : 25%;\"><h4 style = \"color : white;\">Name : ";
+            body += movie->getName();
+            body += "<br><br>Length : ";
+            body += std::to_string(movie->getLength());
+            body += "<br><br>Price : ";
+            body += std::to_string(movie->getPrice());
+            body += "<br><br>Rate : ";
+            body += std::to_string(movie->getRate());
+            body += "<br><br>Length : ";
+            body += std::to_string(movie->getLength());
+            body += "<br><br>Year : ";
+            body += std::to_string(movie->getYear());
+            body += "<br><br>Director : ";
+            body += movie->getDirector();
+            body += "<br><br>Summary : ";
+            body += movie->getSummary();
+            body += "</h4></div><div><br>";
+            if(handler->compareMoney(session_id,movie->getPrice()) == true
+            && handler->hasPurchased(session_id,movie->getId()) == false)
+            {
+                body += "<div align = \"center\"><form action = \"/moviedetails?film_id=";
+                body += std::to_string(movie->getId());
+                body += "&search=Search\" method = \"GET\">";
+                body += "<input type = \"submit\" value = \"Buy\" name = \"Buy\">";
+                body += "</form></div>";
+            }
+            if(handler->hasPurchased(session_id,movie->getId()) == true)
+            {
+                body += "<div align =\"center\"><h4 style = \"color : yellow;\">Rate the Movie</h4><br><form action = \"/moviedetails?film_id=";
+                body += std::to_string(movie->getId());
+                body += "&search=Search\" method = \"GET\">";
+                body += "<input type = \"text\" name = \"score\">";
+                body += "<input type = \"submit\" value = \"Rate\"></form><br>";
+                body += "<h4 style = \"color : yellow;\">Post a Comment</h4><br><form action = \"/moviedetails?film_id=";
+                body += std::to_string(movie->getId());
+                body += "&search=Search\" method = \"GET\">";
+                body += "<input type = \"text\" name = \"content\">";
+                body += "<input type = \"submit\" value = \"Post\" name = \"Post\">";
+                body += "</form></div><br>";
+            }
+            std::vector<Comment*> comments = handler->viewComments(handler->getLastId(),session_id);
+            if(comments.size() > 0)
+            {
+                body += "<div align = \"center\"><h3 style = \"color : yellow;\">Comments</h3>";
+                body += "<table class=\"table table-striped\" align = \"center\" style = \"width:75%; background-color : rgb(23, 48, 80);color : yellow;\">";
+                body += "<style> th {color : gray; background-color : rgb(23, 48, 80); }</style>";
+                body += "<tr><th>Index</th><th>User ID</th><th>Comment</th>";
+                for(Counter i=0; i<comments.size(); i++)
+                {
+                    body += "<tr><td>";
+                    body += std::to_string(i+1);
+                    body += "</td><td>";
+                    body += std::to_string(comments[i]->getUserId());
+                    body += "</td><td>";
+                    body += comments[i]->getContent();
+                    body += "</td></tr>";
+                }
+                body += "</table></div><br>";
+            }
+            std::vector<Movie*> recommends;
+            recommends = handler->viewDetails(input,session_id);
+            body += "<div align = \"center\"><h3 style = \"color : yellow;\">Recommended Movies</h3>";
+            body += "<table class=\"table table-striped\" align = \"center\" style = \"width:75%; background-color : rgb(23, 48, 80);color : yellow;\">";
+            body += "<style> th {color : gray; background-color : rgb(23, 48, 80); }</style>";
+            body += "<tr><th>Index</th><th>Name</th><th>Year</th>";
+            body += "<th>Length</th><th>Price</th><th>Rate</th><th>Director</th></tr>";
+            for(Counter i=0; i<recommends.size(); i++)
+            {
+                body += "<tr><td>";
+                body += std::to_string(i+1);
+                body += "</td><td>";
+                body += recommends[i]->getName();
+                body += "</td><td>";
+                body += std::to_string(recommends[i]->getYear());
+                body += "</td><td>";
+                body += std::to_string(recommends[i]->getLength());
+                body += "</td><td>";
+                body += std::to_string(recommends[i]->getPrice());
+                body += "</td><td>";
+                body += std::to_string(recommends[i]->getRate());
+                body += "</td><td>";
+                body += recommends[i]->getDirector();
+                body += "</td><td>";
+                body += "<a href = /moviedetails?film_id=";
+                body += std::to_string(movie->getId());
+                body += "&search=Search>Details</a>";
+                body += "</td></tr>";
+            }
+            body += "</table></div>";
+        }
+        body += "</body>";
+        body += "</html>";
+        res->setBody(body);
+        return res;
+    }
+    catch(std::exception& e)
+    {
+        std::string exc = e.what();
+        if(exc == "Bad Request")
+        {
+            Response* failed = Response::redirect("/badrequest");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Permission Denied")
+        {
+            Response* failed = Response::redirect("/permissionerror");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Not Found")
+        {
+            Response* failed = Response::redirect("/notfound");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+    }
+}

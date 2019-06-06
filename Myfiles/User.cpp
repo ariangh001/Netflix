@@ -174,10 +174,7 @@ void User::buyMovie(Map input,MovieRepository* repo,User* publisher)
     Movie* movie = repo->findMovie(stoi(input["film_id"]));
     for(Counter i=0; i<purchased_films.size(); i++)
         if(movie->getId() == purchased_films[i]->getId())
-        {
-            std::cout<<OK_REQUEST<<std::endl;
             return;
-        }
     if(movie->getPrice() <= wallet)
     {
         wallet -= movie->getPrice();
@@ -188,7 +185,6 @@ void User::buyMovie(Map input,MovieRepository* repo,User* publisher)
     }
     else
         throw PermissionDenied();
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void User::rateMovie(Map input,MovieRepository* repo)
@@ -199,7 +195,6 @@ void User::rateMovie(Map input,MovieRepository* repo)
         {
             movie->addRate(id,stoi(input["score"]));
             movie->updateRate();
-            std::cout<<OK_REQUEST<<std::endl;
             return;
         }
     throw PermissionDenied();
@@ -213,12 +208,10 @@ void User::postComment(Map input,MovieRepository* repo)
         {
             Comment* comment = new Comment(input["content"],id,movie->getId());
             movie->addComment(comment);
-            std::cout<<OK_REQUEST<<std::endl;
             return;
         }
     throw PermissionDenied();
 }
-
 std::vector<Movie*> User::viewPurchases(Map input,MovieRepository* repo)
 {
     std::vector<Movie*> unfiltered_movies;

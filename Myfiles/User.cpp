@@ -129,6 +129,16 @@ void User::chargeAccount(Map input)
         throw BadRequest();
 }
 
+std::vector<Movie*> User::showValidMovies(MovieRepository* repo)
+{
+    std::vector<Movie*> movies , new_movies;
+    movies = repo->copyMovies(movies);
+    for(Counter i=0; i<movies.size(); i++)
+        if(movies[i]->getPrice() <= wallet && movies[i]->isDeleted() == false)
+            new_movies.push_back(movies[i]);
+    return new_movies;
+}
+
 std::vector<Movie*> User::filterMovies(std::vector<Movie*> unfiltered_movies,Map input)
 {
     unfiltered_movies = filterDirector(unfiltered_movies,input);

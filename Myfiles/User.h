@@ -21,6 +21,7 @@ class User
              int _age);
         void follow(Map input,User* publisher);
         void chargeAccount(Map input);
+        std::vector<Movie*> showValidMovies(MovieRepository* repo);
         std::vector<Movie*> filterMovies(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> filterDirector(std::vector<Movie*> unfiltered_movies,Map input);
         std::vector<Movie*> eraseDeletedMovies(std::vector<Movie*> unfiltered_movies);
@@ -43,7 +44,7 @@ class User
         virtual void deleteMovie(Map input,MovieRepository* movie_repository);
         virtual void viewFollowers(Map input);
         virtual void recieveMoney(Map input,MovieRepository* repo);
-        virtual void viewMovies(Map input);
+        virtual std::vector<Movie*> viewMovies(Map input);
         virtual void replyComment(Map input,MovieRepository* repo);
         virtual void deleteComments(Map input,MovieRepository* repo);
         virtual void addFollower(User* user);
@@ -53,13 +54,13 @@ class User
         std::string getPassword() const;
         std::string getEmail() const;
         int getId() const;
+        int getWallet() const;
         void setId(int _id);
         virtual std::string getType();
         int getFilmsNumber() const;
         int getFollowingsNumber() const;
         std::string viewMoney(MovieRepository* repo);
         std::vector<Movie*> getPurchased(std::vector<Movie*> movies);
-        int getWallet() const;
     protected:
         std::string username;
         std::string password;

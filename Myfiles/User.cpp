@@ -82,7 +82,7 @@ void User::recieveMoney(Map input,MovieRepository* repo)
     throw PermissionDenied();
 }
 
-void User::viewMovies(Map input)
+std::vector<Movie*> User::viewMovies(Map input)
 {
     throw PermissionDenied();
 }
@@ -217,30 +217,15 @@ std::vector<Movie*> User::filterRate(std::vector<Movie*> unfiltered_movies,Map i
     return unfiltered_movies;
 }
 
-void User::viewMovieDetails(Map input,MovieRepository* repo,AI &ai)
+std::vector<Movie*> User::viewMovieDetails(Map input,MovieRepository* repo,AI &ai)
 {
     int film_id = stoi(input["film_id"]);
     Movie* movie = repo->findMovie(film_id);
-    std::cout<<"Details of Film "<<movie->getName()<<std::endl
-             <<"Id = "<<movie->getId()<<std::endl
-             <<"Director = "<<movie->getDirector()<<std::endl
-             <<"Length = "<<movie->getLength()<<std::endl
-             <<"Year = "<<movie->getYear()<<std::endl
-             <<"Summary = "<<movie->getSummary()<<std::endl;
-    std::cout<<"Rate = "<<std::setprecision(2)<<movie->getRate()<<std::endl;
-    std::cout<<"Price = "<<movie->getPrice()<<std::endl<<std::endl;
-    std::cout<<"Comments"<<std::endl;
     movie->showCommentsDetails();
-    std::cout<<std::endl<<"Recommendation Film"<<std::endl;
-    std::cout<<"#. Film Id | Film Name | Film Length | Film Director"<<std::endl;
     std::vector<Movie*> temp, recommended;
     temp = repo->copyMovies(temp);
     recommended = ai.recommendMovie(film_id,temp,purchased_films);
-    for(Counter i=0; i<recommended.size(); i++)
-    {
-        std::cout<<i+1<<". "<<recommended[i]->getId()<<" | "<<recommended[i]->getName()
-        <<" | "<<recommended[i]->getLength()<<" | "<<recommended[i]->getDirector()<<std::endl;
-    }
+    return recommended;
 }
 
 void User::buyMovie(Map input,MovieRepository* repo,User* publisher)

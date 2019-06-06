@@ -9,8 +9,9 @@
 class System
 {
     public:
-        System();
+        System(int argc,char** argv);
         ~System();
+        void run(int argc,char** argv);
     private:
         UsersRepository* users_repo;
         MovieRepository* movie_repo;

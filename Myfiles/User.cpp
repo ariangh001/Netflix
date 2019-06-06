@@ -123,11 +123,10 @@ void User::follow(Map input, User* publisher)
 void User::chargeAccount(Map input)
 {
     int cash = stoi(input["amount"]);
-    if(cash > 0)
+    if(cash >= 0)
         wallet += cash;
     else
         throw BadRequest();
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void User::searchMovies(Map input,MovieRepository* repo)

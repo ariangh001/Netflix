@@ -20,7 +20,6 @@ void Publisher::submitMovie(Map input,MovieRepository* movie_repository)
         stoi(input["length"]),stoi(input["price"]),input["summary"],input["director"],0,id);
     movie_repository->addMovie(new_movie);
     published_films.push_back(new_movie);
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void Publisher::editMovieDetails(Map input,MovieRepository* movie_repository)
@@ -53,7 +52,6 @@ void Publisher::editMovieDetails(Map input,MovieRepository* movie_repository)
         &&   input["summary"] == "-1" && input["director"] == "-1"))
             throw BadRequest();
     }
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void Publisher::deleteMovie(Map input,MovieRepository* movie_repository)
@@ -65,7 +63,6 @@ void Publisher::deleteMovie(Map input,MovieRepository* movie_repository)
         {
             movie_repository->eraseMovie(film_id);
             published_films.erase(published_films.begin() + i);
-            std::cout<<OK_REQUEST<<std::endl;
             return;
         }
     throw PermissionDenied();
@@ -81,20 +78,13 @@ void Publisher::viewFollowers(Map input)
                  <<my_followers[i]->getEmail()<<std::endl;
 }
 
-void Publisher::viewMovies(Map input)
+std::vector<Movie*> Publisher::viewMovies(Map input)
 {
-    std::cout<<"#. Film Id | Film Name | Film Length"
-    <<" | Film price | Rate | Production Year | Film Director"<<std::endl;
+    std::vector<Movie*> movies;
     for(Counter i=0; i<published_films.size(); i++)
-    {
-        std::cout<<i+1<<". "<<published_films[i]->getId()<<" | "
-        <<published_films[i]->getName()<<" | "
-        <<published_films[i]->getLength()<<" | "
-        <<published_films[i]->getPrice()<<" | ";
-        std::cout<<std::setprecision(2)<<published_films[i]->getRate()<<" | ";
-        std::cout<<published_films[i]->getYear()<<" | "
-        <<published_films[i]->getDirector()<<std::endl;
-    }
+        movies.push_back(published_films[i]);
+    movies = filterDirector(movies,input);
+    return movies;
 }
 
 void Publisher::addFollower(User* user)
@@ -107,7 +97,6 @@ void Publisher::recieveMoney(Map input,MovieRepository* repo)
     wallet += virtual_wallet;
     repo->decreaseMoney(virtual_wallet);
     virtual_wallet = 0;
-    std::cout<<OK_REQUEST<<std::endl;
 }
 
 void Publisher::increaseVirtualWallet(int money)
@@ -130,7 +119,6 @@ void Publisher::replyComment(Map input,MovieRepository* repo)
                 Reply* reply = new Reply(
                     stoi(input["comment_id"]),id,movie->getId(),input["content"]);
                 movie->addReply(reply);
-                std::cout<<OK_REQUEST<<std::endl;
                 return;
             }
         }
@@ -147,7 +135,6 @@ void Publisher::deleteComments(Map input,MovieRepository* repo)
             if(comment->getId() == stoi(input["comment_id"]))
             {
                 movie->deleteComment(stoi(input["comment_id"]));
-                std::cout<<OK_REQUEST<<std::endl;
                 return;
             }
         }

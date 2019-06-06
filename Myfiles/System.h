@@ -4,6 +4,8 @@
 #include "MovieRepository.h"
 #include "InputHandler.h"
 #include "ProcessHandler.h"
+#include "my_server.hpp"
+#include "RequestHandlers.h"
 class System
 {
     public:

@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!DOCTYPE html>
+<html>
+    <body style="background-image: url(/back.jpg); background-attachment: fixed; background-position : center ;">
+        <nav class="navbar navbar-inverse"><div class="container-fluid"><div class="navbar-header">
+        <img class="navbar-brand" src="University_of_Tehran_logo.svg.png" style="width: 60px; height : 60px;"></a></div>
+        <ul class="nav navbar-nav"><li><a href="/home">Home</a></li>
+        <li><a href="/moviedetails">Find Movies</a></li></ul>
+        <ul class="nav navbar-nav navbar-right">
+        <li><a href = "/profile">Profile</li><li><a href="/logout">
+        <span class="glyphicon glyphicon-log-out"></span>Log out</a></li></ul></ul></div></nav>
+        <br><br><br><br><br>
+        <div align = "center">
+        <form action = "/submitfilm" method = "POST" style = "width: 40%; border: 2px solid rgb(0, 0, 0); background-color: rgb(60, 122, 173); border-radius: 5px; width : 25%;" class= "form-horizontal">
+            <br><img src="/logoe3.png" style="width: 100px; height : 100px;"><br><br>
+            <h4>Enter Movie Details</h4><br>
+            Name :<br>
+            <input type = "text" name = "name"><br>
+            <br>Price :<br>
+            <input type = "text" name = "price"><br>
+            <br>Length :<br>
+            <input type = "text" name = "length"><br>
+            <br>Year :<br>
+            <input type = "text" name = "year"><br>
+            <br>Director :<br>
+            <input type = "text" name = "director"><br>
+            <br>Summary :<br>
+            <input type = "text" name = "summary"><br><br>
+            <input type = "submit" value = "Add"><br><br>
+        </form></div>
+    </body>
+</html>

@@ -208,3 +208,97 @@ Response* SubmitFilm::callback(Request* req)
         }
     }
 }
+
+Response* Profile::callback(Request* req)
+{
+    Response* res = new Response;
+    res->setHeader("Content-Type","text/html");
+    res->setHeader("Developer-Name","ariyan");
+    try
+    {
+        Map input = {{"director",""}};
+        std::vector<Movie*> purchases;
+        std::string session_id = req->getSessionId(), body = "";
+        input["director"] = req->getQueryParam("director");
+        Map MoneyInput = {{"amount",""}};
+        MoneyInput["amount"] = req->getQueryParam("amount");
+        if(MoneyInput["amount"] != "")
+            handler->chargeAccount(MoneyInput,session_id);
+        purchases = handler->viewPurchases(input,session_id);
+        body += "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css\">";
+        body += "<!DOCTYPE html>";
+        body += "<html>";
+        body += "<body style=\"background-image: url(/back.jpg); background-attachment: fixed; background-position : center ;\">";
+        body += "<nav class=\"navbar navbar-inverse\"><div class=\"container-fluid\"><div class=\"navbar-header\">";
+        body += "<img class=\"navbar-brand\" src=\"University_of_Tehran_logo.svg.png\" style=\"width: 60px; height : 60px;\"></a></div>";
+        body += "<ul class=\"nav navbar-nav\"><li><a href=\"/submitfilm\">Add Movie</a></li>";
+        body += "<li><a href=\"/moviedetails\">Find Movies</a></li></ul>";
+        body += "<ul class=\"nav navbar-nav navbar-right\">";
+        body += "<li></li><li><a href = \"/home\">Home</li><li><a href=\"/logout\">";
+        body += "<span class=\"glyphicon glyphicon-log-out\"></span>Log out</a></li></ul></ul></div></nav>";
+        body += "<div align = \"center\"><form action = \"/profile\" method = \"GET\" style = \"width: 50%;\">";
+        body += "<h4 style = \"color:white;\">Charge Your Account</h4><br>";
+        body += "<p style = \"color:white;\">Amount :  </p>";
+        body += "<input type = \"text\" name = \"amount\">";
+        body += "<input type = \"submit\" value = \"Charge\" ><br><br>";
+        body += "<h4 style = \"color:white;\">$ = ";
+        std::string money = handler->viewMoney(input,session_id);
+        body += money;
+        body += "</h4></div></form>";
+        body += "<div align = \"center\"><br><h3 style = \"color:white;\">Purchased Movies<h3></div>";
+        body += "<table class=\"table table-striped\" align = \"center\" style = \"width:75%; background-color : rgb(23, 48, 80);color : yellow;\">";
+        body += "<style> th {color : gray; background-color : rgb(23, 48, 80); }</style>";
+        body += "<tr><th>Index</th><th>Name</th><th>Year</th>";
+        body += "<th>Length</th><th>Price</th><th>Rate</th><th>Director</th></tr>";
+        for(Counter i=0; i<purchases.size(); i++)
+        {
+            body += "<tr><td>";
+            body += std::to_string(i+1);
+            body += "</td><td>";
+            body += purchases[i]->getName();
+            body += "</td><td>";
+            body += std::to_string(purchases[i]->getYear());
+            body += "</td><td>";
+            body += std::to_string(purchases[i]->getLength());
+            body += "</td><td>";
+            body += std::to_string(purchases[i]->getPrice());
+            body += "</td><td>";
+            body += std::to_string(purchases[i]->getRate());
+            body += "</td><td>";
+            body += purchases[i]->getDirector();
+            body += "</td></tr>";
+        }
+        body += "</table><div align = \"center\"><form action = \"/profile\" method = \"GET\">";
+        body += "<input type = \"text\" name = \"director\" value = \"Enter a Director's Name\"><br>";
+        body += "<input type = \"submit\" value = \"Filter\" ></form></div><br>";
+        body += "</body>";
+        body += "</html>";
+        res->setBody(body);
+    }
+    catch(std::exception& e)
+    {
+        std::string exc = e.what();
+        if(exc == "Bad Request")
+        {
+            Response* failed = Response::redirect("/badrequest");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Permission Denied")
+        {
+            Response* failed = Response::redirect("/permissionerror");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Not Found")
+        {
+            Response* failed = Response::redirect("/notfound");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+    }
+    return res;
+}

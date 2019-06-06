@@ -137,7 +137,54 @@ Response* LogoutHandler::callback(Request* req)
     }
     catch(std::exception& e)
     {
-                std::string exc = e.what();
+        std::string exc = e.what();
+        if(exc == "Bad Request")
+        {
+            Response* failed = Response::redirect("/badrequest");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Permission Denied")
+        {
+            Response* failed = Response::redirect("/permissionerror");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+        if(exc == "Not Found")
+        {
+            Response* failed = Response::redirect("/notfound");
+            failed->setHeader("Content-Type","text/html");
+            failed->setHeader("Developer-Name","ariyan");
+            return failed;
+        }
+    }
+}
+
+Response* SubmitFilm::callback(Request* req)
+{
+    try
+    {
+        std::string req_session = req->getSessionId();
+        Map submissionInput = {{"name",""},{"year",""},{"length",""},
+            {"price",""},{"summary",""},{"director",""}};
+        submissionInput["name"] = req->getBodyParam("name");
+        submissionInput["year"] = req->getBodyParam("year");
+        submissionInput["length"] = req->getBodyParam("length");
+        submissionInput["price"] = req->getBodyParam("price");
+        submissionInput["summary"] = req->getBodyParam("summary");
+        submissionInput["director"] = req->getBodyParam("director");
+        handler->checkInput(submissionInput,"submitMovie");
+        handler->submitMovie(submissionInput,req_session);
+        Response* res = Response::redirect("/submitsuccess");
+        res->setHeader("Content-Type","text/html");
+        res->setHeader("Developer-Name","ariyan");
+        return res;
+    }
+    catch(std::exception& e)
+    {
+        std::string exc = e.what();
         if(exc == "Bad Request")
         {
             Response* failed = Response::redirect("/badrequest");

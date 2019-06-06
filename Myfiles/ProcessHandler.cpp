@@ -4,14 +4,12 @@ ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies)
 {
     users_repository = users;
     movie_repository = movies;
-    active_user = NULL;
     User* admin = new User("admin",sha256("admin"),"admin@admin.com",20);
     users_repository->addUser(admin);
 }
 
-void ProcessHandler::signup(Map input,std::string function_type)
+std::string ProcessHandler::signup(Map input,std::string function_type)
 {
-    checkPermission(function_type);
     std::string user_type = "user";
     for(auto itr=input.begin(); itr!=input.end(); ++itr)
         if(itr->first == "is_publisher")
@@ -23,7 +21,8 @@ void ProcessHandler::signup(Map input,std::string function_type)
         input["username"],sha256(input["password"]),
         input["email"],stoi(input["age"]));
         users_repository->addUser(new_user);
-        active_user = new_user;
+        active_users.insert({sha256(std::to_string(new_user->getId())),new_user});
+        return sha256(std::to_string(new_user->getId()));
     }
     else if(user_type == "publisher")
     {
@@ -31,13 +30,13 @@ void ProcessHandler::signup(Map input,std::string function_type)
         input["username"],sha256(input["password"]),
         input["email"],stoi(input["age"]));
         users_repository->addUser(new_publisher);
-        active_user = new_publisher;
+        active_users.insert({sha256(std::to_string(new_publisher->getId())),new_publisher});
+        return sha256(std::to_string(new_publisher->getId()));
     }
 }
 
-void ProcessHandler::login(Map input,std::string function_type)
+std::string ProcessHandler::login(Map input,std::string function_type)
 {
-    checkPermission(function_type);
     std::string username, password;
     for(auto itr=input.begin(); itr!=input.end(); itr++)
     {
@@ -47,15 +46,18 @@ void ProcessHandler::login(Map input,std::string function_type)
             password = itr->second;
     }
     password = sha256(password);
-    active_user = users_repository->findUser(username,password);
+    User* user = users_repository->findUser(username,password);
+    active_users.insert({sha256(std::to_string(user->getId())),user});
+    return sha256(std::to_string(user->getId()));
 }
 
-void ProcessHandler::logout()
+void ProcessHandler::logout(std::string session_id)
 {
-    if(active_user != NULL)
-        active_user = NULL;
-    else
+    auto itr = active_users.find(session_id);
+    if(itr == active_users.end())
         throw BadRequest();
+    else
+        active_users.erase(session_id);
 }
 
 void ProcessHandler::checkFunctions(std::string function_type, Map input)

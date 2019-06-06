@@ -22,7 +22,7 @@ class ProcessHandler
         ProcessHandler(UsersRepository* users,MovieRepository* movies);
         std::string signup(Map signupInput,std::string function_type);
         std::string login(Map loginInput,std::string function_type);
-        void logout();
+        void logout(std::string session_id);
         void checkFunctions(std::string function_type,Map input);
     private:
         Active active_users;

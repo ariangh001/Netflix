@@ -56,11 +56,15 @@ class ProcessHandler
         void rateNotifHandler(Map input,std::string session_id);
         void buyHandler(Map input,std::string session_id);
         AI recommendationHandler();
+        bool isPublisher(std::string session_id);
+        bool compareMoney(std::string session_id, int money);
+        bool hasPurchased(std::string session_id, int id);
     private:
         Active active_users;
         MovieRepository* movie_repository;
         UsersRepository* users_repository;
         void checkValues(Map input);
+        bool isEmpty(Map words);
         bool isNumber(std::string str);
         bool isFloat(std::string str);
         void checkEmailSyntax(std::string email);

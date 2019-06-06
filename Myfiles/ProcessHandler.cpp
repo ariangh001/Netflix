@@ -8,6 +8,21 @@ ProcessHandler::ProcessHandler(UsersRepository* users,MovieRepository* movies)
     users_repository->addUser(admin);
 }
 
+void ProcessHandler::checkInput(Map input,std::string function_type)
+{
+    checkValues(input);
+    if(function_type == "signup")
+        checkEmailSyntax(input["email"]);
+    else if(function_type == "login" || function_type == "submitMovie"
+          ||function_type == "deleteFilms" || function_type == "deleteComments"
+          ||function_type == "follow" || function_type == "charge"
+          ||function_type == "viewDetails" || function_type == "buy"
+          ||function_type == "rate" || function_type == "comment"
+          ||function_type == "notifications" || function_type == "signup")
+        if(isEmpty(input) == true)
+            throw BadRequest();
+}
+
 std::string ProcessHandler::signup(Map input,std::string function_type)
 {
     std::string user_type = "user";
@@ -59,6 +74,7 @@ void ProcessHandler::logout(std::string session_id)
     else
         active_users.erase(session_id);
 }
+
 std::vector<Movie*> ProcessHandler::viewPurchases(Map input,std::string session_id)
 {
     checkPermission(session_id);
@@ -171,6 +187,31 @@ std::vector<Movie*> ProcessHandler::showValidMovies(std::string session_id)
         throw PermissionDenied();
     std::vector<Movie*> movies = active_user->showValidMovies(movie_repository);
     return movies;
+}
+
+bool ProcessHandler::compareMoney(std::string session_id, int money)
+{
+    checkPermission(session_id);
+    User* active_user = active_users[session_id];
+    if(active_user->getUsername() == "admin")
+        throw PermissionDenied();
+    if(active_user->getWallet() >= money)
+        return true;
+    return false;
+}
+
+bool ProcessHandler::hasPurchased(std::string session_id, int id)
+{
+    checkPermission(session_id);
+    User* active_user = active_users[session_id];
+    if(active_user->getUsername() == "admin")
+        throw PermissionDenied();
+    std::vector<Movie*> movies;
+    movies = active_user->getPurchased(movies);
+    for(Counter i=0; i<movies.size(); i++)
+        if(movies[i]->getId() == id)
+            return true;
+    return false;
 }
 
 std::vector<Movie*> ProcessHandler::viewDetails(Map input,std::string session_id)
@@ -450,4 +491,15 @@ bool ProcessHandler::isEmpty(Map words)
         if(itr->first != "is_publisher")
             if(itr->second == "")
                 throw BadRequest();
+}
+
+bool ProcessHandler::isPublisher(std::string session_id)
+{
+    auto itr = active_users.find(session_id);
+    if(itr != active_users.end())
+        if(active_users[session_id]->getType() == "publisher")
+            return true;
+        else
+            return false;
+    throw NotFound();
 }

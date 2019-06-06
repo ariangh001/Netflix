@@ -1,5 +1,6 @@
 #ifndef PROCESS_HANDLER
 #define PROCESS_HANDLER
+#include "my_server.hpp"
 #include "sha256.h"
 #include "User.h"
 #include "Publisher.h"
@@ -14,6 +15,7 @@
 #define NO_ERROR 0
 typedef unsigned int Counter;
 typedef std::map<std::string,std::string> Map;
+typedef std::map<std::string,User*> Active;
 class ProcessHandler
 {
     public:
@@ -23,7 +25,7 @@ class ProcessHandler
         void logout();
         void checkFunctions(std::string function_type,Map input);
     private:
-        User* active_user;
+        Active active_users;
         MovieRepository* movie_repository;
         UsersRepository* users_repository;
         void checkPermission(std::string function_type);

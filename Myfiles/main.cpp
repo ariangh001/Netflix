@@ -1,8 +1,9 @@
 #include "InputHandler.h"
 #include "ExceptionHandler.h"
 #include "System.h"
-int main()
+#include "my_server.hpp"
+int main(int argc,char** argv)
 {
-    System();
+    System(argc,argv);
     return 0;
 }

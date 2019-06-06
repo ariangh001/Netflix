@@ -212,6 +212,7 @@ void User::postComment(Map input,MovieRepository* repo)
         }
     throw PermissionDenied();
 }
+
 std::vector<Movie*> User::viewPurchases(Map input,MovieRepository* repo)
 {
     std::vector<Movie*> unfiltered_movies;
@@ -321,12 +322,12 @@ void User::viewNotifs(Map input)
         std::cout<<read_notifications.size() - i<<". "<<read_notifications[i]<<std::endl;
 }
 
-void User::viewMoney(MovieRepository* repo)
+std::string User::viewMoney(MovieRepository* repo)
 {
     if(username != "admin")
-        std::cout<<wallet<<std::endl;
+        return std::to_string(wallet);
     else
-        std::cout<<repo->getWallet()<<std::endl;
+        return std::to_string(repo->getWallet());
 }
 
 std::vector<Movie*> User::getPurchased(std::vector<Movie*> movies)

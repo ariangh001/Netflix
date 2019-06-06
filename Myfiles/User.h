@@ -57,7 +57,7 @@ class User
         virtual std::string getType();
         int getFilmsNumber() const;
         int getFollowingsNumber() const;
-        void viewMoney(MovieRepository* repo);
+        std::string viewMoney(MovieRepository* repo);
         std::vector<Movie*> getPurchased(std::vector<Movie*> movies);
     protected:
         std::string username;
